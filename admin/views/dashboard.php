@@ -5,7 +5,7 @@
 <!-- Mirrored from themesbrand.com/velzon/html/master/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2024 07:29:52 GMT -->
 
 <head>
-
+      <base href="/duan1_nhom2/admin/">
     <meta charset="utf-8" />
     <title>Dashboard | NN Shop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
