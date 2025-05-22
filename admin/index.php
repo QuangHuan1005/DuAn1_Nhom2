@@ -15,7 +15,7 @@ require_once 'controllers/ProductController.php';
 require_once 'models/ProductModel.php';
 
     require_once './views/layouts/header.php';
-        require_once "./views/layouts/siderbar.php";
+    require_once "./views/layouts/siderbar.php";
 
 
 // Route
@@ -28,7 +28,7 @@ match ($act) {
     'product-list' =>(new ProductController()) -> getAllProduct(),
     'view_product' => (new ProductController())->viewProduct(),
         'add_product' => (new ProductController())->addProduct(),
-        // 'edit_product' => (new ProductController())->editProduct(),
+        'edit_product' => (new ProductController())->editProduct(),
         'product-soft-delete' => (new ProductController())->softDelete(),
     default           => function() {
         echo "404 - Page not found";

@@ -135,7 +135,6 @@ $basePath = dirname(__DIR__, 2);
         </div>
     </div>
 
-    <!-- CSS tùy chỉnh -->
     <style>
         .description-cell {
             max-width: 200px;

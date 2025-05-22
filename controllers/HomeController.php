@@ -3,11 +3,23 @@ require_once "models/User.php";
 
 class HomeController
 {
+    private $productModel;
+    public function __construct(){
+        $this->productModel = new ProductModel();
+    }
     public function index()
     {
-        echo "Đây là trang chủ";
+        $bestsellers = $this->productModel->get_bestseller();
+        require_once "./views/home.php";
     }
+public function getAll(){
+        require_once "./views/page.php";
 
+}
+public function getProfile(){
+            require_once "./views/profile_page.php";
+
+}
    public function login()
 {
     $error = $error ?? null; 
