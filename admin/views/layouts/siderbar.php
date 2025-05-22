@@ -56,7 +56,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="product.php">
+                    <a class="nav-link menu-link" href="index.php?act=product-list">
                         <i class="ri-shopping-bag-3-line"></i> <span>Quản lý sản phẩm</span>
                     </a>
                 </li>

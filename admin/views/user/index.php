@@ -38,7 +38,7 @@
                         <td class="user-email"><?= $user['email'] ?></td>
                         <td class="user-phone"><?= $user['phone'] ?></td>
                         <td class="user-avatar">
-                            <img src="./uploads/<?= $user['avatar'] ?>" alt="Avatar <?= $user['username'] ?>" width="50" height="50" />
+                            <img src="../uploads/<?= $user['avatar'] ?>" alt="Avatar <?= $user['username'] ?>" width="50" height="50" />
                         </td>
                         <td class="user-role"><?= $user['role'] ?></td>
                         <td class="user-actions">
