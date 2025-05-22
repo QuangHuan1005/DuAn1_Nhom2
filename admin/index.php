@@ -6,21 +6,30 @@ session_start();
 require_once '../commons/env.php'; // Khai báo biến môi trường
 require_once '../commons/function.php'; // Hàm hỗ trợ
 
-// Require toàn bộ file Controllers
+// Require Controllers
 require_once 'controllers/DashboardController.php';
-require_once 'controllers/ProductController.php';
+require_once 'controllers/UserController.php'; // ✅ Thêm controller người dùng
 
-// Require toàn bộ file Models
-require_once 'models/ProductModel.php';
+// Require Models
+require_once 'models/UserModel.php'; // ✅ Thêm model người dùng
 
 // Route
 $act = $_GET['act'] ?? '/';
-
-// Sử dụng match để xử lý route
+$id = $_GET['id'] ?? null;
+require_once 'views/layouts/layouts_top.php';
 match ($act) {
-    '/'               => (new DashboardController())->index(),
-    'adminDashboard'  => (new DashboardController())->index(),
-    default           => function() {
+    '/', 
+    'adminDashboard' => (new DashboardController())->index(),
+
+
+    'userIndex'      => (new UserController())->index(),
+    'userCreate'     => (new UserController())->create(),
+    'userStore'      => (new UserController())->store(),
+    'userEdit'       => (new UserController())->edit($id),
+    'userUpdate'     => (new UserController())->update($id),
+    'userDelete'     => (new UserController())->delete($id),
+    default          => function() {
         echo "404 - Page not found";
     },
 };
+require_once 'views/layouts/layout_bottom.php';
