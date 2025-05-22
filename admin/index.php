@@ -1,38 +1,64 @@
 <?php 
-ob_start();
-session_start(); 
+ob_start(); // Bắt đầu bộ đệm đầu ra
+session_start(); // Bắt đầu phiên làm việc
 
-define('BASE_PATH', dirname(__DIR__));
+define('BASE_PATH', dirname(__DIR__)); // Định nghĩa đường dẫn gốc của dự án
+
 // Require file Common
-require_once '../commons/env.php'; // Khai báo biến môi trường
+require_once '../commons/env.php';      // Khai báo biến môi trường
 require_once '../commons/function.php'; // Hàm hỗ trợ
 
-// Require toàn bộ file Controllers
+// Require Controllers
 require_once 'controllers/DashboardController.php';
-require_once 'controllers/ProductController.php';
+require_once 'controllers/UserController.php';  // Controller cho người dùng
+require_once 'controllers/ProductController.php'; // Controller cho sản phẩm (đã thêm)
 
-// Require toàn bộ file Models
-require_once 'models/ProductModel.php';
+// Require Models
+require_once 'models/UserModel.php';    // Model cho người dùng
+require_once 'models/ProductModel.php'; // Model cho sản phẩm (đã thêm)
 
-    require_once './views/layouts/header.php';
-        require_once "./views/layouts/siderbar.php";
+// Require Layouts (đảm bảo thứ tự hợp lý cho header, sidebar, top/bottom)
+require_once './views/layouts/header.php';
+require_once "./views/layouts/siderbar.php";
 
 
-// Route
-$act = $_GET['act'] ?? '/';
+// Xử lý định tuyến (Routing)
+$act = $_GET['act'] ?? '/'; // Lấy hành động từ URL, mặc định là '/'
+$id = $_GET['id'] ?? null;  // Lấy ID từ URL nếu có
 
-// Sử dụng match để xử lý route
+require_once 'views/layouts/layouts_top.php'; // Phần top của layout
+
+// Khối match ($act) duy nhất để định tuyến tất cả các hành động
 match ($act) {
-    '/'               => (new DashboardController())->index(),
-    'adminDashboard'  => (new DashboardController())->index(),
-    'product-list' =>(new ProductController()) -> getAllProduct(),
-    'view_product' => (new ProductController())->viewProduct(),
-        'add_product' => (new ProductController())->addProduct(),
-        // 'edit_product' => (new ProductController())->editProduct(),
-        'product-soft-delete' => (new ProductController())->softDelete(),
-    default           => function() {
+    // Dashboard Routes (Từ cả hai nhánh, gộp lại)
+    '/', 
+    'adminDashboard' => (new DashboardController())->index(),
+
+    // User Routes (Từ nhánh có liên quan đến User)
+    'userIndex'      => (new UserController())->index(),
+    'userCreate'     => (new UserController())->create(),
+    'userStore'      => (new UserController())->store(),
+    'userEdit'       => (new UserController())->edit($id),
+    'userUpdate'     => (new UserController())->update($id),
+    'userDelete'     => (new UserController())->delete($id),
+
+    // Product Routes (Từ nhánh có liên quan đến Product)
+    'product-list'        => (new ProductController())->getAllProduct(),
+    'view_product'        => (new ProductController())->viewProduct(),
+    'add_product'         => (new ProductController())->addProduct(),
+    // 'edit_product'        => (new ProductController())->editProduct(), // Giữ nguyên comment nếu bạn muốn nó không hoạt động
+    'product-soft-delete' => (new ProductController())->softDelete(),
+
+    // Default case (Trang không tìm thấy - 404)
+    default          => function() {
         echo "404 - Page not found";
     },
 };
-    require_once "./views/layouts/libs_css.php";
-    // require_once "./views/layouts/libs_js.php";
+
+require_once 'views/layouts/layout_bottom.php'; // Phần bottom của layout
+
+// Các file CSS/JS thư viện có thể được đặt ở đây hoặc trong layout_top/bottom tùy theo cấu trúc dự án của bạn
+require_once "./views/layouts/libs_css.php"; 
+// require_once "./views/layouts/libs_js.php"; 
+
+?>
