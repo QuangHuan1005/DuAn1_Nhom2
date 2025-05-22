@@ -1,0 +1,102 @@
+/* Reset cơ bản */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #444;
+}
+
+/* Nền trang */
+body, html {
+  height: 100%;
+  background: #f4f6f8; /* nền trắng ngả xám dịu mắt */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Container login */
+.login-container {
+  background: #fff;
+  padding: 40px 40px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(40, 57, 101, 0.15);
+  width: 350px;
+  max-width: 100%;
+  text-align: center;
+}
+
+/* Tiêu đề */
+.login-container h2 {
+  margin-bottom: 30px;
+  font-weight: 700;
+  font-size: 30px;
+  color: #4056a1;
+  letter-spacing: 1.2px;
+}
+
+/* Thông báo lỗi */
+.login-container p {
+  color: #d64545;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Input chung */
+.login-container input[type="text"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 14px 18px;
+  margin-bottom: 22px;
+  border: 1.8px solid #c0c7e0;
+  border-radius: 10px;
+  font-size: 17px;
+  transition: all 0.3s ease;
+  background: #f8faff;
+  color: #344767;
+}
+
+.login-container input[type="text"]::placeholder,
+.login-container input[type="password"]::placeholder {
+  color: #a3a9c1;
+}
+
+/* Focus input */
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+  border-color: #4056a1;
+  box-shadow: 0 0 8px rgba(64, 86, 161, 0.3);
+  outline: none;
+  background: #fff;
+}
+
+/* Nút đăng nhập */
+.login-container button {
+  width: 100%;
+  padding: 15px 0;
+  background: #4056a1;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 5px 15px rgba(64, 86, 161, 0.3);
+}
+
+.login-container button:hover {
+  background: #2c3a87;
+  box-shadow: 0 7px 20px rgba(44, 58, 135, 0.6);
+}
+
+/* Responsive nhỏ */
+@media (max-width: 400px) {
+  .login-container {
+    width: 90%;
+    padding: 30px 20px;
+  }
+}
