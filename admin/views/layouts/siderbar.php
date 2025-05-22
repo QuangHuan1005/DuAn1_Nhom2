@@ -94,6 +94,6 @@
             </ul>
         </div>
     </div>
-
+    
     <div class="sidebar-background"></div>
 </div>
