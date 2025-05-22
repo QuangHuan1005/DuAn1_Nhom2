@@ -11,6 +11,7 @@
             <input type="password" name="password" placeholder="Mật khẩu" required />
             <button type="submit">Đăng nhập</button>
         </form>
+<a href="index.php?act=register">Chưa có tài khoản? <span style="color: blue;">Đăng ký ngay</span></a>
     </div>
 </body>
 </html> -->
