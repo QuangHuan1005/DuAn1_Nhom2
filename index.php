@@ -24,5 +24,6 @@ match ($act) {
     'login'     => (new HomeController())->login(),    
     'handle-login' => (new HomeController())->handleLogin(), 
   'adminDashboard' => (new DashboardController())->index(),
-     'clientHome'     => (new HomeController())->clientHome(),     
+     'clientHome'     => (new HomeController())->clientHome(), 
+     //hung    
 };
