@@ -1,3 +1,4 @@
+<?php require_once './views/layouts/layout_top.php'; ?>
 <main>
 
 	<div id="carousel-home">

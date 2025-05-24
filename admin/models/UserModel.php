@@ -100,5 +100,11 @@ public function count_users($keyword = '') {
     return $stmt->fetchColumn();
 }
 
-
+public function find($id)
+    {
+        $id = intval($id);
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

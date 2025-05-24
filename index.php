@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 // Require file Common
 require_once './commons/env.php';      
 require_once './commons/function.php';  
@@ -9,15 +10,15 @@ require_once './controllers/HomeController.php';
 require_once './controllers/ProductController.php';
 require_once './admin/controllers/DashboardController.php';
 
-
-
 // Require Models
 require_once './models/User.php';
 require_once './models/CategoryModel.php';
 require_once './models/ProductModel.php';
 
-// Route
+
+// Lấy tham số 'act' từ URL
 $act = $_GET['act'] ?? '/';
+
 require_once './views/layouts/layout_top.php';
 // Điều hướng request
 match ($act) {

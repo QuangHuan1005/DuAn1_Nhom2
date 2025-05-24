@@ -1,3 +1,4 @@
+<?php require_once './views/layouts/layout_top.php'; ?>
 <main>
 		<div class="top_banner">
 			<div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.3)">

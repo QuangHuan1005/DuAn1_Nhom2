@@ -14,7 +14,7 @@
 <a href="index.php?act=register">Chưa có tài khoản? <span style="color: blue;">Đăng ký ngay</span></a>
     </div>
 </body>
-</html> -->
+</html> 
 <main class="bg_gray">
 
     <div class="container margin_30">
@@ -77,22 +77,13 @@
                                 <div class="text-center"><input type="submit" value="Reset Password" class="btn_1">
                                 </div>
                             </div>
+                            <a href="index.php?act=register">Chưa có tài khoản? <span style="color: blue;">Đăng ký ngay</span></a>
                         </div>
                         <!-- /form_container -->
                     </div>
                     <!-- /box_account -->
                     <div class="row">
                         <div class="col-md-6 d-none d-lg-block">
-                            <ul class="list_ok">
-                                <li>Find Locations</li>
-                                <li>Quality Location check</li>
-                                <li>Data Protection</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6 d-none d-lg-block">
-                            <ul class="list_ok">
-                                <li>Secure Payments</li>
-                                <li>H24 Support</li>
                             </ul>
                         </div>
                     </div>
@@ -107,3 +98,4 @@
         </div>
         <!-- /container -->
 </main>
+<?php require_once './views/layouts/layout_bottom.php';?>
