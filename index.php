@@ -2,9 +2,8 @@
 session_start();
 
 // Require file Common
-require_once './commons/env.php';       // Khai báo biến môi trường
-require_once './commons/function.php';  // Hàm hỗ trợ
-
+require_once './commons/env.php';      
+require_once './commons/function.php';  
 // Require Controllers
 require_once './controllers/HomeController.php';
 require_once './controllers/ProductController.php';
@@ -34,3 +33,4 @@ match ($act) {
   default => header("Location: ./?act=home")
 };
 require_once './views/layouts/layout_bottom.php';
+

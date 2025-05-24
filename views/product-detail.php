@@ -1,6 +1,6 @@
 <main>
     <div class="container margin_30">
-        <div class="countdown_inner">-20% This offer ends in <div data-countdown="2019/05/15" class="countdown"></div>
+        <div class="countdown_inner">-20% Ưu đãi này kết thúc sau <div data-countdown="2025/05/25" class="countdown"></div>
         </div>
         <div class="row">
             <?php if ($product): ?>
@@ -43,16 +43,13 @@
                             <li><?= ($product['name']) ?></li>
                         </ul>
                     </div>
-
-                <?php else: ?>
-                    <p>Sản phẩm không tồn tại.</p>
                 <?php endif; ?>
                 <div class="prod_info">
                     <h1><?= ($product['name']) ?></h1>
                     <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
                             class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4
                             reviews</em></span>
-                    <p><small>SKU: MTKRY-<?= ($product['id']) ?></small>
+                    <p><small>SKU: MTKRY-00<?= ($product['id']) ?></small>
                     <!-- <br>Sed ex labitur adolescens scriptorem. Te
                         saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril
                         oportere, amet wisi aperiri te cum.</p> -->
@@ -62,19 +59,19 @@
                                     class="percentaged"></span> <span class="old_price"><?= number_format($product['price']) ?>₫</span></div>
                         </div>
                         <div class="col-lg-4 col-md-6">
-                            <div class="btn_add_to_cart"><a href="#0" class="btn_1">Add to Cart</a></div>
+                            <div class="btn_add_to_cart"><da href="#0" class="btn_1">Thêm vào giỏ hàng </div>
                         </div>
                     </div>
                 </div>
                 <!-- /prod_info -->
                 <div class="product_actions">
                     <ul>
-                        <li>
+                        <!-- <li>
                             <a href="#"><i class="ti-heart"></i><span>Add to Wishlist</span></a>
                         </li>
                         <li>
                             <a href="#"><i class="ti-control-shuffle"></i><span>Add to Compare</span></a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <!-- /product_actions -->
@@ -113,7 +110,7 @@
                         <div class="card-body">
                             <div class="row justify-content-between">
                                 <div class="col-lg-12">
-                                    <h3>Details</h3>
+                                    <h3>Chi tiết sản phẩm</h3>
                                     <p><?= $product['description'] ?>₫</p>
                                     <!-- <p>Vis ei ipsum conclusionemque. Te enim suscipit recusabo mea, ne vis mazim
                                         aliquando, everti insolens at sit. Cu vel modo unum quaestio, in vide dicta has.
@@ -218,9 +215,9 @@
 
     <div class="container margin_60_35">
         <div class="main_title">
-            <h2>Related</h2>
-            <span>Products</span>
-            <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
+            <h2>Sản phẩm liên quan </h2>
+            <span>Sản phẩm</span>
+            <!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p> -->
         </div>
         <div class="owl-carousel owl-theme products_carousel">
             <div class="item">
