@@ -12,13 +12,10 @@ $basePath = dirname(__DIR__, 2);
     <?php require_once $basePath . "/views/layouts/libs_css.php"; ?>
 </head>
 
-<body class="bg-light">
-    <div class="container-fluid mt-3">
+<body class="bg-light ">
+    <div class="container-fluid   mt-3">
         <div class="row">
-            <!-- Sidebar -->
-            <nav class="col-lg-3 col-md-4  text-white vh-100 p-0">
-                <?php require_once $basePath . "/views/layouts/siderbar.php"; ?>
-            </nav>
+           
 
             <main class="col-lg-9 col-md-8 py-5 px-4">
                 <div class="card shadow-sm border-0">

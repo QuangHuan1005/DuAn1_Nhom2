@@ -11,6 +11,7 @@ class ProductController
     public function getAllProduct()
     {
         $products = $this->productModel->get_list();
+      
         require_once 'views/Product/list.php';
     }
 
@@ -76,7 +77,7 @@ class ProductController
         require_once 'views/Product/add.php';
     }
 
- public function editProduct()
+public function editProduct()
 {
     $id = $_GET['id'] ?? null;
 
@@ -102,12 +103,21 @@ class ProductController
         $stock_quantity = $_POST['stock_quantity'];
         $status = $_POST['status'];
 
-        $image_url = $product['image_url'];
-        if (!empty($_FILES['image']['name'])) {
-            $uploadDir = 'app/views/images/';
-            $uploadFile = $uploadDir . basename($_FILES['image']['name']);
+        $image_url = $product['image_url']; // giữ ảnh cũ nếu không thay
+
+        if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === 0) {
+            $basePath = dirname(__DIR__, 2);
+            $uploadDir = $basePath . '/uploads/products/';
+
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            $fileName = time() . '_' . basename($_FILES['image']['name']);
+            $uploadFile = $uploadDir . $fileName;
+
             if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
-                $image_url = $uploadFile;
+                $image_url = 'uploads/products/' . $fileName;
             }
         }
 
@@ -122,6 +132,7 @@ class ProductController
         ]);
 
         if ($updated) {
+            $_SESSION['success'] = 'Cập nhật sản phẩm thành công.';
             header('Location: index.php?act=product-list');
             exit;
         } else {
@@ -132,16 +143,7 @@ class ProductController
     }
 
     $categories = $this->productModel->getAllCategories();
-
-    /*
-    echo "<pre>";
-    print_r($product);
-    print_r($categories);
-    echo "</pre>";
-    exit;
-    */
-
-    require_once __DIR__ . '/../views/Product/edit.php';
+    require_once 'views/Product/edit.php';
 }
 
 
