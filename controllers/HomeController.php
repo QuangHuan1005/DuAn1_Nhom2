@@ -45,7 +45,7 @@ class HomeController
             $_SESSION['user'] = $user;
 
 
-            if ($user['role'] === '1') {
+            if ($user['role'] === 'admin') {
                 header('Location: index.php?act=adminDashboard');
                 exit;
             } else {
@@ -54,7 +54,7 @@ class HomeController
             }
         } else {
             $error = "Sai thông tin đăng nhập!";
-            include "views/login.php";
+            include "./views/login.php";
         }
     }
     public function clientHome()

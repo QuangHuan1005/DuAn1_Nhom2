@@ -7,6 +7,7 @@ require_once './commons/function.php';  // Hàm hỗ trợ
 
 // Require Controllers
 require_once './controllers/HomeController.php';
+require_once './controllers/ProductController.php';
 require_once './admin/controllers/DashboardController.php';
 
 
@@ -23,12 +24,13 @@ require_once './views/layouts/layout_top.php';
 match ($act) {
   '/' => (new HomeController())->index(),
   'home' => (new HomeController())->index(),
-  'page' => (new HomeController())->getAll(),
+  'page' => (new ProductController())->store(),
+  'product-detail' => (new ProductController())->detail($_GET['id']),
   'profile' => (new HomeController())->getProfile(),
   'login' => (new HomeController())->login(),
   'handle-login' => (new HomeController())->handleLogin(),
   'adminDashboard' => (new DashboardController())->index(),
   'clientHome' => (new HomeController())->clientHome(),
-//hung    
+  default => header("Location: ./?act=home")
 };
 require_once './views/layouts/layout_bottom.php';

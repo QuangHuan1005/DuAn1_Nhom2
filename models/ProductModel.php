@@ -27,5 +27,13 @@ class ProductModel
         $data->execute();
         return $data->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getProductDetail($id)
+    {
+        $sql = "SELECT * FROM products WHERE id = $id";
+        $data = $this->conn->prepare($sql);
+        $data->execute();
+        return $data->fetch(PDO::FETCH_ASSOC);
+    }
+
 
 }

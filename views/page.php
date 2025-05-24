@@ -192,12 +192,12 @@
 							<div class="grid_item">
 								<span class="ribbon off">-30%</span>
 								<figure>
-									<a href="product-detail-1.html">
+									<a href="?act=product-detail&id=<?= $product['id'] ?>">
 										<img class="img-fluid lazy" src="<?= $product['image_url'] ?>" data-src="" alt="">
 									</a>
 									<div data-countdown="2019/05/15" class="countdown"></div>
 								</figure>
-								<a href="product-detail-1.html">
+								<a href="?act=product-detail&id=<?= $product['id'] ?>">
 									<h3><?= $product['name'] ?></h3>
 								</a>
 								<div class="price_box">
