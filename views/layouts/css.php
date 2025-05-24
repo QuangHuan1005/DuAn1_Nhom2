@@ -14,3 +14,4 @@
 
     <!-- YOUR CUSTOM CSS -->
     <link href="./assets/allaia/css/custom.css" rel="stylesheet">
+    <link href="./assets/allaia/css/product_page.css" rel="stylesheet">

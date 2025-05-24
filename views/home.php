@@ -103,7 +103,7 @@
 		<div class="main_title">
 			<h2>Mới nhất</h2>
 			<span>Sản phẩm</span>
-			<p>Cum doctus civibus efficiantur in imperdiet deterruisset</p>
+			<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p> -->
 		</div>
 
 		<div class="row small-gutters">
@@ -112,18 +112,18 @@
 					<div class="grid_item">
 						<figure>
 							<span class="ribbon off">-30%</span>
-							<a href="product-detail-1.html">
+							<a href="?act=product-detail&id=<?= $product['id'] ?>">
 								<img class="img-fluid lazy" src="<?= $product['image_url'] ?>" data-src="" alt=""
 									width="400" height="400">
 								<!-- <img class="img-fluid lazy"
 									src="./assets/allaia/img/products/product_placeholder_square_medium.jpg"
 									data-src="./assets/allaia/img/products/shoes/1_b.jpg" alt="" width="400" height="400"> -->
 							</a>
-							<div data-countdown="2025/05/23" class="countdown"></div>
+							<div data-countdown="2025/05/25" class="countdown"></div>
 						</figure>
 						<div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
 								class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div>
-						<a href="product-detail-1.html">
+						<a href="?act=product-detail&id=<?= $product['id'] ?>">
 							<h3><?= $product['name'] ?></h3>
 						</a>
 						<div class="price_box">
@@ -174,7 +174,7 @@
 		<div class="main_title">
 			<h2>Nổi bật</h2>
 			<span>Sản phẩm</span>
-			<p>Cum doctus civibus efficiantur in imperdiet deterruisset</p>
+			<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p> -->
 		</div>
 		<div class="owl-carousel owl-theme products_carousel">
 			<?php foreach ($featureds as $product): ?>
@@ -183,14 +183,14 @@
 					<div class="grid_item">
 						<span class="ribbon new">New</span>
 						<figure>
-							<a href="product-detail-1.html">
+							<a href="?act=product-detail&id=<?= $product['id'] ?>">
 								<img class="owl-lazy img-fluid" src="<?= $product['image_url'] ?>" data-src="" alt=""
 									width="400" height="400">
 							</a>
 						</figure>
 						<div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
 								class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div>
-						<a href="product-detail-1.html">
+						<a href="?act=product-detail&id=<?= $product['id'] ?>">
 							<h3><?= $product['name'] ?></h3>
 						</a>
 						<div class="price_box">
@@ -252,7 +252,7 @@
 		<div class="main_title">
 			<h2>Tin tức mới nhất</h2>
 			<span>Blog</span>
-			<p>Cum doctus civibus efficiantur in imperdiet deterruisset</p>
+			<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p> -->
 		</div>
 		<div class="row">
 			<div class="col-lg-6">
