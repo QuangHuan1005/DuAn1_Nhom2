@@ -1,47 +1,41 @@
-<?php
-require_once 'views/layouts/header.php';
-?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <title>Cập nhật danh mục</title>
+    <link rel="stylesheet" href="path/to/bootstrap.css"> <!-- hoặc dùng CDN -->
+</head>
+<body>
 
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Chỉnh sửa danh mục</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="index.php?act=category-list">Danh mục</a></li>
-        <li class="breadcrumb-item active">Chỉnh sửa</li>
-    </ol>
+<?php include './views/layouts/header.php'; ?>
+<?php include './views/layouts/siderbar.php'; ?>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-edit me-1"></i>
-            Chỉnh sửa danh mục
-        </div>
-        <div class="card-body">
-            <form action="index.php?act=edit_category&id=<?php echo $category['id']; ?>" method="POST">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Tên danh mục</label>
-                    <input type="text" class="form-control" id="name" name="name" value="<?php echo $category['name']; ?>" required>
-                </div>
+<div class="container-fluid">
+    <main class="col-md-8 p-4 main-content order-md-1" style="width: 75%; margin-left: 400px;">
+        <h1>Cập nhật danh mục</h1>
 
-                <div class="mb-3">
-                    <label for="description" class="form-label">Mô tả</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"><?php echo $category['description']; ?></textarea>
-                </div>
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
+        <?php endif; ?>
 
-                <div class="mb-3">
-                    <label for="status" class="form-label">Trạng thái</label>
-                    <select class="form-select" id="status" name="status">
-                        <option value="1" <?php echo $category['status'] == 1 ? 'selected' : ''; ?>>Hoạt động</option>
-                        <option value="0" <?php echo $category['status'] == 0 ? 'selected' : ''; ?>>Không hoạt động</option>
-                    </select>
-                </div>
+        <form action="<?= BASE_URL_ADMIN ?>?act=edit_category&id=<?= $category['id'] ?>" method="post" class="form">
+            <div class="mb-3">
+                <label for="name" class="form-label">Tên danh mục</label>
+                <input type="text" class="form-control" id="name" name="name" 
+                       value="<?= htmlspecialchars($category['name']) ?>" required>
+            </div>
 
-                <button type="submit" class="btn btn-primary">Cập nhật</button>
-                <a href="index.php?act=category-list" class="btn btn-secondary">Quay lại</a>
-            </form>
-        </div>
-    </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Mô tả</label>
+                <textarea class="form-control" id="description" name="description" rows="4"><?= htmlspecialchars($category['description']) ?></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary form-control">Cập nhật</button>
+        </form>
+    </main>
 </div>
 
-<?php
-require_once 'views/layouts/footer.php';
-?> 
+<?php include './views/layouts/libs_css.php'; ?>
+
+</body>
+</html>

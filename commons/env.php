@@ -5,11 +5,11 @@
 
 // define('BASE_URL'   , 'http://localhost/base_du_an_1/');
 //đường dẫn vào admin
-define('BASE_URL_ADMIN', 'http://localhost/duan/website_ban_giay/admin/');
+define('BASE_URL_ADMIN', 'http://localhost/duan1_nhom2/admin/');
 
 define('DB_HOST'    , 'localhost');
 define('DB_PORT'    , 3306);
-define('DB_NAME'    , 'da1_nhom2');  // Tên database
+define('DB_NAME'    , 'duan1_nhom2');  // Tên database
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 

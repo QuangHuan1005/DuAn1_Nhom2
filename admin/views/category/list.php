@@ -1,81 +1,78 @@
-<?php
-require_once 'views/layouts/header.php';
-?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý danh mục</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
 
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Quản lý danh mục</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-        <li class="breadcrumb-item active">Danh mục</li>
-    </ol>
+<?php include './views/layouts/header.php'; ?>
+<?php include './views/layouts/siderbar.php'; ?>
 
-    <?php if (isset($_SESSION['success'])): ?>
-        <div class="alert alert-success">
-            <?php
-            echo $_SESSION['success'];
-            unset($_SESSION['success']);
-            ?>
+<div class="container-fluid">
+    <main class="p-4" style="margin-left: 250px;">
+        <h1 class="mb-4">Danh sách Danh Mục</h1>
+
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
+        <?php endif; ?>
+
+        <div class="mb-3 text-end">
+            <a href="<?= BASE_URL_ADMIN ?>?act=add_category" class="btn btn-primary">Thêm danh mục</a>
         </div>
-    <?php endif; ?>
 
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger">
-            <?php
-            echo $_SESSION['error'];
-            unset($_SESSION['error']);
-            ?>
-        </div>
-    <?php endif; ?>
-
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-table me-1"></i>
-            Danh sách danh mục
-            <a href="index.php?act=add_category" class="btn btn-primary float-end">Thêm mới</a>
-        </div>
-        <div class="card-body">
-            <table id="datatablesSimple" class="table table-bordered">
-                <thead>
+        <table class="table table-bordered table-hover">
+            <thead class="table-secondary">
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Tên danh mục</th>
+                    <th class="text-center">Mô tả</th>
+                    <th class="text-center">Ngày tạo</th>
+                    <th class="text-center">Ngày cập nhật</th>
+                    <th class="text-center">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($categories as $category): ?>
                     <tr>
-                        <th>ID</th>
-                        <th>Tên danh mục</th>
-                        <th>Mô tả</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
+                        <td class="text-center"><?= $category['id'] ?></td>
+                        <td class="text-center"><?= htmlspecialchars($category['name']) ?></td>
+                        <td class="text-center"><?= htmlspecialchars($category['description']) ?></td>
+                        <td class="text-center"><?= $category['created_at'] ?></td>
+                        <td class="text-center"><?= $category['updated_at'] ?></td>
+                        <td class="text-center">
+                            <a class="btn btn-warning btn-sm" href="<?= BASE_URL_ADMIN ?>?act=edit_category&id=<?= $category['id'] ?>">Sửa</a>
+                            <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteCategory(<?= $category['id'] ?>)">Xóa</a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($categories as $category): ?>
-                        <tr>
-                            <td><?php echo $category['id']; ?></td>
-                            <td><?php echo $category['name']; ?></td>
-                            <td><?php echo $category['description']; ?></td>
-                            <td>
-                                <?php if ($category['status'] == 1): ?>
-                                    <span class="badge bg-success">Hoạt động</span>
-                                <?php else: ?>
-                                    <span class="badge bg-danger">Không hoạt động</span>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <a href="index.php?act=view_category&id=<?php echo $category['id']; ?>" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="index.php?act=edit_category&id=<?php echo $category['id']; ?>" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="index.php?act=delete_category&id=<?php echo $category['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này?')">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </main>
 </div>
 
-<?php
-require_once 'views/layouts/footer.php';
-?> 
+<?php include './views/layouts/libs_css.php'; ?>
+<script>
+    function deleteCategory(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa danh mục này?")) {
+            window.location.href = "<?= BASE_URL_ADMIN ?>?act=delete_category&id=" + id;
+        }
+    }
+</script>
+<?php if (isset($_SESSION['success'])): ?>
+    <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
+<?php endif; ?>
+
+</body>
+</html>
