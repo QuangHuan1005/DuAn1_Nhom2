@@ -38,6 +38,7 @@ match ($act) {
     'userEdit'       => (new UserController())->edit($id),
     'userUpdate'     => (new UserController())->update($id),
     'userDelete'     => (new UserController())->delete($id),
+     'userView'       => (new UserController())->show($id), 
 
     // Product Routes (Từ nhánh có liên quan đến Product)
     'product-list'        => (new ProductController())->getAllProduct(),

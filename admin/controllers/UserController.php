@@ -72,10 +72,26 @@ class UserController {
         header('Location: index.php?act=userIndex');
         exit;
     }
+      public function show($id)
+    {
+        if (!$id) {
+            echo "ID người dùng không hợp lệ";
+            return;
+        }
+
+        $user = $this->userModel->find($id);
+
+        if (!$user) {
+            echo "Không tìm thấy người dùng";
+            return;
+        }
+        require_once __DIR__ . '/../views/user/show.php';
+    }
     
     public function delete($id) {
         $this->userModel->delete($id);
         header('Location: index.php?act=userIndex');
         exit;
     }
+
 }
