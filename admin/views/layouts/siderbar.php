@@ -68,14 +68,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="orders.php">
-                        <i class="ri-file-list-3-line"></i> <span>Danh sách đơn hàng</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="order-detail.php">
-                        <i class="ri-file-info-line"></i> <span>Chi tiết đơn hàng</span>
+                    <a class="nav-link menu-link" href="index.php?act=orderIndex">
+                        <i class="ri-file-list-3-line"></i> <span>quản lý đơn hàng</span>
                     </a>
                 </li>
 
