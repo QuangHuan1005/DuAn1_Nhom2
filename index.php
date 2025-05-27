@@ -31,6 +31,7 @@ match ($act) {
   'handle-login' => (new HomeController())->handleLogin(),
   'adminDashboard' => (new DashboardController())->index(),
   'clientHome' => (new HomeController())->clientHome(),
+  'search' => (new ProductController())->search(),
   default => header("Location: ./?act=home")
 };
 require_once './views/layouts/layout_bottom.php';
