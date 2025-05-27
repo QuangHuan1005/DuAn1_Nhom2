@@ -13,11 +13,13 @@ require_once 'controllers/DashboardController.php';
 require_once 'controllers/UserController.php';  
 require_once 'controllers/ProductController.php'; 
 require_once 'controllers/OrderController.php';
+require_once 'controllers/CategoryController.php';
 
 // Require Models
 require_once 'models/UserModel.php';    
 require_once 'models/ProductModel.php'; 
 require_once 'models/OrderModel.php'; 
+require_once 'models/CategoryModel.php';
 
 require_once './views/layouts/header.php';
 require_once "./views/layouts/siderbar.php";
@@ -42,7 +44,7 @@ match ($act) {
     'userDelete'     => (new UserController())->delete($id),
      'userView'       => (new UserController())->show($id), 
 
-    // Product Routes (Từ nhánh có liên quan đến Product)
+    // Product Routes
     'product-list'        => (new ProductController())->getAllProduct(),
     'view_product'        => (new ProductController())->viewProduct(),
     'add_product'         => (new ProductController())->addProduct(),
@@ -55,6 +57,16 @@ match ($act) {
 'orderEditStatus'   => (new OrderController())->updateStatusForm($id),
 
 
+    'edit_product'        => (new ProductController())->editProduct(),
+    'product-soft-delete' => (new ProductController())->softDelete(),
+    // Category Routes
+    'category-list'       => (new CategoryController())->index(),
+    'category-add'     => (new CategoryController())->create(),
+    'category-store'      => (new CategoryController())->store(),
+    'category-edit'       => (new CategoryController())->edit($id),
+    'category-view'       => (new CategoryController())->view($id),
+    'category-update'     => (new CategoryController())->update($id),
+    'category-soft-delete' => (new CategoryController())->softDelete($id),
     default          => function() {
         echo "404 - Page not found";
     },
