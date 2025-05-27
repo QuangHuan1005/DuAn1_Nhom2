@@ -14,7 +14,7 @@ $basePath = dirname(__DIR__, 2);
 
 <body>
     <div id="layout-wrapper">
-        <div class="main-content">
+        <div >
             <div class="page-content">
                 <div class="container-fluid">
                     <div class="row">

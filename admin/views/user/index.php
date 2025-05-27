@@ -12,9 +12,6 @@ $basePath = dirname(__DIR__, 2);
 <body class="bg-light">
 <div class="d-flex" style="min-height: 100vh;">
 
-    <nav style="width: 50px; background: #f8f9fa;">
-        <?php require_once $basePath . "/views/layouts/siderbar.php"; ?>
-    </nav>
 
     <main class="flex-grow-1 p-4">
         <div class="card shadow-sm border-0">

@@ -12,10 +12,12 @@ require_once '../commons/function.php';
 require_once 'controllers/DashboardController.php';
 require_once 'controllers/UserController.php';  
 require_once 'controllers/ProductController.php'; 
+require_once 'controllers/OrderController.php';
 
 // Require Models
 require_once 'models/UserModel.php';    
 require_once 'models/ProductModel.php'; 
+require_once 'models/OrderModel.php'; 
 
 require_once './views/layouts/header.php';
 require_once "./views/layouts/siderbar.php";
@@ -44,8 +46,14 @@ match ($act) {
     'product-list'        => (new ProductController())->getAllProduct(),
     'view_product'        => (new ProductController())->viewProduct(),
     'add_product'         => (new ProductController())->addProduct(),
-    // 'edit_product'        => (new ProductController())->editProduct(), // Giữ nguyên comment nếu bạn muốn nó không hoạt động
-    'product-soft-delete' => (new ProductController())->softDelete(),
+    'edit_product'        => (new ProductController())->editProduct(), 
+
+    'orderIndex'   => (new OrderController())->index(),
+    'orderView'    => (new OrderController())->view($id),
+    'orderDelete'  => (new OrderController())->delete($id),
+'orderUpdateStatus' => (new OrderController())->updateStatus($id),
+'orderEditStatus'   => (new OrderController())->updateStatusForm($id),
+
 
     default          => function() {
         echo "404 - Page not found";
