@@ -50,7 +50,7 @@
                 <li class="menu-title"><span>Quản lý</span></li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="index.php?act=product-list">
+                    <a class="nav-link menu-link" href="index.php?act=category-list">
                         <i class="ri-stack-line"></i> <span>Quản lý danh mục</span>
                     </a>
                 </li>

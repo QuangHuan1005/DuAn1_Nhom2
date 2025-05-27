@@ -113,5 +113,3 @@ $basePath = dirname(__DIR__, 2);
             </nav>
         <?php endif; ?>
     </div>
-
-    <script src="https://cdn.jsdeliv
