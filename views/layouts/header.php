@@ -145,10 +145,14 @@
         </div>
 
         <div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
-          <div class="custom-search-input">
-            <input type="text" placeholder="Tìm kiếm sản phẩm...">
-            <button type="submit"><i class="header-icon_search_custom"></i></button>
-          </div>
+          <form action="index.php" method="get">
+            <input type="hidden" name="act" value="search">
+            <div class="custom-search-input">
+              <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm...">
+              <button type="submit"><i class="header-icon_search_custom"></i></button>
+            </div>
+          </form>
+
         </div>
 
         <div class="col-xl-3 col-lg-2 col-md-3">
