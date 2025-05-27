@@ -19,7 +19,6 @@ require_once './models/ProductModel.php';
 // Lấy tham số 'act' từ URL
 $act = $_GET['act'] ?? '/';
 
-require_once './views/layouts/layout_top.php';
 // Điều hướng request
 match ($act) {
   '/' => (new HomeController())->index(),
@@ -34,6 +33,7 @@ match ($act) {
   'search' => (new ProductController())->search(),
   default => header("Location: ./?act=home")
 };
+require_once './views/layouts/layout_top.php';
 require_once './views/layouts/layout_bottom.php';
 
 
