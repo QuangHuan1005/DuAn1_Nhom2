@@ -37,12 +37,10 @@ match ($act) {
 
     // User Routes (Từ nhánh có liên quan đến User)
     'userIndex'      => (new UserController())->index(),
-    'userCreate'     => (new UserController())->create(),
-    'userStore'      => (new UserController())->store(),
+   // 'userStore'      => (new UserController())->store(),
     'userEdit'       => (new UserController())->edit($id),
     'userUpdate'     => (new UserController())->update($id),
     'userDelete'     => (new UserController())->delete($id),
-     'userView'       => (new UserController())->show($id), 
 
     // Product Routes
     'product-list'        => (new ProductController())->getAllProduct(),
