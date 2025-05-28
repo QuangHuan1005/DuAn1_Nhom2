@@ -28,12 +28,11 @@ match ($act) {
   'profile' => (new HomeController())->getProfile(),
   'login' => (new HomeController())->login(),
   'handle-login' => (new HomeController())->handleLogin(),
+    'register' => (new HomeController())->register(),
+  'handle-register' => (new HomeController())->handleregister(),
   'adminDashboard' => (new DashboardController())->index(),
   'clientHome' => (new HomeController())->clientHome(),
   'search' => (new ProductController())->search(),
   default => header("Location: ./?act=home")
 };
-require_once './views/layouts/layout_top.php';
-require_once './views/layouts/layout_bottom.php';
-
 

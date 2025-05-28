@@ -1,3 +1,4 @@
+<?php require_once './views/layouts/layout_top.php'; ?>
 <main class="bg_gray">
     <div class="container margin_30">
         <div class="page_header">

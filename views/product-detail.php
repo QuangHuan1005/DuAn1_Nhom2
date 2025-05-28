@@ -1,3 +1,4 @@
+<?php require_once './views/layouts/layout_top.php'; ?>
 <main>
     <div class="container margin_30">
         <div class="countdown_inner">-20% Ưu đãi này kết thúc sau <div data-countdown="2025/05/25" class="countdown"></div>
@@ -8,7 +9,7 @@
                 <div class="col-md-6">
                     <div class="all">
                         <div class="slider">
-<img src="<?= ($product['image_url']) ?>" alt="<?= ($product['name']) ?>">
+                            <img src="<?= ($product['image_url']) ?>" alt="<?= ($product['name']) ?>">
                             <div class="owl-carousel owl-theme main">
                                 <img src="<?=($product['image_url']) ?>" style="height: 500px;" class="item-box">
                                 <div style="background-image: url(img/products/shoes/1.jpg);" class="item-box"></div>
@@ -413,3 +414,4 @@
     <!--/feat-->
 
 </main>
+<?php require_once './views/layouts/layout_bottom.php'; ?>
