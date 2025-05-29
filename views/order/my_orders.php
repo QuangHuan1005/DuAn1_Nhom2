@@ -25,9 +25,9 @@ require './views/layouts/layout_top.php'; ?>
 						<th>
 							Giá
 						</th>
-						<th>
+						<!-- <th>
 							Địa chỉ
-						</th>
+						</th> -->
 						<th>
 							Trạng thái
 						</th>
@@ -35,7 +35,7 @@ require './views/layouts/layout_top.php'; ?>
 							Ngày tạo
 						</th>
 						<th>
-							
+
 						</th>
 					</tr>
 				</thead>
@@ -53,12 +53,19 @@ require './views/layouts/layout_top.php'; ?>
 							<td>
 								<strong><?= number_format($order['total_amount']) ?>₫</strong>
 							</td>
-							<td>
+							<!-- <td>
 								<strong><?= $order['shipping_address'] ?></strong>
-							</td>
-							<td>
-								<span class="badge rounded-pill bg-warning">Đang xử lý</span>
-							</td>
+							</td> -->
+							<?php if ($order['status_id'] == 1): ?>
+								<td>
+									<span class="badge rounded-pill bg-warning">Đang xử lý</span>
+								</td>
+							<?php elseif ($order['status_id'] == 2): ?>
+								<td>
+									<span class="badge rounded-pill bg-success">Hoàn thành</span>
+								</td>
+							<?php endif; ?>
+
 							<td>
 								<strong> <?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></strong>
 							</td>
