@@ -46,12 +46,9 @@ class ProductController
         require './views/product/search.php';
     }
 
-
-
     public function getProfile()
     {
         require_once "./views/profile_page.php";
-
     }
 
     public function detail($id)

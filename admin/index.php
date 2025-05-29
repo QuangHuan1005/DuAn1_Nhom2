@@ -12,10 +12,15 @@ require_once '../commons/function.php';
 require_once 'controllers/DashboardController.php';
 require_once 'controllers/UserController.php';  
 require_once 'controllers/ProductController.php'; 
+require_once 'controllers/OrderController.php';
+require_once 'controllers/CategoryController.php';
+
 
 // Require Models
 require_once 'models/UserModel.php';    
 require_once 'models/ProductModel.php'; 
+require_once 'models/OrderModel.php'; 
+require_once 'models/CategoryModel.php';
 
 require_once './views/layouts/header.php';
 require_once "./views/layouts/siderbar.php";
@@ -33,20 +38,34 @@ match ($act) {
 
     // User Routes (Từ nhánh có liên quan đến User)
     'userIndex'      => (new UserController())->index(),
-    'userCreate'     => (new UserController())->create(),
-    'userStore'      => (new UserController())->store(),
+   // 'userStore'      => (new UserController())->store(),
     'userEdit'       => (new UserController())->edit($id),
     'userUpdate'     => (new UserController())->update($id),
     'userDelete'     => (new UserController())->delete($id),
-     'userView'       => (new UserController())->show($id), 
 
-    // Product Routes (Từ nhánh có liên quan đến Product)
+    // Product Routes
     'product-list'        => (new ProductController())->getAllProduct(),
     'view_product'        => (new ProductController())->viewProduct(),
     'add_product'         => (new ProductController())->addProduct(),
-    // 'edit_product'        => (new ProductController())->editProduct(), // Giữ nguyên comment nếu bạn muốn nó không hoạt động
-    'product-soft-delete' => (new ProductController())->softDelete(),
+    'edit_product'        => (new ProductController())->editProduct(), 
 
+    'orderIndex'   => (new OrderController())->index(),
+    'orderView'    => (new OrderController())->view($id),
+    'orderDelete'  => (new OrderController())->delete($id),
+'orderUpdateStatus' => (new OrderController())->updateStatus($id),
+'orderEditStatus'   => (new OrderController())->updateStatusForm($id),
+
+
+    'edit_product'        => (new ProductController())->editProduct(),
+    'product-soft-delete' => (new ProductController())->softDelete(),
+    // Category Routes
+    'category-list'       => (new CategoryController())->index(),
+    'category-add'     => (new CategoryController())->create(),
+    'category-store'      => (new CategoryController())->store(),
+    'category-edit'       => (new CategoryController())->edit($id),
+    'category-view'       => (new CategoryController())->view($id),
+    'category-update'     => (new CategoryController())->update($id),
+    'category-soft-delete' => (new CategoryController())->softDelete($id),
     default          => function() {
         echo "404 - Page not found";
     },

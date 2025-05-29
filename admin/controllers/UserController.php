@@ -22,9 +22,6 @@ class UserController {
 }
 
 
-    public function create() {
-        require_once './views/user/create.php';
-    }
 
     public function store() {
         $data = [
@@ -53,40 +50,30 @@ class UserController {
     }
 
     public function update($id) {
-        $avatar = $_POST['old_avatar']; 
+    $avatar = $_POST['old_avatar']; 
 
-        if (!empty($_FILES['avatar']['name'])) {
-            $avatar = $_FILES['avatar']['name'];
-            move_uploaded_file($_FILES['avatar']['tmp_name'], './uploads/' . $avatar);
-        }
-
-        $data = [
-            'username' => $_POST['username'],
-            'email' => $_POST['email'],
-            'phone' => $_POST['phone'],
-            'avatar' => $avatar,
-            'role' => $_POST['role']
-        ];
-
-        $this->userModel->update($id, $data);
-        header('Location: index.php?act=userIndex');
-        exit;
+    if (!empty($_FILES['avatar']['name'])) {
+        $avatar = $_FILES['avatar']['name'];
+        move_uploaded_file($_FILES['avatar']['tmp_name'], './uploads/' . $avatar);
     }
-      public function show($id)
-    {
-        if (!$id) {
-            echo "ID người dùng không hợp lệ";
-            return;
-        }
 
-        $user = $this->userModel->find($id);
+    $status = isset($_POST['status']) ? (int)$_POST['status'] : 1;
 
-        if (!$user) {
-            echo "Không tìm thấy người dùng";
-            return;
-        }
-        require_once __DIR__ . '/../views/user/show.php';
-    }
+    $data = [
+        'username' => $_POST['username'],
+        'email' => $_POST['email'],
+        'phone' => $_POST['phone'],
+        'avatar' => $avatar,
+        'role' => $_POST['role'],
+        'status' => $status,  
+    ];
+
+    $this->userModel->update($id, $data);
+
+    header('Location: index.php?act=userIndex');
+    exit;
+}
+
     
     public function delete($id) {
         $this->userModel->delete($id);

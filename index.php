@@ -1,6 +1,5 @@
 <?php
 session_start();
-// Require file Common
 require_once './commons/env.php';
 require_once './commons/function.php';
 // Require Controllers
@@ -9,6 +8,7 @@ require_once './controllers/ProductController.php';
 require_once './controllers/OrderController.php';
 require_once './controllers/UserController.php';
 require_once './admin/controllers/DashboardController.php';
+require_once './controllers/CartController.php';
 
 // Require Models
 require_once './models/User.php';

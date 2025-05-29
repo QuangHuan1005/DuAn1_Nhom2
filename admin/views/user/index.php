@@ -11,16 +11,10 @@ $basePath = dirname(__DIR__, 2);
 </head>
 <body class="bg-light">
 <div class="d-flex" style="min-height: 100vh;">
-
-    <nav style="width: 50px; background: #f8f9fa;">
-        <?php require_once $basePath . "/views/layouts/siderbar.php"; ?>
-    </nav>
-
     <main class="flex-grow-1 p-4">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                 <h2 class="mb-0">Quản lý người dùng</h2>
-                <a href="index.php?act=userCreate" class="btn btn-light">➕ Thêm người dùng mới</a>
             </div>
 
             <div class="card-body">
@@ -37,50 +31,56 @@ $basePath = dirname(__DIR__, 2);
                 <div class="d-flex justify-content-center">
                     <div style="width: 100%; max-width: 1000px;">
                         <table class="table table-bordered text-center align-middle">
-    <thead class="table-success">
-        <tr>
-            <th>STT</th>
-            <th>Tên</th>
-            <th>Email</th>
-            <th>SĐT</th>
-            <th>Ảnh</th>
-            <th>Quyền</th>
-            <th>Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if (!empty($users)) : ?>
-            <?php 
-            $start = ($page - 1) * $limit + 1; 
-            foreach ($users as $index => $user) : 
-                $stt = $start + $index;
-            ?>
-                <tr>
-                    <td><?= $stt ?></td> <!-- Hiển thị STT -->
-                    <td><?= htmlspecialchars($user['username']) ?></td>
-                    <td><?= htmlspecialchars($user['email']) ?></td>
-                    <td><?= htmlspecialchars($user['phone']) ?></td>
-                    <td>
-                        <?php if (!empty($user['avatar'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['avatar']) ?>" alt="Avatar" width="50" height="50" />
-                        <?php else: ?>
-                            <span class="text-muted">Chưa có ảnh</span>
-                        <?php endif; ?>
-                    </td>
-                    <td><?= htmlspecialchars($user['role']) ?></td>
-                    <td>
-                        <a href="index.php?act=userView&id=<?= $user['id'] ?>" class="btn btn-sm btn-info">👁️ Xem</a>
-                        <a href="index.php?act=userEdit&id=<?= $user['id'] ?>" class="btn btn-sm btn-warning">✏️ Sửa</a>
-                        <a href="index.php?act=userDelete&id=<?= $user['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Xoá người dùng này?')">🗑️ Xoá</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <tr><td colspan="7">Không tìm thấy người dùng nào.</td></tr>
-        <?php endif; ?>
-    </tbody>
-</table>
-
+                            <thead class="table-success">
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên</th>
+                                    <th>Email</th>
+                                    <th>SĐT</th>
+                                    <th>Ảnh</th>
+                                    <th>Quyền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($users)) : ?>
+                                    <?php 
+                                    $start = ($page - 1) * $limit + 1; 
+                                    foreach ($users as $index => $user) : 
+                                        $stt = $start + $index;
+                                    ?>
+                                        <tr>
+                                            <td><?= $stt ?></td> 
+                                            <td><?= htmlspecialchars($user['username']) ?></td>
+                                            <td><?= htmlspecialchars($user['email']) ?></td>
+                                            <td><?= htmlspecialchars($user['phone']) ?></td>
+                                            <td>
+                                                <?php if (!empty($user['avatar'])): ?>
+                                                    <img src="../uploads/<?= htmlspecialchars($user['avatar']) ?>" alt="Avatar" width="50" height="50" />
+                                                <?php else: ?>
+                                                    <span class="text-muted">Chưa có ảnh</span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td><?= htmlspecialchars($user['role']) ?></td>
+                                            <td>
+                                                <?php if ($user['status'] == 1): ?>
+                                                    <span class="badge bg-success">Hoạt động</span>
+                                                <?php else: ?>
+                                                    <span class="badge bg-secondary">Ngừng hoạt động</span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <a href="index.php?act=userEdit&id=<?= $user['id'] ?>" class="btn btn-sm btn-warning">✏️ Sửa</a>
+                                                <a href="index.php?act=userDelete&id=<?= $user['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Xoá người dùng này?')">🗑️ Xoá</a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <tr><td colspan="8">Không tìm thấy người dùng nào.</td></tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -100,5 +100,4 @@ $basePath = dirname(__DIR__, 2);
 </div>
 <?php require_once $basePath . "/views/layouts/libs_js.php"; ?>
 </body>
-
 </html>

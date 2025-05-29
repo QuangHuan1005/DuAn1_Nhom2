@@ -1,5 +1,4 @@
 <header class="version_1">
-
 	<div class="layer"></div>
 
 	<div class="main_header">
@@ -107,5 +106,3 @@
 			</div>
 		</div>
 	</div>
-</header>
-<div class="layer"></div><!-- Mobile menu overlay mask -->

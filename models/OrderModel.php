@@ -8,7 +8,7 @@ class OrderModel
     }
     public function getOrdersUser($user_id)
     {
-        $sql = "SELECT * FROM orders WHERE user_id = :user_id";
+        $sql = "SELECT * FROM orders WHERE user_id = :user_id ORDER BY created_at DESC";
         $data = $this->conn->prepare($sql);
         $data->bindParam(':user_id', $user_id);
         $data->execute();

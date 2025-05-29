@@ -3,6 +3,8 @@
 require_once "models/User.php";
 require_once "models/ProductModel.php";
 require_once "models/CategoryModel.php";
+require_once "models/CartModel.php";
+
 
 
 class HomeController
@@ -57,7 +59,45 @@ class HomeController
             $error = "Sai tên đăng nhập hoặc mật khẩu!";
             include "views/login.php";
         }
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $username = $_POST['username'] ?? '';
+        $passwordInput = $_POST['password'] ?? '';
+        $error = null;
+
+        $user = User::findByUsername($username);
+
+        if ($user && $passwordInput === $user['password']) {
+            $_SESSION['user'] = $user;
+
+            // Tạo đối tượng CartModel để thao tác giỏ hàng
+            $cartModel = new CartModel();
+
+            // Lấy cart_id của user hiện tại
+            $cart_id = $cartModel->getCartIdByUserId($user['id']);
+            if (!$cart_id) {
+                // Nếu chưa có cart thì tạo mới
+                $cart_id = $cartModel->createCartForUser($user['id']);
+            }
+
+            // Lưu cart_id vào session
+            $_SESSION['cart_id'] = $cart_id;
+
+            if ($user['role'] === 'admin') {
+                header('Location: index.php?act=adminDashboard');
+                exit;
+            } else {
+                header('Location: index.php?act=clientHome');
+                exit;
+            }
+        } else {
+            $error = "Sai tên đăng nhập hoặc mật khẩu!";
+            include "views/login.php";
+        }
     }
+
 
     public function register()
     {

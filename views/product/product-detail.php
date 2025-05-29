@@ -1,3 +1,4 @@
+<?php require_once './views/layouts/layout_top.php'; ?>
 <?php
 require './views/layouts/layout_top.php'; ?>
 <main>
@@ -129,13 +130,6 @@ require './views/layouts/layout_top.php'; ?>
                                 <div class="col-lg-12">
                                     <h3>Chi tiết sản phẩm</h3>
                                     <p><?= $product['description'] ?>₫</p>
-                                    <!-- <p>Vis ei ipsum conclusionemque. Te enim suscipit recusabo mea, ne vis mazim
-                                        aliquando, everti insolens at sit. Cu vel modo unum quaestio, in vide dicta has.
-                                        Ut his laudem explicari adversarium, nisl <strong>laboramus hendrerit</strong>
-                                        te his, alia lobortis vis ea.</p>
-                                    <p>Perfecto eleifend sea no, cu audire voluptatibus eam. An alii praesent sit, nobis
-                                        numquam principes ea eos, cu autem constituto suscipiantur eam. Ex graeci
-                                        elaboraret pro. Mei te omnis tantas, nobis viderer vivendo ex has.</p> -->
                                 </div>
 
                             </div>
@@ -430,3 +424,4 @@ require './views/layouts/layout_top.php'; ?>
     <!--/feat-->
 
 </main>
+<?php require_once './views/layouts/layout_bottom.php'; ?>

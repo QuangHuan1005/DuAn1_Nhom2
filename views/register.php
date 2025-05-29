@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 require './views/layouts/layout_top.php'; ?>
 <!DOCTYPE html>
@@ -9,6 +10,23 @@ require './views/layouts/layout_top.php'; ?>
     <link rel="stylesheet" href="assets/client/register.css" />
 </head>
 <body>
+=======<main class="bg_gray">
+    <div class="container margin_30">
+        <div class="page_header">
+            <div class="breadcrumbs">
+                <ul>
+                    <li><a href="index.php">Trang chủ</a></li>
+                    <li>Đăng ký</li>
+                </ul>
+            </div>
+            <h1>Đăng ký tài khoản mới</h1>
+        </div>
+        <!-- /page_header -->
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-6 col-md-8">
+                <div class="box_account">
+                    <h3 class="client">Tạo tài khoản</h3>
+                    <div class="form_container">
 
 <?php if (!empty($error)) : ?>
     <p class="error-message"><?= htmlspecialchars($error) ?></p>

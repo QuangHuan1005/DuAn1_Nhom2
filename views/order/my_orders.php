@@ -56,13 +56,13 @@ require './views/layouts/layout_top.php'; ?>
 							<!-- <td>
 								<strong><?= $order['shipping_address'] ?></strong>
 							</td> -->
-							<?php if ($order['status_id'] == 1): ?>
+							<?php if ($order['status_id'] == 2): ?>
 								<td>
 									<span class="badge rounded-pill bg-warning">Đang xử lý</span>
 								</td>
-							<?php elseif ($order['status_id'] == 2): ?>
+							<?php elseif ($order['status_id'] == 1): ?>
 								<td>
-									<span class="badge rounded-pill bg-success">Hoàn thành</span>
+									<span class="badge rounded-pill bg-primary">Đang giao hàng</span>
 								</td>
 							<?php endif; ?>
 
