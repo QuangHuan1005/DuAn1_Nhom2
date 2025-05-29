@@ -60,7 +60,14 @@
                                     class="percentaged"></span> <span class="old_price"><?= number_format($product['price']) ?>₫</span></div>
                         </div>
                         <div class="col-lg-4 col-md-6">
-                            <div class="btn_add_to_cart"><da href="#0" class="btn_1">Thêm vào giỏ hàng </div>
+                            <form action="./?act=cart/add" method="post" style="display:inline;">
+    <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+    <input type="hidden" name="quantity" value="1">
+    <button type="submit" class="btn_1" title="Thêm vào giỏ hàng">
+        <i class="ti-shopping-cart"></i> Thêm vào giỏ hàng
+    </button>
+</form>
+
                         </div>
                     </div>
                 </div>
@@ -113,13 +120,6 @@
                                 <div class="col-lg-12">
                                     <h3>Chi tiết sản phẩm</h3>
                                     <p><?= $product['description'] ?>₫</p>
-                                    <!-- <p>Vis ei ipsum conclusionemque. Te enim suscipit recusabo mea, ne vis mazim
-                                        aliquando, everti insolens at sit. Cu vel modo unum quaestio, in vide dicta has.
-                                        Ut his laudem explicari adversarium, nisl <strong>laboramus hendrerit</strong>
-                                        te his, alia lobortis vis ea.</p>
-                                    <p>Perfecto eleifend sea no, cu audire voluptatibus eam. An alii praesent sit, nobis
-                                        numquam principes ea eos, cu autem constituto suscipiantur eam. Ex graeci
-                                        elaboraret pro. Mei te omnis tantas, nobis viderer vivendo ex has.</p> -->
                                 </div>
 
                             </div>
