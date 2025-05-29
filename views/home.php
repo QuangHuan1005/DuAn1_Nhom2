@@ -1,3 +1,5 @@
+<?php
+require './views/layouts/layout_top.php'; ?>
 <main>
 
 	<div id="carousel-home">
@@ -98,6 +100,11 @@
 	</ul> -->
 	<!--/banners_grid -->
 
+
+
+
+
+
 	<div class="container margin_60_35">
 		<div class="main_title">
 			<h2>Mới nhất</h2>
@@ -118,10 +125,10 @@
 									src="./assets/allaia/img/products/product_placeholder_square_medium.jpg"
 									data-src="./assets/allaia/img/products/shoes/1_b.jpg" alt="" width="400" height="400"> -->
 							</a>
-							<div data-countdown="2025/05/25" class="countdown"></div>
+							<!-- <div data-countdown="2025/05/25" class="countdown"></div> -->
 						</figure>
-						<div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-								class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div>
+						<!-- <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
+								class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div> -->
 						<a href="?act=product-detail&id=<?= $product['id'] ?>">
 							<h3><?= $product['name'] ?></h3>
 						</a>

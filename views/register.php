@@ -1,3 +1,5 @@
+<?php
+require './views/layouts/layout_top.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

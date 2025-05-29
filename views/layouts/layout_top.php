@@ -34,9 +34,9 @@
     <link rel="preload" as="image" href="img/slides/slide_home_2.jpg">
 
     <!-- BASE CSS -->
-   <?php
-   require_once "./views/layouts/css.php";
-   ?>
+    <?php
+    require_once "./views/layouts/css.php";
+    ?>
 </head>
 
 <body>

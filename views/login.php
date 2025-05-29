@@ -1,3 +1,5 @@
+<?php
+require './views/layouts/layout_top.php'; ?>
 <!-- <body>
     <div class="login-container">
         <h2>Đăng nhập</h2>
