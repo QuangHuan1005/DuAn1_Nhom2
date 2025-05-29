@@ -36,7 +36,7 @@ class OrderController
             exit;
         }
         $orderModel = new OrderModel();
-        $items = $this->orderModel->getOrderItems($order_id);
+        // $items = $this->orderModel->getOrderItems($order_id);
 
         require 'views/order/order_detail.php';
     }
