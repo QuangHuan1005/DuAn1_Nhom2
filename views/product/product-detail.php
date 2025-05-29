@@ -56,6 +56,16 @@ require './views/layouts/layout_top.php'; ?>
                         <!-- <br>Sed ex labitur adolescens scriptorem. Te
                         saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril
                         oportere, amet wisi aperiri te cum.</p> -->
+                    <div class="prod_options">
+                        <div class="row">
+                            <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Số lượng</strong></label>
+                            <div class="col-xl-4 col-lg-5 col-md-6 col-6">
+                                <div class="numbers-row">
+                                    <input type="text" value="1" id="quantity_1" class="qty2" name="quantity_1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-5 col-md-6">
                             <div class="price_main"><span

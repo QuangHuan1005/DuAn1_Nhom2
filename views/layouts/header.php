@@ -30,7 +30,7 @@
 						</div>
 						<ul>
 							<li><a href="?act=home">Trang chủ</a></li>
-							<li><a href="?act=page">Sản phẩm</a></li>
+							<li><a href="?act=products">Sản phẩm</a></li>
 							<li><a href="blog.html">Blog</a></li>
 							<li><a href="https://1.envato.market/3KVvr" target="_parent">Buy Template</a></li>
 						</ul>
