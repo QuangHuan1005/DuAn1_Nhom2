@@ -1,7 +1,10 @@
 <?php require_once './views/layouts/layout_top.php'; ?>
+<?php
+require './views/layouts/layout_top.php'; ?>
 <main>
     <div class="container margin_30">
-        <div class="countdown_inner">-20% Ưu đãi này kết thúc sau <div data-countdown="2025/05/25" class="countdown"></div>
+        <div class="countdown_inner">-20% Ưu đãi này kết thúc sau <div data-countdown="2025/05/25" class="countdown">
+            </div>
         </div>
         <div class="row">
             <?php if ($product): ?>
@@ -11,7 +14,7 @@
                         <div class="slider">
                             <img src="<?= ($product['image_url']) ?>" alt="<?= ($product['name']) ?>">
                             <div class="owl-carousel owl-theme main">
-                                <img src="<?=($product['image_url']) ?>" style="height: 500px;" class="item-box">
+                                <img src="<?= ($product['image_url']) ?>" style="height: 500px;" class="item-box">
                                 <div style="background-image: url(img/products/shoes/1.jpg);" class="item-box"></div>
                                 <div style="background-image: url(img/products/shoes/2.jpg);" class="item-box"></div>
                                 <div style="background-image: url(img/products/shoes/3.jpg);" class="item-box"></div>
@@ -51,23 +54,30 @@
                             class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4
                             reviews</em></span>
                     <p><small>SKU: MTKRY-00<?= ($product['id']) ?></small>
-                    <!-- <br>Sed ex labitur adolescens scriptorem. Te
+                        <!-- <br>Sed ex labitur adolescens scriptorem. Te
                         saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril
                         oportere, amet wisi aperiri te cum.</p> -->
+                    <div class="prod_options">
+                        <div class="row">
+                            <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Số lượng</strong></label>
+                            <div class="col-xl-4 col-lg-5 col-md-6 col-6">
+                                <div class="numbers-row">
+                                    <input type="text" value="1" id="quantity_1" class="qty2" name="quantity_1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-5 col-md-6">
-                            <div class="price_main"><span class="new_price"><?= number_format($product['discount_price']) ?>₫</span><span
-                                    class="percentaged"></span> <span class="old_price"><?= number_format($product['price']) ?>₫</span></div>
+                            <div class="price_main"><span
+                                    class="new_price"><?= number_format($product['discount_price']) ?>₫</span><span
+                                    class="percentaged"></span> <span
+                                    class="old_price"><?= number_format($product['price']) ?>₫</span></div>
                         </div>
                         <div class="col-lg-4 col-md-6">
-                            <form action="./?act=cart/add" method="post" style="display:inline;">
-    <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-    <input type="hidden" name="quantity" value="1">
-    <button type="submit" class="btn_1" title="Thêm vào giỏ hàng">
-        <i class="ti-shopping-cart"></i> Thêm vào giỏ hàng
-    </button>
-</form>
-
+                            <div class="btn_add_to_cart">
+                                <da href="#0" class="btn_1">Thêm vào giỏ hàng
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,7 +120,7 @@
                         <h5 class="mb-0">
                             <a class="collapsed" data-bs-toggle="collapse" href="#collapse-A" aria-expanded="false"
                                 aria-controls="collapse-A">
-                                Description
+                                Mô tả
                             </a>
                         </h5>
                     </div>
@@ -132,7 +142,7 @@
                         <h5 class="mb-0">
                             <a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false"
                                 aria-controls="collapse-B">
-                                Reviews
+                                Đánh giá
                             </a>
                         </h5>
                     </div>

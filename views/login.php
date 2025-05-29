@@ -1,4 +1,13 @@
+<<<<<<< HEAD
+<?php
+require './views/layouts/layout_top.php'; ?>
+<!-- <body>
+    <div class="login-container">
+        <h2>Đăng nhập</h2>
+
+=======
 <?php require_once './views/layouts/layout_top.php'; ?>
+>>>>>>> 5f9ed61bf170e9e4cc01322baf439c487dd02b8c
         <?php if (!empty($error)): ?>
           <?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>

@@ -1,5 +1,16 @@
-<?php require_once './views/layouts/layout_top.php'; ?>
-<main class="bg_gray">
+<<<<<<< HEAD
+<?php
+require './views/layouts/layout_top.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/client/register.css" />
+</head>
+<body>
+=======<main class="bg_gray">
     <div class="container margin_30">
         <div class="page_header">
             <div class="breadcrumbs">
@@ -17,58 +28,34 @@
                     <h3 class="client">Tạo tài khoản</h3>
                     <div class="form_container">
 
-                        <?php if (!empty($error)): ?>
-                            <p style="color: red; margin-bottom: 16px;"><?php echo htmlspecialchars($error); ?></p>
-                        <?php endif; ?>
+<?php if (!empty($error)) : ?>
+    <p class="error-message"><?= htmlspecialchars($error) ?></p>
+<?php endif; ?>
 
-                        <form action="index.php?act=handle-register" method="POST" enctype="multipart/form-data">
+<form class="register-form" action="index.php?act=handle-register" method="POST" enctype="multipart/form-data">
+  <h2 class="form-title">Đăng ký tài khoản</h2>
+  <div class="row">
+    <input type="text" name="username" placeholder="Tên đăng nhập" required class="input-field">
+    <input type="email" name="email" placeholder="Email" required class="input-field">
+  </div>
 
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="username" placeholder="Tên đăng nhập*" required>
-                            </div>
+  <div class="row">
+    <input type="password" name="password" placeholder="Mật khẩu" required class="input-field">
+    <input type="password" name="confirm" placeholder="Nhập lại mật khẩu" required class="input-field">
+  </div>
 
-                            <div class="form-group">
-                                <input type="email" class="form-control" name="email" placeholder="Email*" required>
-                            </div>
+  <div class="row">
+    <input type="text" name="fullname" placeholder="Họ tên" class="input-field">
+    <input type="text" name="phone" placeholder="Số điện thoại" class="input-field">
+  </div>
 
-                            <div class="form-group">
-                                <input type="password" class="form-control" name="password" placeholder="Mật khẩu*" required>
-                            </div>
+  <input type="text" name="address" placeholder="Địa chỉ" class="input-field full-width">
 
-                            <div class="form-group">
-                                <input type="password" class="form-control" name="confirm" placeholder="Nhập lại mật khẩu*" required>
-                            </div>
+  <input type="file" name="avatar" class="input-file">
 
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="fullname" placeholder="Họ tên">
-                            </div>
+  <button type="submit" class="btn-submit">Đăng ký</button>
+</form>
 
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="phone" placeholder="Số điện thoại">
-                            </div>
-
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="address" placeholder="Địa chỉ">
-                            </div>
-
-                            <div class="form-group">
-                                <input type="file" class="form-control" name="avatar">
-                            </div>
-
-                            <div class="text-center">
-                                <button type="submit" class="btn_1 full-width">Đăng ký</button>
-                            </div>
-                        </form>
-
-                        <div class="text-center mt-3">
-                            <a href="index.php?act=login">Đã có tài khoản? <span style="color: blue;">Đăng nhập</span></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- /box_account -->
-            </div>
-        </div>
-        <!-- /row -->
-    </div>
-</main>
-<?php require_once './views/layouts/layout_bottom.php';?>
+  
+</body>
+</html>
