@@ -1,4 +1,5 @@
 <header class="version_1">
+
 	<div class="layer"></div>
 
 	<div class="main_header">
@@ -73,32 +74,32 @@
 						<li><a href="my-wishlist.html" class="wishlist"><span>Wishlist</span></a></li>
 						<li>
 							<div class="dropdown dropdown-access">
-    <a href="?act=profile" class="access_link">
-        <span>
-            <?php if (isset($_SESSION['user'])): ?>
-                <?= htmlspecialchars($_SESSION['user']['name']) ?>
-            <?php else: ?>
-                Account
-            <?php endif; ?>
-        </span>
-    </a>
+								<a href="?act=profile" class="access_link">
+									<span>
+										<?php if (isset($_SESSION['user'])): ?>
+											<?= htmlspecialchars($_SESSION['user']['name']) ?>
+										<?php else: ?>
+											Account
+										<?php endif; ?>
+									</span>
+								</a>
 
-    <div class="dropdown-menu">
-        <?php if (!isset($_SESSION['user'])): ?>
-            <a href="?act=login" class="btn_1">Sign In or Sign Up</a>
-        <?php endif; ?>
+								<div class="dropdown-menu">
+									<?php if (!isset($_SESSION['user'])): ?>
+										<a href="?act=login" class="btn_1">Sign In or Sign Up</a>
+									<?php endif; ?>
 
-        <ul>
-            <li><a href="?act=my_orders"><i class="ti-truck"></i>Track your Order</a></li>
-            <li><a href="?act=profile"><i class="ti-user"></i>Profile info</a></li>
-            <li><a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a></li>
+									<ul>
+										<li><a href="?act=my_orders"><i class="ti-truck"></i>Track your Order</a></li>
+										<li><a href="?act=profile"><i class="ti-user"></i>Profile info</a></li>
+										<li><a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a></li>
 
-            <?php if (isset($_SESSION['user'])): ?>
-                <li><a href="?act=logout"><i class="ti-shift-left"></i>Sign Out</a></li>
-            <?php endif; ?>
-        </ul>
-    </div>
-</div>
+										<?php if (isset($_SESSION['user'])): ?>
+											<li><a href="?act=logout"><i class="ti-shift-left"></i>Sign Out</a></li>
+										<?php endif; ?>
+									</ul>
+								</div>
+							</div>
 
 						</li>
 					</ul>
@@ -107,3 +108,4 @@
 		</div>
 	</div>
 </header>
+<div class="layer"></div><!-- Mobile menu overlay mask -->

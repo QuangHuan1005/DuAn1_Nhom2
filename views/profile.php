@@ -93,3 +93,4 @@ require './views/layouts/layout_top.php'; ?>
 		</div>
 		<!-- /container -->
 	</main>
+    <?php require_once './views/layouts/layout_bottom.php';?>

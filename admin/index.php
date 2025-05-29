@@ -1,36 +1,33 @@
 <?php 
-ob_start(); // Bắt đầu bộ đệm đầu ra
-session_start(); // Bắt đầu phiên làm việc
+ob_start();
+session_start(); 
 
-define('BASE_PATH', dirname(__DIR__)); // Định nghĩa đường dẫn gốc của dự án
+define('BASE_PATH', dirname(__DIR__)); 
 
 // Require file Common
-require_once '../commons/env.php';      // Khai báo biến môi trường
-require_once '../commons/function.php'; // Hàm hỗ trợ
+require_once '../commons/env.php';    
+require_once '../commons/function.php'; 
 
 // Require Controllers
 require_once 'controllers/DashboardController.php';
-require_once 'controllers/UserController.php';  // Controller cho người dùng
-require_once 'controllers/ProductController.php'; // Controller cho sản phẩm (đã thêm)
+require_once 'controllers/UserController.php';  
+require_once 'controllers/ProductController.php'; 
 
 // Require Models
-require_once 'models/UserModel.php';    // Model cho người dùng
-require_once 'models/ProductModel.php'; // Model cho sản phẩm (đã thêm)
+require_once 'models/UserModel.php';    
+require_once 'models/ProductModel.php'; 
 
-// Require Layouts (đảm bảo thứ tự hợp lý cho header, sidebar, top/bottom)
 require_once './views/layouts/header.php';
 require_once "./views/layouts/siderbar.php";
 
 
-// Xử lý định tuyến (Routing)
-$act = $_GET['act'] ?? '/'; // Lấy hành động từ URL, mặc định là '/'
-$id = $_GET['id'] ?? null;  // Lấy ID từ URL nếu có
 
-require_once 'views/layouts/layouts_top.php'; // Phần top của layout
+$act = $_GET['act'] ?? '/'; 
+$id = $_GET['id'] ?? null;  
 
-// Khối match ($act) duy nhất để định tuyến tất cả các hành động
+require_once 'views/layouts/layouts_top.php'; 
+
 match ($act) {
-    // Dashboard Routes (Từ cả hai nhánh, gộp lại)
     '/', 
     'adminDashboard' => (new DashboardController())->index(),
 
@@ -41,6 +38,7 @@ match ($act) {
     'userEdit'       => (new UserController())->edit($id),
     'userUpdate'     => (new UserController())->update($id),
     'userDelete'     => (new UserController())->delete($id),
+     'userView'       => (new UserController())->show($id), 
 
     // Product Routes (Từ nhánh có liên quan đến Product)
     'product-list'        => (new ProductController())->getAllProduct(),
@@ -49,15 +47,12 @@ match ($act) {
     // 'edit_product'        => (new ProductController())->editProduct(), // Giữ nguyên comment nếu bạn muốn nó không hoạt động
     'product-soft-delete' => (new ProductController())->softDelete(),
 
-    // Default case (Trang không tìm thấy - 404)
     default          => function() {
         echo "404 - Page not found";
     },
 };
 
-require_once 'views/layouts/layout_bottom.php'; // Phần bottom của layout
 
-// Các file CSS/JS thư viện có thể được đặt ở đây hoặc trong layout_top/bottom tùy theo cấu trúc dự án của bạn
 require_once "./views/layouts/libs_css.php"; 
 // require_once "./views/layouts/libs_js.php"; 
 
