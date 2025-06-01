@@ -1,4 +1,7 @@
-<main class="bg_gray">
+<?php
+require './views/layouts/layout_top.php'; ?>
+
+	<main class="bg_gray">
 		<div class="container margin_30">
 		<div class="page_header">
 			<div class="breadcrumbs">
@@ -8,28 +11,29 @@
 					<li>Page active</li>
 				</ul>
 			</div>
-			<h1>My Profile page</h1>
+			<h1>Tài khoản của tôi</h1>
 		</div>
 		<!-- /page_header -->
 
 		<div class="row">
             <div class="col-lg-6">
                 <div class="box_profile_details">
-                    <h3>User Details</h3>
+                    <h3>Chi tiết người dùng</h3>
                     <div class="data_profile">
-                        <p>Name: Jhon<p>
-                            <p>Last Name: Doe<p>
-                            <p>Telephone: 0948433423</p>
+                        <p>Name: <?= ($user['fullname']) ?><p>
+                            <!-- <p>Last Name: Doe<p> -->
+                            <p>Số điện thoại: <?= ($user['phone']) ?></p>
+                            <p>Mail: <?= ($user['email']) ?></p>
                     </div>
                     <p><a href="#0">Edit/Change</a></p>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="box_profile_details">
-                    <h3>Login Details</h3>
+                    <h3>Chi tiết tài khoản</h3>
                     <div class="data_profile">
-                        <p>Email Address: user@gmail.com<p>
-                        <p>Password: th******er</p>
+                        <p>Tên đăng nhập: <?= $user['username'] ?><p>
+                        <p>Vai trò: <?= ($user['role']) ?></p>
                         <p></p>
                     </div>
                     <p><a href="#0">Edit/Change</a></p>
@@ -38,7 +42,7 @@
         </div>
         <!-- /row -->
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-lg-6">
                 <div class="box_profile_details">
                     <h3>Billing Address</h3>
@@ -61,12 +65,12 @@
                     <p><a href="#0">Edit/Change</a></p>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- /row -->
 
 		<div class="row">
 			<div class="col-lg-4 col-md-6">
-				<a class="box_topic" href="my-orders.html">
+				<a class="box_topic" href="?act=my_orders">
 					<i class="ti-bag"></i>
 					<h3>My Orders</h3>
 				</a>

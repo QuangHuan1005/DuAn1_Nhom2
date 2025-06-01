@@ -1,38 +1,44 @@
 <?php
 session_start();
-
-
-// Require file Common
-require_once './commons/env.php';      
-require_once './commons/function.php';  
+require_once './commons/env.php';
+require_once './commons/function.php';
 // Require Controllers
 require_once './controllers/HomeController.php';
+require_once './controllers/ProductController.php';
+require_once './controllers/OrderController.php';
+require_once './controllers/UserController.php';
 require_once './admin/controllers/DashboardController.php';
+require_once './controllers/CartController.php';
 
 // Require Models
 require_once './models/User.php';
 require_once './models/CategoryModel.php';
 require_once './models/ProductModel.php';
+require_once './models/OrderModel.php';
+require_once './models/UserModel.php';
+
+
 
 
 // Lấy tham số 'act' từ URL
 $act = $_GET['act'] ?? '/';
-
-// Xử lý điều hướng trước khi include layout để tránh lỗi header()
+// Điều hướng request
 match ($act) {
-    '/'                 => (new HomeController())->index(),
-    'home'              => (new HomeController())->index(),
-    'page'              => (new HomeController())->getAll(),
-    'profile'           => (new HomeController())->getProfile(),
-    'login'             => (new HomeController())->login(),
-    'handle-login'      => (new HomeController())->handleLogin(),
-    'register'          => (new HomeController())->register(),
-    'handle-register'   => (new HomeController())->handleRegister(),
-    'adminDashboard'    => (new DashboardController())->index(),
-    'clientHome'        => (new HomeController())->clientHome(),
-    default             => header("Location: ./?act=home") && exit,
-};
+  '/' => (new HomeController())->index(),
+  'home' => (new HomeController())->index(),
+  'products' => (new ProductController())->store(),
+  'search' => (new ProductController())->search($_GET['keyword']),
+  'category' => (new ProductController())->category($_GET['id']),
+  'product-detail' => (new ProductController())->detail($_GET['id']),
+  'profile' => (new UserController())->profile(),
+  'my_orders' => (new OrderController())->myOrders(),
+  'order_detail' => (new OrderController())->orderDetail(),
+  'login' => (new HomeController())->login(),
+  'handle-login' => (new HomeController())->handleLogin(),
+  'adminDashboard' => (new DashboardController())->index(),
+  'clientHome' => (new HomeController())->clientHome(),
+  'logout' => (new HomeController())->logout(),
+  default => header("Location: ./?act=home") && exit ,
 
-// Sau khi thực thi action, include layout
-require_once './views/layouts/layout_top.php';
+};
 require_once './views/layouts/layout_bottom.php';

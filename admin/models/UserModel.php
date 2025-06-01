@@ -32,37 +32,23 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-   public function create($data) {
-    $sql = "INSERT INTO users (username, email, phone, avatar, password, role, fullname, address) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+
+    public function update($id, $data) {
+    $sql = "UPDATE users 
+            SET username = ?, email = ?, phone = ?, avatar = ?, role = ?, status = ? 
+            WHERE id = ?";
     $stmt = $this->conn->prepare($sql);
     return $stmt->execute([
         $data['username'],
         $data['email'],
         $data['phone'],
         $data['avatar'],
-        password_hash($data['password'], PASSWORD_DEFAULT),
         $data['role'],
-        $data['fullname'] ?? null,
-        $data['address'] ?? null
+        $data['status'],  // thêm trường status
+        $id
     ]);
 }
-
-
-    public function update($id, $data) {
-        $sql = "UPDATE users 
-                SET username = ?, email = ?, phone = ?, avatar = ?, role = ? 
-                WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([
-            $data['username'],
-            $data['email'],
-            $data['phone'],
-            $data['avatar'],
-            $data['role'],
-            $id
-        ]);
-    }
 
     public function delete($id) {
         $sql = "DELETE FROM users WHERE id = ?";

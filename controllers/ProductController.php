@@ -1,10 +1,15 @@
 <?php
+
 require_once "models/User.php";
+require_once "models/ProductModel.php";
+require_once "models/CategoryModel.php";
+
 
 class ProductController
 {
     private $productModel;
     private $categoryModel;
+
     public function __construct()
     {
         $this->productModel = new ProductModel();
@@ -12,24 +17,33 @@ class ProductController
     }
     public function store()
     {
-        $products = $this->productModel->getProducts();
-        require_once "./views/page.php";
-    }
+        $limit = 4;
+        $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        if ($page < 1)
+            $page = 1;
 
-    public function search()
-    {
-        $keyword = trim($_GET['keyword'] ?? '');
-     if ($keyword === '') {
-        if (!empty($_SERVER['HTTP_REFERER'])) {
-            header("Location: " . $_SERVER['HTTP_REFERER']);
-        } else {
-            header("Location: ./?act=home");
-        }
-        exit;
+        $offset = ($page - 1) * $limit;
+
+        $products = $this->productModel->getProductsByPage($limit, $offset);
+        $totalProducts = $this->productModel->getAll();
+        $totalPages = ceil($totalProducts / $limit);
+
+        require './views/product/products.php';
+
+
     }
-        $model = new ProductModel();
-        $products = $model->searchProducts($keyword);
-        require_once './views/products/search_result.php';
+    public function category($category_id)
+    {
+        
+        $category = $this->categoryModel->getById($category_id);
+        $products = $this->productModel->getByCategory($category_id);
+
+        require './views/product/category.php';
+    }
+    public function search($keyword)
+    {
+        $products = $this->productModel->searchByKeyword($keyword);
+        require './views/product/search.php';
     }
 
     public function getProfile()
@@ -41,7 +55,7 @@ class ProductController
     {
         $product = $this->productModel->getProductDetail($id);
         if ($product) {
-            require './views/product-detail.php';
+            require './views/product/product-detail.php';
         } else {
             echo "Sản phẩm không tồn tại.";
         }

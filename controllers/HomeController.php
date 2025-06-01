@@ -1,13 +1,15 @@
 <?php
 
 require_once "models/User.php";
-require_once "models/ProductModel.php"; 
+require_once "models/ProductModel.php";
 require_once "models/CategoryModel.php";
+require_once "models/CartModel.php";
+
 
 
 class HomeController
 {
-    private $productModel; 
+    private $productModel;
     private $categoryModel;
 
     public function __construct()
@@ -25,21 +27,10 @@ class HomeController
         require_once "./views/home.php";
     }
 
-    public function getAll()
-    {
-        $products = $this->productModel->getProducts();
-        require_once "./views/page.php"; 
-    }
-
-    public function getProfile()
-    {
-        require_once "./views/profile_page.php";
-    }
-
     public function login()
     {
-        $error = null; 
-        include "views/login.php"; 
+        $error = null;
+        include "views/login.php";
     }
 
     public function handleLogin()
@@ -54,8 +45,45 @@ class HomeController
 
         $user = User::findByUsername($username);
 
-if ($user && $passwordInput === $user['password']) {
-            $_SESSION['user'] = $user; 
+        if ($user && $passwordInput === $user['password']) {
+            $_SESSION['user'] = $user;
+
+            if ($user['role'] === 'admin') {
+                header('Location: index.php?act=adminDashboard');
+                exit;
+            } else {
+                header('Location: index.php?act=clientHome');
+                exit;
+            }
+        } else {
+            $error = "Sai tên đăng nhập hoặc mật khẩu!";
+            include "views/login.php";
+        }
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $username = $_POST['username'] ?? '';
+        $passwordInput = $_POST['password'] ?? '';
+        $error = null;
+
+        $user = User::findByUsername($username);
+
+        if ($user && $passwordInput === $user['password']) {
+            $_SESSION['user'] = $user;
+
+            // Tạo đối tượng CartModel để thao tác giỏ hàng
+            $cartModel = new CartModel();
+
+            // Lấy cart_id của user hiện tại
+            $cart_id = $cartModel->getCartIdByUserId($user['id']);
+            if (!$cart_id) {
+                // Nếu chưa có cart thì tạo mới
+                $cart_id = $cartModel->createCartForUser($user['id']);
+            }
+
+            // Lưu cart_id vào session
+            $_SESSION['cart_id'] = $cart_id;
 
             if ($user['role'] === 'admin') {
                 header('Location: index.php?act=adminDashboard');
@@ -70,9 +98,10 @@ if ($user && $passwordInput === $user['password']) {
         }
     }
 
+
     public function register()
     {
-        $error = null; 
+        $error = null;
         include "views/register.php";
     }
 
@@ -85,9 +114,9 @@ if ($user && $passwordInput === $user['password']) {
         $phone = $_POST['phone'] ?? '';
         $fullname = $_POST['fullname'] ?? '';
         $address = $_POST['address'] ?? '';
-        $role = 'client'; 
+        $role = 'client';
         $avatar = $_FILES['avatar']['name'] ?? 'default.png';
-        $error = null; 
+        $error = null;
 
         if (empty($username) || empty($email) || empty($password) || empty($confirm) || $password !== $confirm) {
             $error = "Vui lòng điền đầy đủ thông tin và kiểm tra mật khẩu!";
@@ -111,7 +140,7 @@ if ($user && $passwordInput === $user['password']) {
             }
         }
 
-$hashedPassword = $password;
+        $hashedPassword = $password;
 
         $data = [
             'username' => $username,
@@ -125,7 +154,7 @@ $hashedPassword = $password;
         ];
 
         if (User::register($data)) {
-            header("Location: index.php?act=login"); 
+            header("Location: index.php?act=login");
             exit;
         } else {
             $error = "Đăng ký thất bại. Vui lòng thử lại!";
@@ -135,9 +164,9 @@ $hashedPassword = $password;
 
     public function clientHome()
     {
-    $categories = $this->categoryModel->getAll();
-    $bestsellers = $this->productModel->getBestseller();
-    $featureds = $this->productModel->getFeatured();
+        $categories = $this->categoryModel->getAll();
+        $bestsellers = $this->productModel->getBestseller();
+        $featureds = $this->productModel->getFeatured();
 
         include "./views/home.php";
     }

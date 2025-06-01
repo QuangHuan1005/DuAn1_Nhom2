@@ -52,7 +52,7 @@
 				        <div class="inner_bt"><a href="#" class="open_filters"><i class="ti-close"></i></a></div>
 				        <div class="filter_type version_2">
 				            <h4><a href="#filter_1" data-bs-toggle="collapse" class="opened">Categories</a></h4>
-				            <div class="collapse show" id="filter_1">
+				            <!-- <div class="collapse show" id="filter_1">
 				                <ul>
 				                    <li>
 				                        <label class="container_check">Men <small>12</small>
@@ -79,11 +79,11 @@
 				                        </label>
 				                    </li>
 				                </ul>
-				            </div>
+				            </div> -->
 				            <!-- /filter_type -->
 				        </div>
 				        <!-- /filter_type -->
-				        <div class="filter_type version_2">
+				        <!-- <div class="filter_type version_2">
 				            <h4><a href="#filter_2" data-bs-toggle="collapse" class="opened">Color</a></h4>
 				            <div class="collapse show" id="filter_2">
 				                <ul>
@@ -113,9 +113,9 @@
 				                    </li>
 				                </ul>
 				            </div>
-				        </div>
+				        </div> -->
 				        <!-- /filter_type -->
-				        <div class="filter_type version_2">
+				        <!-- <div class="filter_type version_2">
 				            <h4><a href="#filter_3" data-bs-toggle="collapse" class="closed">Brands</a></h4>
 				            <div class="collapse" id="filter_3">
 				                <ul>
@@ -145,9 +145,9 @@
 				                    </li>
 				                </ul>
 				            </div>
-				        </div>
+				        </div> -->
 				        <!-- /filter_type -->
-				        <div class="filter_type version_2">
+				        <!-- <div class="filter_type version_2">
 				            <h4><a href="#filter_4" data-bs-toggle="collapse" class="closed">Price</a></h4>
 				            <div class="collapse" id="filter_4">
 				                <ul>
@@ -177,10 +177,11 @@
 				                    </li>
 				                </ul>
 				            </div>
-				        </div>
+				        </div> -->
 				        <!-- /filter_type -->
 				        <div class="buttons">
-				            <a href="#0" class="btn_1">Filter</a> <a href="#0" class="btn_1 gray">Reset</a>
+				            <a href="#0" class="btn_1">Lọc</a>
+							<!-- <a href="#0" class="btn_1 gray">Reset</a> -->
 				        </div>
 				    </div>
 				</aside>
@@ -193,12 +194,12 @@
 							<div class="grid_item">
 								<span class="ribbon off">-30%</span>
 								<figure>
-									<a href="product-detail-1.html">
+									<a href="?act=product-detail&id=<?= $product['id'] ?>">
 										<img class="img-fluid lazy" src="<?= $product['image_url'] ?>" data-src="" alt="">
 									</a>
 									<div data-countdown="2019/05/15" class="countdown"></div>
 								</figure>
-								<a href="product-detail-1.html">
+								<a href="?act=product-detail&id=<?= $product['id'] ?>">
 									<h3><?= $product['name'] ?></h3>
 								</a>
 								<div class="price_box">
@@ -208,7 +209,22 @@
 								<ul>
 									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a></li>
 									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
-									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
+									<li>
+    <form action="./?act=cart/add" method="post" style="display:inline;" class="tooltip-1" 
+          data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart">
+        <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="icon-btn" style="
+            background: white; 
+            border-radius: 5px; 
+            border: 1px solid #ddd; 
+            padding: 6px 10px; 
+            cursor: pointer;
+            ">
+            <i class="ti-shopping-cart"></i>
+        </button>
+    </form>
+</li>
 								</ul>
 							</div>
 							<!-- /grid_item -->

@@ -1,47 +1,17 @@
-<!-- <body>
-    <div class="login-container">
-        <h2>Đăng nhập</h2>
 
+<?php require_once './views/layouts/layout_top.php'; ?>
         <?php if (!empty($error)): ?>
-            <p style="color: red; margin-bottom: 16px;"><?php echo htmlspecialchars($error); ?></p>
+          <?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>
 
-        <form action="index.php?act=handle-login" method="post">
-            <input type="text" name="username" placeholder="Tên đăng nhập" required />
-            <input type="password" name="password" placeholder="Mật khẩu" required />
-            <button type="submit">Đăng nhập</button>
-        </form>
-<a href="index.php?act=register">Chưa có tài khoản? <span style="color: blue;">Đăng ký ngay</span></a>
-    </div>
-</body>
-</html> 
-<main class="bg_gray">
-
-    <div class="container margin_30">
-        <div class="page_header">
-            <div class="breadcrumbs">
-                <ul>
-                    <li><a href="#">Trang chủ</a></li>
-                    <li>Đăng nhập</li>
-                </ul>
-            </div>
-            <h1>Sign In or Create an Account</h1>
-        </div>
-        <!-- /page_header -->
+      
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-6 col-md-8">
                 <div class="box_account">
                     <h3 class="client">Already Client</h3>
                     <div class="form_container">
                         <div class="row no-gutters">
-                            <!-- <div class="col-lg-6 pr-lg-1">
-                                <a href="#0" class="social_bt facebook">Login with Facebook</a>
-                            </div>
-                            <div class="col-lg-6 pl-lg-1">
-                                <a href="#0" class="social_bt google">Login with Google</a>
-                            </div>
-                        </div>
-                        <div class="divider"><span>Or</span></div> -->
+        
                             <?php if (!empty($error)): ?>
                                 <p style="color: red; margin-bottom: 16px;"><?php echo htmlspecialchars($error); ?></p>
                             <?php endif; ?>
