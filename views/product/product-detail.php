@@ -1,4 +1,4 @@
-<?php require_once './views/layouts/layout_top.php'; ?>
+
 <?php
 require './views/layouts/layout_top.php'; ?>
 <main>
@@ -12,8 +12,8 @@ require './views/layouts/layout_top.php'; ?>
                 <div class="col-md-6">
                     <div class="all">
                         <div class="slider">
-                            <img src="<?= ($product['image_url']) ?>" alt="<?= ($product['name']) ?>">
-                            <div class="owl-carousel owl-theme main">
+                            <img src="<?= ($product['image_url']) ?>" alt="<?= ($product['name']) ?>" >
+                            <!-- <div class="owl-carousel owl-theme main">
                                 <img src="<?= ($product['image_url']) ?>" style="height: 500px;" class="item-box">
                                 <div style="background-image: url(img/products/shoes/1.jpg);" class="item-box"></div>
                                 <div style="background-image: url(img/products/shoes/2.jpg);" class="item-box"></div>
@@ -23,9 +23,9 @@ require './views/layouts/layout_top.php'; ?>
                                 <div style="background-image: url(img/products/shoes/6.jpg);" class="item-box"></div>
                             </div>
                             <div class="left nonl"><i class="ti-angle-left"></i></div>
-                            <div class="right"><i class="ti-angle-right"></i></div>
+                            <div class="right"><i class="ti-angle-right"></i></div> -->
                         </div>
-                        <div class="slider-two">
+                        <!-- <div class="slider-two">
                             <div class="owl-carousel owl-theme thumbs">
                                 <div style="background-image: url(img/products/shoes/1.jpg);" class="item active"></div>
                                 <div style="background-image: url(img/products/shoes/2.jpg);" class="item"></div>
@@ -36,7 +36,7 @@ require './views/layouts/layout_top.php'; ?>
                             </div>
                             <div class="left-t nonl-t"></div>
                             <div class="right-t"></div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-6">
