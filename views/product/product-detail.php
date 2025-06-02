@@ -57,30 +57,34 @@ require './views/layouts/layout_top.php'; ?>
                         <!-- <br>Sed ex labitur adolescens scriptorem. Te
                         saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril
                         oportere, amet wisi aperiri te cum.</p> -->
-                    <div class="prod_options">
-                        <div class="row">
-                            <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Số lượng</strong></label>
-                            <div class="col-xl-4 col-lg-5 col-md-6 col-6">
-                                <div class="numbers-row">
-                                    <input type="text" value="1" id="quantity_1" class="qty2" name="quantity_1">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-5 col-md-6">
-                            <div class="price_main"><span
-                                    class="new_price"><?= number_format($product['discount_price']) ?>₫</span><span
-                                    class="percentaged"></span> <span
-                                    class="old_price"><?= number_format($product['price']) ?>₫</span></div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="btn_add_to_cart">
-                                <da href="#0" class="btn_1">Thêm vào giỏ hàng
-                            </div>
-                        </div>
-                    </div>
+                   <div class="prod_options">
+    <form action="./?act=cart/add" method="post">
+        <div class="row align-items-center mb-3">
+            <label class="col-xl-3 col-lg-4 col-md-4 col-5"><strong>Số lượng</strong></label>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-7">
+                <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 100px;" required>
+            </div>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col-lg-5 col-md-6 mb-2">
+                <div class="price_main">
+                    <span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
+                    <span class="percentaged"></span>
+                    <span class="old_price"><?= number_format($product['price']) ?>₫</span>
                 </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-2">
+                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                <button type="submit" class="btn_1" title="Thêm vào giỏ hàng">
+                    <i class="ti-shopping-cart"></i> Thêm vào giỏ hàng
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
                 <!-- /prod_info -->
                 <div class="product_actions">
                     <ul>

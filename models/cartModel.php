@@ -2,8 +2,7 @@
 class CartModel {
     private $conn;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->conn = connectDB();
     }
 
@@ -35,15 +34,18 @@ class CartModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getCartItem($cart_id, $product_id) {
+        $sql = "SELECT * FROM cart_items WHERE cart_id = ? AND product_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$cart_id, $product_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function addToCart($user_id, $product_id, $quantity) {
         if ($quantity < 1) $quantity = 1;
 
         $cart_id = $this->getCartIdByUserId($user_id);
-
-        $sql = "SELECT quantity FROM cart_items WHERE cart_id = ? AND product_id = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$cart_id, $product_id]);
-        $item = $stmt->fetch(PDO::FETCH_ASSOC);
+        $item = $this->getCartItem($cart_id, $product_id);
 
         if ($item) {
             $newQuantity = $item['quantity'] + $quantity;
@@ -59,7 +61,6 @@ class CartModel {
 
     public function updateQuantity($user_id, $item_id, $quantity) {
         if ($quantity < 1) return false;
-
         $cart_id = $this->getCartIdByUserId($user_id);
 
         $sql = "UPDATE cart_items SET quantity = ? WHERE id = ? AND cart_id = ?";
@@ -67,9 +68,9 @@ class CartModel {
         return $stmt->execute([$quantity, $item_id, $cart_id]);
     }
 
+    
     public function removeFromCart($user_id, $product_id) {
         $cart_id = $this->getCartIdByUserId($user_id);
-
         $sql = "DELETE FROM cart_items WHERE cart_id = ? AND product_id = ?";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$cart_id, $product_id]);
@@ -77,7 +78,6 @@ class CartModel {
 
     public function getTotalQuantity($user_id) {
         $cart_id = $this->getCartIdByUserId($user_id);
-
         $sql = "SELECT SUM(quantity) as total FROM cart_items WHERE cart_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$cart_id]);
@@ -85,4 +85,10 @@ class CartModel {
         return $row ? intval($row['total']) : 0;
     }
 
+    public function clearCart($user_id) {
+        $cart_id = $this->getCartIdByUserId($user_id);
+        $sql = "DELETE FROM cart_items WHERE cart_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$cart_id]);
+    }
 }
