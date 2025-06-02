@@ -1,4 +1,3 @@
-
 <?php require_once './views/layouts/layout_top.php'; ?>
         <?php if (!empty($error)): ?>
           <?php echo htmlspecialchars($error); ?></p>

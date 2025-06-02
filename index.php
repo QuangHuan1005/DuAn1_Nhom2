@@ -16,6 +16,7 @@ require_once './models/CategoryModel.php';
 require_once './models/ProductModel.php';
 require_once './models/OrderModel.php';
 require_once './models/UserModel.php';
+require_once './models/CartModel.php';
 
 
 
@@ -26,6 +27,7 @@ $act = $_GET['act'] ?? '/';
 match ($act) {
   '/' => (new HomeController())->index(),
   'home' => (new HomeController())->index(),
+   'page' => (new ProductController())->store(),
   'products' => (new ProductController())->store(),
   'search' => (new ProductController())->search($_GET['keyword']),
   'category' => (new ProductController())->category($_GET['id']),
@@ -35,10 +37,25 @@ match ($act) {
   'order_detail' => (new OrderController())->orderDetail(),
   'login' => (new HomeController())->login(),
   'handle-login' => (new HomeController())->handleLogin(),
+  'register' => (new HomeController())->register(),
+    'handle-register' => (new HomeController())->handleregister(),
   'adminDashboard' => (new DashboardController())->index(),
   'clientHome' => (new HomeController())->clientHome(),
   'logout' => (new HomeController())->logout(),
-  default => header("Location: ./?act=home") && exit ,
 
+
+      'cart' => (new CartController())->index(),
+    'cart/add' => (new CartController())->addToCart(),
+    'cart/update' => (new CartController())->updateCart(),
+    'cart/remove' => (new CartController())->removeFromCart(),
+    'cart/clear' => (new CartController())->clearCart(),
+
+
+
+
+
+
+    'payment' => (new CartController())->payment(),
+
+    default => header("Location: ./?act=home")
 };
-require_once './views/layouts/layout_bottom.php';

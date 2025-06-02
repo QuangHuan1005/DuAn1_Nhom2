@@ -228,9 +228,15 @@ require './views/layouts/layout_top.php'; ?>
 							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
 									title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
 										compare</span></a></li>
-							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
-									title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a>
-							</li>
+							<li>
+  <form action="./?act=cart/add" method="post" style="display:inline;">
+    <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+    <input type="hidden" name="quantity" value="1">
+    <button type="submit" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left">
+      <i class="bi bi-cart"></i><span> Add to cart</span>
+    </button>
+  </form>
+</li>
 						</ul>
 					</div>
 					<!-- /grid_item -->
