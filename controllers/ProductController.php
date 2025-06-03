@@ -34,7 +34,7 @@ class ProductController
     }
     public function category($category_id)
     {
-        
+
         $category = $this->categoryModel->getById($category_id);
         $products = $this->productModel->getByCategory($category_id);
 
@@ -55,6 +55,9 @@ class ProductController
     {
         $product = $this->productModel->getProductDetail($id);
         if ($product) {
+            $commentModel = new CommentModel();
+            $comments = $commentModel->getCmtsByProduct($id);
+
             require './views/product/product-detail.php';
         } else {
             echo "Sản phẩm không tồn tại.";
