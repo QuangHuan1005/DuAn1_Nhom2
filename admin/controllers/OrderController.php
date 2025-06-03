@@ -67,10 +67,4 @@ class OrderController {
         require_once __DIR__ . '/../views/orders/update_status.php';
     }
 
-    public function delete() {
-        $id = $_GET['id'] ?? 0;
-        $this->orderModel->deleteOrder($id);
-        header("Location: index.php?act=orderIndex");
-        exit;
-    }
 }
