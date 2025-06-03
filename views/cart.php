@@ -26,12 +26,13 @@
                 $total += $subtotal;
             ?>
             <tr>
-              <td>
-                <a href="index.php?act=cart/remove&id=<?= $item['id'] ?>" 
-                   onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');"
-                   class="text-danger fw-bold"
-                   style="text-decoration: none;">×</a>
-              </td>
+             <td>
+    <a href="index.php?act=cart/remove&id=<?= $item['id'] ?>" 
+       onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');"
+       class="text-danger fw-bold"
+       style="text-decoration: none;">×</a>
+</td>
+
               <td><img src="<?= htmlspecialchars($item['image_url']) ?>" width="80" /></td>
               <td><?= htmlspecialchars($item['name']) ?></td>
               <td class="price" data-price="<?= $item['price'] ?>"><?= number_format($item['price']) ?>đ</td>

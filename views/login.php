@@ -1,9 +1,5 @@
 <?php require_once './views/layouts/layout_top.php'; ?>
-        <?php if (!empty($error)): ?>
-          <?php echo htmlspecialchars($error); ?></p>
-        <?php endif; ?>
 
-      
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-6 col-md-8">
                 <div class="box_account">
