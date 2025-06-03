@@ -69,12 +69,13 @@ class CartModel {
     }
 
     
-    public function removeFromCart($user_id, $product_id) {
-        $cart_id = $this->getCartIdByUserId($user_id);
-        $sql = "DELETE FROM cart_items WHERE cart_id = ? AND product_id = ?";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$cart_id, $product_id]);
-    }
+    public function removeFromCart($user_id, $cart_item_id) {
+    $cart_id = $this->getCartIdByUserId($user_id);
+    $sql = "DELETE FROM cart_items WHERE id = ? AND cart_id = ?";
+    $stmt = $this->conn->prepare($sql);
+    return $stmt->execute([$cart_item_id, $cart_id]);
+}
+
 
     public function getTotalQuantity($user_id) {
         $cart_id = $this->getCartIdByUserId($user_id);
