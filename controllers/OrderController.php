@@ -5,7 +5,6 @@ require_once "models/ProductModel.php";
 require_once "models/CategoryModel.php";
 require_once "models/OrderModel.php";
 
-
 class OrderController
 {
     private $orderModel;
@@ -26,21 +25,31 @@ class OrderController
         if (!$orders) {
             $orders = [];
         }
-        ;
+
+        $success = $_SESSION['success'] ?? null;
+        $error = $_SESSION['error'] ?? null;
+
+        unset($_SESSION['success'], $_SESSION['error']);
+
         require 'views/order/my_orders.php';
     }
+
     public function orderDetail()
     {
         if (!isset($_SESSION['user'])) {
             header("Location: ?act=login");
             exit;
         }
-        $orderModel = new OrderModel();
-        // $items = $this->orderModel->getOrderItems($order_id);
+
+        if (!isset($_GET['order_id'])) {
+            header("Location: ?act=myOrders");
+            exit;
+        }
+
+        $order_id = intval($_GET['order_id']);
+        $items = $this->orderModel->getOrderItems($order_id);
 
         require 'views/order/order_detail.php';
     }
-
-
 
 }

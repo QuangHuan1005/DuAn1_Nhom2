@@ -17,7 +17,7 @@
 <div class="container my-5">
   <h2 class="mb-4">Thông tin thanh toán</h2>
   
-  <form action="index.php?controller=checkout&action=placeOrder" method="POST" id="checkout-form" novalidate>
+  <form action="index.php?act=payment" method="POST" id="checkout-form" novalidate>
     <div class="row">
       <!-- Cột trái: Thông tin người nhận -->
       <div class="col-md-6">
