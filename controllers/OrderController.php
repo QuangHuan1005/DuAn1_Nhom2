@@ -40,15 +40,10 @@ class OrderController
             header("Location: ?act=login");
             exit;
         }
-
-        if (!isset($_GET['order_id'])) {
-            header("Location: ?act=myOrders");
-            exit;
-        }
-
-        $order_id = intval($_GET['order_id']);
-        $items = $this->orderModel->getOrderItems($order_id);
-
+        $user_id = $_SESSION['user']['id'];
+        $orders = $this->orderModel->getOrdersUser($user_id);
+        $orderModel = new OrderModel();
+        $products = $orderModel->getOrderItems($user_id);
         require 'views/order/order_detail.php';
     }
 
