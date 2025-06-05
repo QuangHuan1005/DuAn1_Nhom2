@@ -70,7 +70,7 @@ require './views/layouts/layout_top.php'; ?>
 								<strong> <?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></strong>
 							</td>
 							<td>
-								<a href="?act=order_detail">Xem chi tiết</a>
+								<a href="?act=order_detail&id=<?= $order['id'] ?>">Xem chi tiết</a>
 							</td>
 						</tr>
 					</tbody>
@@ -79,7 +79,6 @@ require './views/layouts/layout_top.php'; ?>
 		<?php else: ?>
 			<p>Bạn chưa có đơn hàng nào.</p>
 		<?php endif; ?>
-		</table>
 	</div>
 	<!-- /container -->
 </main>

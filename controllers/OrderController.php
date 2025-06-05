@@ -35,8 +35,10 @@ class OrderController
             header("Location: ?act=login");
             exit;
         }
+        $user_id = $_SESSION['user']['id'];
+        $orders = $this->orderModel->getOrdersUser($user_id);
         $orderModel = new OrderModel();
-        // $items = $this->orderModel->getOrderItems($order_id);
+        $products = $orderModel->getOrderItems($user_id);
 
         require 'views/order/order_detail.php';
     }
