@@ -75,7 +75,6 @@ $basePath = dirname(__DIR__, 2);
                         <?php if ($order['status_id'] != 4 && $order['status_id'] != 5): ?>
                         <a href="index.php?act=orderEditStatus&id=<?= $order['id'] ?>" class="btn btn-sm btn-warning">✏️ Cập nhật</a>
                          <?php endif; ?>
-                        <a href="index.php?act=orderDelete&id=<?= $order['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Xóa đơn hàng này?')">🗑️ Xóa</a>
                                     </td>
                                     </tr>
                                 <?php endforeach; ?>

@@ -60,5 +60,10 @@ match ($act) {
 
   'payment' => (new CartController())->payment(),
 
+     'cancelOrder' => (function() {
+        $order_id = $_GET['order_id'] ?? 0;
+        (new OrderController())->cancelOrder($order_id);
+    })(),
+
   default => header("Location: ./?act=home")
 };

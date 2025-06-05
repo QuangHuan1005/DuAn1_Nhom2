@@ -107,29 +107,6 @@ public function countTotalOrders($keyword, $status_id = null) {
         ]);
     }
 
-    public function deleteOrder($id) {
-        $this->conn->beginTransaction();
-        try {
-            $sqlDeleteItems = "DELETE FROM order_items WHERE order_id = :id";
-            $stmtItems = $this->conn->prepare($sqlDeleteItems);
-            $stmtItems->execute([':id' => (int)$id]);
-
-            $sqlDeletePayments = "DELETE FROM order_payments WHERE order_id = :id";
-            $stmtPayments = $this->conn->prepare($sqlDeletePayments);
-            $stmtPayments->execute([':id' => (int)$id]);
-
-            $sqlDeleteOrder = "DELETE FROM orders WHERE id = :id";
-            $stmtOrder = $this->conn->prepare($sqlDeleteOrder);
-            $result = $stmtOrder->execute([':id' => (int)$id]);
-
-            $this->conn->commit();
-            return $result;
-        } catch (PDOException $e) {
-            $this->conn->rollBack();
-            error_log("Lỗi khi xóa đơn hàng: " . $e->getMessage());
-            return false;
-        }
-    }
 
     public function updateTotalAmount($orderId) {
         $total = $this->calculateTotalAmount($orderId);
