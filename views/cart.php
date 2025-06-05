@@ -1,81 +1,129 @@
 <?php require_once './views/layouts/layout_top.php'; ?>
 
-<h2>Giỏ hàng của bạn</h2>
 
 <?php if (!empty($items)): ?>
-<div class="container">
-  <div class="row">
-    <div class="col-md-8">
-      <form id="cart-form" method="POST" action="index.php?act=cart/update">
-        <table class="table table-bordered align-middle text-center">
-          <thead class="table-light">
-            <tr>
-              <th></th>
-              <th>Hình ảnh</th>
-              <th>Tên sản phẩm</th>
-              <th>Giá</th>
-              <th>Số lượng</th>
-              <th>Tạm tính</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php 
-              $total = 0;
-              foreach ($items as $item):
-                $subtotal = $item['price'] * $item['quantity'];
-                $total += $subtotal;
+
+
+  <main class="bg_gray">
+    <div class="container margin_30">
+      <div class="page_header">
+        <div class="breadcrumbs">
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Category</a></li>
+            <li>Page active</li>
+          </ul>
+        </div>
+        <h1>Giỏ hàng</h1>
+      </div>
+      <!-- /page_header -->
+      <form id="cart-form" method="POST" action="index.php?act=cart/update"></form>
+      <table class="table table-striped cart-list">
+        <thead>
+          <tr>
+            <th>
+              Sản phẩm
+            </th>
+            <th>
+              Giá
+            </th>
+            <th>
+              Số lượng
+            </th>
+            <th>
+              Thành tiền
+            </th>
+            <th>
+
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $total = 0;
+          foreach ($items as $item):
+            $subtotal = $item['price'] * $item['quantity'];
+            $total += $subtotal;
             ?>
             <tr>
-             <td>
-    <a href="index.php?act=cart/remove&id=<?= $item['id'] ?>" 
-       onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');"
-       class="text-danger fw-bold"
-       style="text-decoration: none;">×</a>
-</td>
-
-              <td><img src="<?= htmlspecialchars($item['image_url']) ?>" width="80" /></td>
-              <td><?= htmlspecialchars($item['name']) ?></td>
-              <td class="price" data-price="<?= $item['price'] ?>"><?= number_format($item['price']) ?>đ</td>
               <td>
-                <input type="number" 
-                       name="quantities[<?= $item['id'] ?>]" 
-                       value="<?= $item['quantity'] ?>" 
-                       min="1" 
-                       class="form-control quantity-input"
-                       style="max-width: 80px; margin: auto;" />
+                <div class="thumb_cart">
+                  <img src="<?= htmlspecialchars($item['image_url']) ?>" data-src="" class="lazy" alt="Image">
+                </div>
+                <span class="item_cart"><?= htmlspecialchars($item['name']) ?></span>
               </td>
-              <td class="subtotal"><?= number_format($subtotal) ?>đ</td>
+              <td>
+                <strong><?= number_format($item['price']) ?>đ</strong>
+              </td>
+              <td>
+                <div class="numbers-row">
+                  <input type="number" value="<?= $item['quantity'] ?>" min="1" id="quantity_1" class="qty2"
+                    name="quantities[<?= $item['id'] ?>]">
+                  <div class="inc button_inc">+</div>
+                  <div class="dec button_inc">-</div>
+                </div>
+              </td>
+              <td>
+                <strong><?= number_format($subtotal) ?>đ</strong>
+              </td>
+              <td class="options">
+                <a href="index.php?act=cart/remove&id=<?= $item['id'] ?>"
+                  onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');"><i class="ti-trash"></i></a>
+              </td>
             </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
+          <?php endforeach; ?>
 
-       <div class="text-end d-flex justify-content-between">
-  <a href="index.php?act=products" class="btn btn-secondary">← Tiếp tục mua sắm</a>
-  <button type="submit" class="btn btn-primary">Cập nhật giỏ hàng</button>
-</div>
+        </tbody>
+      </table>
 
+
+      <div class="row add_top_30 flex-sm-row-reverse cart_actions">
+        <div class="col-sm-4 text-end">
+          <button type="submit" class="btn_1 gray">Cập nhập giỏ hàng</button>
+        </div>
+        <!-- <div class="col-sm-8">
+          <div class="apply-coupon">
+            <div class="form-group">
+              <div class="row g-2">
+                <div class="col-md-6"><input type="text" name="coupon-code" value="" placeholder="Promo code"
+                    class="form-control"></div>
+                <div class="col-md-4"><button type="button" class="btn_1 outline">Apply Coupon</button></div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
       </form>
+      <!-- /cart_actions -->
+
     </div>
+    <!-- /container -->
 
-    <div class="col-md-4">
-      <div class="card p-3">
-        <h5 class="mb-3">Tổng cộng giỏ hàng</h5>
-        <p>Tạm tính: <strong id="subtotal-price"><?= number_format($total) ?>đ</strong></p>
-        <p>Tổng: <strong id="total-price"><?= number_format($total) ?>đ</strong></p>
-
-        <a href="index.php?act=payment" class="btn btn-danger w-100 mb-3">Tiến hành thanh toán</a>
-
-        <div>
-          <label class="form-label">Mã ưu đãi</label>
-          <input type="text" class="form-control" placeholder="Nhập mã giảm giá" />
-          <button class="btn btn-outline-success w-100 mt-2">Áp dụng</button>
+    <div class="box_cart">
+      <div class="container">
+        <div class="row justify-content-end">
+          <div class="col-xl-4 col-lg-4 col-md-6">
+            <ul>
+              <li>
+                <span>Tạm tính</span> <?= number_format($total) ?>đ
+              </li>
+              <li>
+                <!-- <span>Phí ship</span> $7.00 -->
+              </li>
+              <li>
+                <span>Tổng</span> <?= number_format($total) ?>đ
+              </li>
+            </ul>
+            <a href="index.php?act=payment" class="btn_1 full-width cart">Tiến hành thanh toán</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
+    <!-- /box_cart -->
+  <?php else: ?>
+    <p>Giỏ hàng của bạn đang trống.</p>
+  <?php endif; ?>
+</main>
 <script>
   const inputs = document.querySelectorAll('.quantity-input');
   const subtotalElem = document.getElementById('subtotal-price');
@@ -104,9 +152,4 @@
     input.addEventListener('input', updateTotals);
   });
 </script>
-
-<?php else: ?>
-  <p>Giỏ hàng của bạn đang trống.</p>
-<?php endif; ?>
-
 <?php require_once './views/layouts/layout_bottom.php'; ?>
