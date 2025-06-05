@@ -17,3 +17,4 @@
 <link href="./assets/allaia/css/custom.css" rel="stylesheet">
 <link href="./assets/allaia/css/product_page.css" rel="stylesheet">
 <link href="./assets/allaia/css/checkout.css" rel="stylesheet">
+<link href="./assets/allaia/css/cart.css" rel="stylesheet">
