@@ -139,4 +139,71 @@ public function countTotalOrders($keyword, $status_id = null) {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    //Doanh thu
+  
+// Tổng doanh thu từ các đơn "Hoàn thành"
+    public function getTotalRevenue($startDate = null, $endDate = null)
+    {
+        $sql = "SELECT SUM(total_amount) as revenue FROM orders WHERE status_id = 4"; // Giả sử 4 = Hoàn thành
+
+        $params = [];
+        if ($startDate && $endDate) {
+            $sql .= " AND created_at BETWEEN :start_date AND :end_date";
+            $params = [
+                ':start_date' => $startDate . ' 00:00:00',
+                ':end_date' => $endDate . ' 23:59:59'
+            ];
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch(PDO::FETCH_ASSOC)['revenue'] ?? 0;
+    }
+
+    // Top 5 khách hàng mua nhiều nhất theo tổng tiền hoặc số đơn
+    public function getTopCustomers($startDate = null, $endDate = null)
+    {
+        $sql = "
+            SELECT u.id, u.fullname, u.email, COUNT(o.id) as total_orders, SUM(o.total_amount) as total_spent
+            FROM users u
+            JOIN orders o ON u.id = o.user_id
+            WHERE o.status_id = 4
+        ";
+
+        $params = [];
+        if ($startDate && $endDate) {
+            $sql .= " AND o.created_at BETWEEN :start_date AND :end_date";
+            $params = [
+                ':start_date' => $startDate . ' 00:00:00',
+                ':end_date' => $endDate . ' 23:59:59'
+            ];
+        }
+
+        $sql .= "
+            GROUP BY u.id
+            ORDER BY total_spent DESC
+            LIMIT 5
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Lấy các đơn hàng "Chờ xác nhận"
+    public function getPendingOrders()
+    {
+        $sql = "
+            SELECT o.*, u.fullname 
+            FROM orders o 
+            JOIN users u ON o.user_id = u.id
+            WHERE o.status_id = 1  -- Giả sử 1 = Chờ xác nhận
+            ORDER BY o.created_at DESC
+            LIMIT 10
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
