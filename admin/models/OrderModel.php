@@ -139,7 +139,6 @@ public function countTotalOrders($keyword, $status_id = null) {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    //Doanh thu
   
 // Tổng doanh thu từ các đơn "Hoàn thành"
     public function getTotalRevenue($startDate = null, $endDate = null)
