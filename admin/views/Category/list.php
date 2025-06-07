@@ -23,17 +23,17 @@
             </thead>
             <tbody>
                 <?php if (!empty($categories)): ?>
-                    <?php foreach ($categories as $cat): ?>
+                    <?php foreach ($categories as $index => $cat): ?>
                         <tr>
-                            <td><?= htmlspecialchars($cat['id']) ?></td>
+                            <td class="text-center"><?= $index + 1 ?></td>
                             <td><?= htmlspecialchars($cat['name']) ?></td>
                             <td><?= nl2br(htmlspecialchars($cat['description'])) ?></td>
                             <td>
                                 <a href="index.php?act=category-view&id=<?= $cat['id'] ?>" class="btn btn-info btn-sm">Xem</a>
                                 <a href="index.php?act=category-edit&id=<?= $cat['id'] ?>" class="btn btn-warning btn-sm">Sửa</a>
                                 <a href="index.php?act=category-soft-delete&id=<?= $cat['id'] ?>"
-                                    onclick="return confirm('Bạn có chắc muốn xóa?')"
-                                    class="btn btn-danger btn-sm">Xóa</a>
+                                    onclick="return confirm('Bạn có chắc muốn ẩn?')"
+                                    class="btn btn-danger btn-sm">Ẩn</a>
 
                             </td>
                         </tr>
