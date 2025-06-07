@@ -59,20 +59,12 @@ $basePath = dirname(__DIR__, 2);
                         </thead>
                         <tbody>
                             <?php if (!empty($products)): ?>
-                                <?php foreach ($products as $product): ?>
+                                <?php foreach ($products as $index => $product): ?>
                                     <tr>
-                                        <td class="text-center"><?= htmlspecialchars($product['id']) ?></td>
+                                        <td class="text-center"><?= $index + 1 ?></td>
                                         <td><?= htmlspecialchars($product['name']) ?></td>
-                                        <td class="text-center">
-                                            <?php
-                                            $imagePath = 'uploads/' . $product['image_url'];
-                                            $absolutePath = $basePath . '/uploads/' . $product['image_url'];
-                                            $defaultImage = 'uploads/no-image.png';
-                                            ?>
-                                            <img src="<?= (file_exists($absolutePath) && !empty($product['image_url'])) ? $imagePath : $defaultImage ?>"
-                                                 alt="<?= htmlspecialchars($product['name']) ?>"
-                                                 class="img-thumbnail"
-                                                 style="max-width: 80px; height: 80px; object-fit: cover;">
+                                        <td>
+                                            <img src="/DuAn1_Nhom2/<?= $product['image_url'] ?>" alt="Ảnh" class="img-thumbnail" width="60">
                                         </td>
                                         <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="<?= htmlspecialchars($product['description']) ?>">
                                             <?= htmlspecialchars($product['description']) ?>
@@ -91,8 +83,8 @@ $basePath = dirname(__DIR__, 2);
                                                 <a href="index.php?act=view_product&id=<?= urlencode($product['id']) ?>" class="btn btn-info btn-sm" title="Xem">Xem</a>
                                                 <a href="index.php?act=edit_product&id=<?= urlencode($product['id']) ?>" class="btn btn-warning btn-sm" title="Sửa">Sửa</a>
                                                 <a href="index.php?act=product-soft-delete&id=<?= urlencode($product['id']) ?>"
-                                                   onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')"
-                                                   class="btn btn-danger btn-sm" title="Xóa">Xóa</a>
+                                                    onclick="return confirm('Bạn có chắc muốn ẩn sản phẩm này?')"
+                                                    class="btn btn-secondary btn-sm" title="Ẩn">Ẩn</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -103,6 +95,7 @@ $basePath = dirname(__DIR__, 2);
                                 </tr>
                             <?php endif; ?>
                         </tbody>
+
                     </table>
                 </div>
 

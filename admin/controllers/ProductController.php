@@ -158,9 +158,9 @@ public function editProduct()
 
         $id = $_GET['id'];
         if ($this->productModel->softDelete($id)) {
-            $_SESSION['success'] = "Xóa sản phẩm thành công";
+            $_SESSION['success'] = "Ẩn sản phẩm thành công";
         } else {
-            $_SESSION['error'] = "Xóa sản phẩm thất bại";
+            $_SESSION['error'] = "Ẩn sản phẩm thất bại";
         }
 
         header("Location: index.php?act=product-list");
