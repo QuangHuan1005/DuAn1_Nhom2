@@ -48,6 +48,7 @@ class HomeController
 
     if ($user && $passwordInput === $user['password']) {
         $_SESSION['user'] = $user;
+        $_SESSION['user_role'] = $user['role']; 
 
         // ✅ Tạo CartModel và lấy cart_id
         $cartModel = new CartModel();

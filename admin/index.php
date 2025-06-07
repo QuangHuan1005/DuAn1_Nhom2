@@ -29,6 +29,8 @@ require_once "./views/layouts/siderbar.php";
 
 $act = $_GET['act'] ?? '/'; 
 $id = $_GET['id'] ?? null;  
+$order_code = $_GET['order_code'] ?? null;
+
 
 require_once 'views/layouts/layouts_top.php'; 
 
@@ -50,7 +52,7 @@ match ($act) {
     'edit_product'        => (new ProductController())->editProduct(), 
 
     'orderIndex'   => (new OrderController())->index(),
-    'orderView'    => (new OrderController())->view($id),
+    'orderView'    => (new OrderController())->view($order_code),
     'orderDelete'  => (new OrderController())->delete($id),
 'orderUpdateStatus' => (new OrderController())->updateStatus($id),
 'orderEditStatus'   => (new OrderController())->updateStatusForm($id),

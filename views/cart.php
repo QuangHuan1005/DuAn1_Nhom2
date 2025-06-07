@@ -17,7 +17,7 @@
         <h1>Giỏ hàng</h1>
       </div>
       <!-- /page_header -->
-      <form id="cart-form" method="POST" action="index.php?act=cart/update"></form>
+      <form id="cart-form" method="POST" action="index.php?act=cart/update">
       <table class="table table-striped cart-list">
         <thead>
           <tr>
