@@ -107,20 +107,22 @@
               </tr>
               <?php endif; ?>
             </tbody>
-            <tfoot>
-              <tr>
-                <th>Tạm tính</th>
-                <td><?= number_format($total, 0, ',', '.') ?> ₫</td>
-              </tr>
-              <tr>
-                <th>Phí vận chuyển</th>
-                <td>30.000 ₫</td>
-              </tr>
-              <tr>
-                <th>Tổng</th>
-                <td><strong><?= number_format($total + 30000, 0, ',', '.') ?> ₫</strong></td>
-              </tr>
-            </tfoot>
+           <tfoot>
+  <tr>
+    <th class="text-start">Tạm tính</th>
+    <td class="text-center"><?= number_format($total, 0, ',', '.') ?> ₫</td>
+  </tr>
+  <tr>
+    <th class="text-start">Phí vận chuyển</th>
+    <td class="text-center">30.000 ₫</td>
+  </tr>
+  <tr>
+    <th class="text-start">Tổng</th>
+    <td class="text-center"><strong><?= number_format($total + 30000, 0, ',', '.') ?> ₫</strong></td>
+  </tr>
+</tfoot>
+
+
           </table>
         </div>
 

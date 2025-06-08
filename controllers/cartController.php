@@ -171,10 +171,9 @@ public function payment() {
         $this->cartModel->clearCart($user_id);
         $this->updateCartTotal($user_id);
 
-        $_SESSION['order_success'] = "Đặt hàng thành công! Cảm ơn bạn đã mua hàng.";
+       header('Location: index.php?act=order-success');
+exit;
 
-        header("Location: ./?act=payment");
-        exit;
     }
 
     $oldInput = [
