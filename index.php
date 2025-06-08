@@ -35,9 +35,9 @@ match ($act) {
   'category' => (new ProductController())->category($_GET['id']),
   'product-detail' => (new ProductController())->detail($_GET['id']),
   'add_comment' => (new CommentController())->add(),
-  'profile' => (new UserController())->profile(),
+  'profile' => (new UserController())->profile(), 
   'my_orders' => (new OrderController())->myOrders(),
-  'order_detail' => (new OrderController())->orderDetail(),
+  'order_detail' => (new OrderController())->orderDetail($_GET['id']),
   'login' => (new HomeController())->login(),
   'handle-login' => (new HomeController())->handleLogin(),
   'register' => (new HomeController())->register(),
@@ -60,9 +60,9 @@ match ($act) {
 
   'payment' => (new CartController())->payment(),
 
-     'cancelOrder' => (function() {
-        $order_id = $_GET['order_id'] ?? 0;
-        (new OrderController())->cancelOrder($order_id);
+  'cancelOrder' => (function () {
+      $order_id = $_GET['order_id'] ?? 0;
+      (new OrderController())->cancelOrder($order_id);
     })(),
 
   default => header("Location: ./?act=home")

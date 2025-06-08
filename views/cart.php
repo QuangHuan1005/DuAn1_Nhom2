@@ -46,42 +46,67 @@
             $total += $subtotal;
             ?>
             <tr>
-              <td>
-                <div class="thumb_cart">
-                  <img src="<?= htmlspecialchars($item['image_url']) ?>" data-src="" class="lazy" alt="Image">
-                </div>
-                <span class="item_cart"><?= htmlspecialchars($item['name']) ?></span>
-              </td>
-              <td>
-                <strong><?= number_format($item['price']) ?>đ</strong>
-              </td>
-              <td>
-                <div class="numbers-row">
-                  <input type="number" value="<?= $item['quantity'] ?>" min="1" id="quantity_1" class="qty2"
-                    name="quantities[<?= $item['id'] ?>]">
-                  <div class="inc button_inc">+</div>
-                  <div class="dec button_inc">-</div>
-                </div>
-              </td>
-              <td>
-                <strong><?= number_format($subtotal) ?>đ</strong>
-              </td>
-              <td class="options">
-                <a href="index.php?act=cart/remove&id=<?= $item['id'] ?>"
-                  onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');"><i class="ti-trash"></i></a>
-              </td>
+              <th>
+                Sản phẩm
+              </th>
+              <th>
+                Giá
+              </th>
+              <th>
+                Số lượng
+              </th>
+              <th>
+                Thành tiền
+              </th>
+              <th>
+
+              </th>
             </tr>
-          <?php endforeach; ?>
+          </thead>
+          <tbody>
+            <?php
+            $total = 0;
+            foreach ($items as $item):
+              $subtotal = $item['price'] * $item['quantity'];
+              $total += $subtotal;
+              ?>
+              <tr>
+                <td>
+                  <div class="thumb_cart">
+                    <img src="<?= htmlspecialchars($item['image_url']) ?>" data-src="" class="lazy" alt="Image">
+                  </div>
+                  <span class="item_cart"><?= htmlspecialchars($item['name']) ?></span>
+                </td>
+                <td>
+                  <strong><?= number_format($item['price']) ?>đ</strong>
+                </td>
+                <td>
+                  <div class="numbers-row">
+                    <input type="text" value="<?= $item['quantity'] ?>" min="1" id="quantity_1" class="qty2"
+                      name="quantities[<?= $item['id'] ?>]">
+                    <div class="inc button_inc">+</div>
+                    <div class="dec button_inc">-</div>
+                  </div>
+                </td>
+                <td>
+                  <strong><?= number_format($subtotal) ?>đ</strong>
+                </td>
+                <td class="options">
+                  <a href="index.php?act=cart/remove&id=<?= $item['id'] ?>"
+                    onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');"><i class="ti-trash"></i></a>
+                </td>
+              </tr>
+            <?php endforeach; ?>
 
-        </tbody>
-      </table>
+          </tbody>
+        </table>
 
 
-      <div class="row add_top_30 flex-sm-row-reverse cart_actions">
-        <div class="col-sm-4 text-end">
-          <button type="submit" class="btn_1 gray">Cập nhập giỏ hàng</button>
-        </div>
-        <!-- <div class="col-sm-8">
+        <div class="row add_top_30 flex-sm-row-reverse cart_actions">
+          <div class="col-sm-4 text-end">
+            <button type="submit" class="btn_1 gray">Cập nhập giỏ hàng</button>
+          </div>
+          <!-- <div class="col-sm-8">
           <div class="apply-coupon">
             <div class="form-group">
               <div class="row g-2">
@@ -92,7 +117,7 @@
             </div>
           </div>
         </div> -->
-      </div>
+        </div>
       </form>
       <!-- /cart_actions -->
 

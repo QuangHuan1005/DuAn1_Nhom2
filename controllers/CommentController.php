@@ -24,7 +24,7 @@ class CommentController {
                 $model->addComment($user_id, $product_id, $content);
             }
 
-            header("Location: index.php?act=detail&id=" . $product_id);
+            header("Location: index.php?act=product-detail&id=" . $product_id);
         }
     }
 }
