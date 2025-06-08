@@ -2,11 +2,11 @@
 require './views/layouts/layout_top.php'; ?>
 <main>
     <?php if (isset($_SESSION['cart_error'])): ?>
-    <div class="alert alert-danger">
-        <?= htmlspecialchars($_SESSION['cart_error']) ?>
-    </div>
-    <?php unset($_SESSION['cart_error']); ?>
-<?php endif; ?>
+        <div class="alert alert-danger">
+            <?= htmlspecialchars($_SESSION['cart_error']) ?>
+        </div>
+        <?php unset($_SESSION['cart_error']); ?>
+    <?php endif; ?>
 
     <div class="container margin_30">
         <div class="countdown_inner">-20% Ưu đãi này kết thúc sau <div data-countdown="2025/05/25" class="countdown">
@@ -56,9 +56,8 @@ require './views/layouts/layout_top.php'; ?>
                 <?php endif; ?>
                 <div class="prod_info">
                     <h1><?= ($product['name']) ?></h1>
-                    <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
-                            class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4
-                            reviews</em></span>
+                    <span class="rating"><em>Tồn kho:
+                            <?= isset($product['stock_quantity']) ? (int) $product['stock_quantity'] : 'Không có thông tin' ?></em></span>
                     <p><small>SKU: MTKRY-00<?= ($product['id']) ?></small>
                         <!-- <br>Sed ex labitur adolescens scriptorem. Te
                         saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril
@@ -72,23 +71,14 @@ require './views/layouts/layout_top.php'; ?>
                                         style="width: 100px;" required>
                                 </div>
                             </div>
-
-        <div class="row align-items-center">
-           <div class="col-lg-5 col-md-6 mb-2">
-    <div class="price_main">
-        <span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
-        <span class="percentaged"></span>
-        <span class="old_price"><?= number_format($product['price']) ?>₫</span>
-        <button></button>
-    </div>
-   
-    <div class="stock_quantity mt-2">
-        <strong>Số lượng tồn kho: </strong>
-        <?= isset($product['stock_quantity']) ? (int)$product['stock_quantity'] : 'Không có thông tin' ?>
-    </div>
-</div>
-
-
+                            <div class="row align-items-center">
+                                <div class="col-lg-5 col-md-6 mb-2">
+                                    <div class="price_main">
+                                        <span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
+                                        <span class="percentaged"></span>
+                                        <span class="old_price"><?= number_format($product['price']) ?>₫</span>
+                                    </div>
+                                </div>
                                 <div class="col-lg-4 col-md-6 mb-2">
                                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                                     <button type="submit" class="btn_1" title="Thêm vào giỏ hàng">

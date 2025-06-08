@@ -99,7 +99,7 @@
 	<!--/footer-->
 	</div>
 	<!-- page -->
-	
+
 	<div id="toTop"></div><!-- Back to top button -->
 	
 	<!-- COMMON SCRIPTS -->
@@ -111,7 +111,15 @@
 	<!-- SPECIFIC SCRIPTS -->
 	<script src="./assets/allaia/js/sticky_sidebar.min.js"></script>
 	<script src="./assets/allaia/js/specific_listing.js"></script>
-
+    <script>
+    	// Other address Panel
+		$('#other_addr input').on("change", function (){
+	        if(this.checked)
+	            $('#other_addr_c').fadeIn('fast');
+	        else
+	            $('#other_addr_c').fadeOut('fast');
+	    });
+	</script>
 </body>
 
 <!-- Mirrored from www.ansonika.com/allaia/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 15 May 2025 13:05:58 GMT -->

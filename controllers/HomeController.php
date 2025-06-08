@@ -33,42 +33,42 @@ class HomeController
         include "views/login.php";
     }
 
-   public function handleLogin()
-{
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
+    public function handleLogin()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
 
-    }
-
-    $username = $_POST['username'] ?? '';
-    $passwordInput = $_POST['password'] ?? '';
-    $error = null;
-
-    $user = User::findByUsername($username);
-
-    if ($user && $passwordInput === $user['password']) {
-        $_SESSION['user'] = $user;
-
-        // ✅ Tạo CartModel và lấy cart_id
-        $cartModel = new CartModel();
-        $cart_id = $cartModel->getCartIdByUserId($user['id']);
-        if (!$cart_id) {
-            $cart_id = $cartModel->createCartForUser($user['id']);
         }
-        $_SESSION['cart_id'] = $cart_id;
 
-        if ($user['role'] === 'admin') {
-            header('Location: index.php?act=adminDashboard');
-            exit;
+        $username = $_POST['username'] ?? '';
+        $passwordInput = $_POST['password'] ?? '';
+        $error = null;
+
+        $user = User::findByUsername($username);
+
+        if ($user && $passwordInput === $user['password']) {
+            $_SESSION['user'] = $user;
+
+            // ✅ Tạo CartModel và lấy cart_id
+            $cartModel = new CartModel();
+            $cart_id = $cartModel->getCartIdByUserId($user['id']);
+            if (!$cart_id) {
+                $cart_id = $cartModel->createCartForUser($user['id']);
+            }
+            $_SESSION['cart_id'] = $cart_id;
+
+            if ($user['role'] === 'admin') {
+                header('Location: index.php?act=adminDashboard');
+                exit;
+            } else {
+                header('Location: index.php?act=clientHome');
+                exit;
+            }
         } else {
-            header('Location: index.php?act=clientHome');
-            exit;
+            $error = "Sai tên đăng nhập hoặc mật khẩu!";
+            include "views/login.php";
         }
-    } else {
-        $error = "Sai tên đăng nhập hoặc mật khẩu!";
-        include "views/login.php";
     }
-}
 
 
 
