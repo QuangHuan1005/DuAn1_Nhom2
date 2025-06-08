@@ -25,11 +25,11 @@ require './views/layouts/layout_top.php'; ?>
 						<th>
 							Giá
 						</th>
-						<!-- <th>
-							Địa chỉ
-						</th> -->
 						<th>
-							Trạng thái
+							Trạng thái đơn hàng
+						</th>
+						<th>
+							Trạng thái thanh toán
 						</th>
 						<th>
 							Ngày tạo
@@ -48,7 +48,7 @@ require './views/layouts/layout_top.php'; ?>
 										data-src="img/products/shoes/1.jpg" class="lazy" alt="Image">
 								</div> -->
 								<span class="item_product"><!-- <a href="#"> -->
-									#ew33r<?= $order['id'] ?>
+									#<?= $order['order_code'] ?>
 							</td>
 							<td>
 								<strong><?= number_format($order['total_amount']) ?>₫</strong>
@@ -56,21 +56,36 @@ require './views/layouts/layout_top.php'; ?>
 							<!-- <td>
 								<strong><?= $order['shipping_address'] ?></strong>
 							</td> -->
-							<?php if ($order['status_id'] == 2): ?>
+							<?php
+							$status_id = $order['status_id'];
+							$statusMap = [
+								1 => ['label' => 'Chờ xác nhận', 'class' => 'bg-warning'],
+								2 => ['label' => 'Chờ lấy hàng', 'class' => 'bg-primary'],
+								3 => ['label' => 'Đang giao hàng', 'class' => 'bg-info'],
+								4 => ['label' => 'Đã giao hàng', 'class' => 'bg-success'],
+								5 => ['label' => 'Đã hủy', 'class' => 'bg-danger'],
+							];
+
+							if (isset($statusMap[$status_id])): ?>
 								<td>
-									<span class="badge rounded-pill bg-warning">Đang xử lý</span>
-								</td>
-							<?php elseif ($order['status_id'] == 1): ?>
-								<td>
-									<span class="badge rounded-pill bg-primary">Đang giao hàng</span>
+									<span class="badge rounded-pill <?= $statusMap[$status_id]['class'] ?>">
+										<?= $statusMap[$status_id]['label'] ?>
+									</span>
 								</td>
 							<?php endif; ?>
+
+
+							<td>
+								<span class="badge rounded-pill bg-warning"><?= ($order['payment_status']) ?></span>
+							</td>
+
 
 							<td>
 								<strong> <?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></strong>
 							</td>
 							<td>
 								<a href="?act=order_detail&id=<?= $order['id'] ?>">Xem chi tiết</a>
+								
 							</td>
 						</tr>
 					</tbody>

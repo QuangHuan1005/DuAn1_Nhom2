@@ -1,79 +1,171 @@
 <?php require_once './views/layouts/layout_top.php'; ?>
 
-<?php if (!empty($_SESSION['order_success'])): ?>
-  <div class="alert alert-success">
-    <?= htmlspecialchars($_SESSION['order_success']) ?>
-  </div>
-  <?php unset($_SESSION['order_success']); ?>
-<?php endif; ?>
 
-<?php if (!empty($_SESSION['order_error'])): ?>
-  <div class="alert alert-danger">
-    <?= htmlspecialchars($_SESSION['order_error']) ?>
-  </div>
-  <?php unset($_SESSION['order_error']); ?>
-<?php endif; ?>
+<main class="bg_gray">
 
-<div class="container my-5">
-  <h2 class="mb-4">Thông tin thanh toán</h2>
-  
-  <form action="index.php?act=payment" method="POST" id="checkout-form" novalidate>
-    <div class="row">
-      <!-- Cột trái: Thông tin người nhận -->
-      <div class="col-md-6">
-        <div class="mb-3">
-          <label for="fullname" class="form-label">Họ và tên *</label>
-          <input type="text" class="form-control <?= !empty($errors['fullname']) ? 'is-invalid' : '' ?>" id="fullname" name="fullname" placeholder="Nhập họ và tên"
-            value="<?= htmlspecialchars($oldInput['fullname'] ?? '') ?>" required>
-          <div class="invalid-feedback"><?= $errors['fullname'] ?? 'Vui lòng nhập họ và tên.' ?></div>
-        </div>
-
-        <div class="mb-3">
-          <label for="phone" class="form-label">Số điện thoại *</label>
-          <input type="tel" class="form-control <?= !empty($errors['phone']) ? 'is-invalid' : '' ?>" id="phone" name="phone" placeholder="Nhập số điện thoại"
-            pattern="^[0-9]{9,15}$" value="<?= htmlspecialchars($oldInput['phone'] ?? '') ?>" required>
-          <div class="invalid-feedback"><?= $errors['phone'] ?? 'Vui lòng nhập số điện thoại hợp lệ (9-15 chữ số).' ?></div>
-        </div>
-
-        <div class="mb-3">
-          <label for="email" class="form-label">Địa chỉ email *</label>
-          <input type="email" class="form-control <?= !empty($errors['email']) ? 'is-invalid' : '' ?>" id="email" name="email" placeholder="Nhập địa chỉ email"
-            value="<?= htmlspecialchars($oldInput['email'] ?? '') ?>" required>
-          <div class="invalid-feedback"><?= $errors['email'] ?? 'Vui lòng nhập địa chỉ email hợp lệ.' ?></div>
-        </div>
-
-        <div class="mb-3">
-          <label for="province" class="form-label">Tỉnh/Thành phố *</label>
-          <select class="form-select <?= !empty($errors['province']) ? 'is-invalid' : '' ?>" id="province" name="province" required>
-            <option value="">Chọn Tỉnh/Thành phố</option>
-            <option value="Hà Nội" <?= (isset($oldInput['province']) && $oldInput['province'] === 'Hà Nội') ? 'selected' : '' ?>>Hà Nội</option>
-            <option value="Hồ Chí Minh" <?= (isset($oldInput['province']) && $oldInput['province'] === 'Hồ Chí Minh') ? 'selected' : '' ?>>Hồ Chí Minh</option>
-            <option value="Đà Nẵng" <?= (isset($oldInput['province']) && $oldInput['province'] === 'Đà Nẵng') ? 'selected' : '' ?>>Đà Nẵng</option>
-          </select>
-          <div class="invalid-feedback"><?= $errors['province'] ?? 'Vui lòng chọn Tỉnh/Thành phố.' ?></div>
-        </div>
-
-        <div class="mb-3">
-          <label for="district" class="form-label">Quận/Huyện *</label>
-          <select class="form-select <?= !empty($errors['district']) ? 'is-invalid' : '' ?>" id="district" name="district" required>
-            <option value="">Chọn Quận/Huyện</option>
-            <!-- Các option sẽ được điền bởi JS -->
-          </select>
-          <div class="invalid-feedback"><?= $errors['district'] ?? 'Vui lòng chọn Quận/Huyện.' ?></div>
-        </div>
-
-        <div class="mb-3">
-          <label for="address" class="form-label">Địa chỉ *</label>
-          <input type="text" class="form-control <?= !empty($errors['address']) ? 'is-invalid' : '' ?>" id="address" name="address" placeholder="Số nhà, tên đường..."
-            value="<?= htmlspecialchars($oldInput['address'] ?? '') ?>" required>
-          <div class="invalid-feedback"><?= $errors['address'] ?? 'Vui lòng nhập địa chỉ.' ?></div>
-        </div>
-
-        <div class="mb-3">
-          <label for="note" class="form-label">Ghi chú đơn hàng</label>
-          <textarea class="form-control" id="note" name="note" rows="3" placeholder="Ghi chú thêm nếu có..."><?= htmlspecialchars($oldInput['note'] ?? '') ?></textarea>
-        </div>
+  <div class="container margin_30">
+    <div class="page_header">
+      <div class="breadcrumbs">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Category</a></li>
+          <li>Page active</li>
+        </ul>
       </div>
+      <h1>Thanh toán</h1>
+
+    </div>
+    <!-- /page_header -->
+    <form action="index.php?act=payment" method="POST" id="checkout-form" novalidate>
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="step first">
+            <h3>1. Thông tin người dùng và địa chỉ thanh toán</h3>
+            <!-- <ul class="nav nav-tabs" id="tab_checkout" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#tab_1" role="tab"
+                aria-controls="tab_1" aria-selected="true">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab_2" role="tab" aria-controls="tab_2"
+                aria-selected="false">Login</a>
+            </li>
+          </ul> -->
+            <div class="tab-content checkout">
+              <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
+                <!-- <div class="form-group">
+                <input type="email" class="form-control" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password">
+              </div> -->
+                <hr>
+                <div class="row no-gutters">
+                  <div class="col-6 form-group pr-1">
+                    <input type="text" name="fullname"
+                      class="form-control <?= !empty($errors['fullname']) ? 'is-invalid' : '' ?>" class="form-control"
+                      placeholder="Họ và tên " value="<?= htmlspecialchars($oldInput['fullname'] ?? '') ?>" required>
+                    <div class="invalid-feedback"><?= $errors['fullname'] ?? 'Vui lòng nhập họ và tên.' ?></div>
+                  </div>
+                  <div class="col-6 form-group pl-1">
+                    <input type="tel" name="phone" class="form-control" placeholder="Số điện thoại"
+                      pattern="^[0-9]{9,15}$" value="<?= htmlspecialchars($oldInput['phone'] ?? '') ?>" required>
+                    <div class="invalid-feedback">
+                      <?= $errors['phone'] ?? 'Vui lòng nhập số điện thoại hợp lệ (9-15 chữ số).' ?>
+                    </div>
+                  </div>
+                </div>
+                <!-- /row -->
+
+                <div class="form-group">
+                  <input type="email" class="form-control <?= !empty($errors['email']) ? 'is-invalid' : '' ?>"
+                    id="email" name="email" placeholder="Nhập địa chỉ email"
+                    value="<?= htmlspecialchars($oldInput['email'] ?? '') ?>" required>
+                  <div class="invalid-feedback"><?= $errors['email'] ?? 'Vui lòng nhập địa chỉ email hợp lệ.' ?></div>
+                </div>
+
+                <!-- <div class="row no-gutters">
+                <div class="col-6 form-group pr-1">
+                  <input type="text" class="form-control" placeholder="City">
+                </div>
+                <div class="col-6 form-group pl-1">
+                  <input type="text" class="form-control" placeholder="Postal code">
+                </div>
+              </div> -->
+                <!-- /row -->
+                <div class="row no-gutters">
+                  <div class="col-md-12 form-group">
+                    <div class="custom-select-form">
+                      <select class="wide add_bottom_15" <?= !empty($errors['province']) ? 'is-invalid' : '' ?>
+                        id="province" name="province" required>
+                        <option value="">Chọn Tỉnh/Thành phố</option>
+                        <option value="Hà Nội" <?= (isset($oldInput['province']) && $oldInput['province'] === 'Hà Nội') ? 'selected' : '' ?>>Hà Nội</option>
+                        <option value="Hồ Chí Minh" <?= (isset($oldInput['province']) && $oldInput['province'] === 'Hồ Chí Minh') ? 'selected' : '' ?>>Hồ Chí Minh</option>
+                        <option value="Đà Nẵng" <?= (isset($oldInput['province']) && $oldInput['province'] === 'Đà Nẵng') ? 'selected' : '' ?>>Đà Nẵng</option>
+                      </select>
+                      <div class="invalid-feedback"><?= $errors['province'] ?? 'Vui lòng chọn Tỉnh/Thành phố.' ?></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row no-gutters">
+                  <div class="col-md-12 form-group">
+                    <div class="custom-select-form" for="district">
+                      <select class="wide add_bottom_15" <?= !empty($errors['district']) ? 'is-invalid' : '' ?>"
+                        id="district" name="district" required>
+                        <option value="">Chọn Quận/Huyện</option>
+                        <!-- Các option sẽ được điền bởi JS -->
+                      </select>
+                      <div class="invalid-feedback"><?= $errors['district'] ?? 'Vui lòng chọn Quận/Huyện.' ?></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control <?= !empty($errors['address']) ? 'is-invalid' : '' ?>"
+                    id="address" name="address" placeholder="Số nhà, tên đường..."
+                    value="<?= htmlspecialchars($oldInput['address'] ?? '') ?>" required>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /step -->
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="step middle payments">
+            <h3>2. Thanh toán và Vận chuyển</h3>
+            <ul>
+              <!-- <li>
+              <label class="container_radio">Credit Card<a href="#0" class="info" data-bs-toggle="modal"
+                  data-bs-target="#payments_method"></a>
+                <input type="radio" name="payment" checked>
+                <span class="checkmark"></span>
+              </label>
+            </li>
+            <li>
+              <label class="container_radio">Paypal<a href="#0" class="info" data-bs-toggle="modal"
+                  data-bs-target="#payments_method"></a>
+                <input type="radio" name="payment">
+                <span class="checkmark"></span>
+              </label>
+            </li> -->
+              <li>
+                <label class="container_radio">Thanh toán khi nhận hàng (COD)<a href="#0" class="info"
+                    data-bs-toggle="modal" data-bs-target="#payments_method"></a>
+                  <input type="radio" name="payment_method" id="cod" value="cod" <?= (empty($oldInput['payment_method']) || $oldInput['payment_method'] === 'cod') ? 'checked' : '' ?>>
+                  <span class="checkmark"></span>
+                </label>
+              </li>
+              <!-- <li>
+              <label class="container_radio">Bank Transfer<a href="#0" class="info" data-bs-toggle="modal"
+                  data-bs-target="#payments_method"></a>
+                <input type="radio" name="payment">
+                <span class="checkmark"></span>
+              </label>
+            </li> -->
+            </ul>
+            <!-- <div class="payment_info d-none d-sm-block">
+            <figure><img src="img/cards_all.svg" alt=""></figure>
+            <p>Sensibus reformidans interpretaris sit ne, nec errem nostrum et, te nec meliore philosophia. At vix
+              quidam periculis. Solet tritani ad pri, no iisque definitiones sea.</p>
+          </div> -->
+
+            <h6 class="pb-2">Phương thức vận chuyển</h6>
+
+
+            <ul>
+              <li>
+                <label class="container_radio">Standard shipping<a href="#0" class="info" data-bs-toggle="modal"
+                    data-bs-target="#payments_method"></a>
+                  <input type="radio" name="shipping" checked>
+                  <span class="checkmark"></span>
+                </label>
+              </li>
+              <li>
+                <label class="container_radio">Express shipping<a href="#0" class="info" data-bs-toggle="modal"
+                    data-bs-target="#payments_method"></a>
+                  <input type="radio" name="shipping">
+                  <span class="checkmark"></span>
+                </label>
+              </li>
 
       <!-- Cột phải: Thông tin đơn hàng + thanh toán -->
       <div class="col-md-6">
@@ -125,28 +217,86 @@
 
           </table>
         </div>
+            </ul>
 
-        <h5>Phương thức thanh toán</h5>
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="radio" name="payment_method" id="cod" value="cod" 
-            <?= (empty($oldInput['payment_method']) || $oldInput['payment_method'] === 'cod') ? 'checked' : '' ?>>
-          <label class="form-check-label" for="cod">
-            Thanh toán khi nhận hàng (COD)
-          </label>
+          </div>
+          <!-- /step -->
+
         </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="step last">
+            <h3>3. Tóm tắt đơn hàng</h3>
+            <div class="box_general summary">
+              <tbody>
 
-        <button type="submit" class="btn btn-danger w-100">Đặt hàng</button>
+                <ul>
+                  <?php
+                  $total = 0;
+                  if (!empty($items) && is_array($items)):
+                    foreach ($items as $item):
+                      $subtotal = $item['price'] * $item['quantity'];
+                      $total += $subtotal;
+                      ?>
+                      <li class="clearfix">
+                        <em><?= intval($item['quantity']) ?>x - <?= htmlspecialchars($item['name']) ?></em>
+                        <span><?= number_format($item['price'] * $item['quantity'], 0, ',', '.') ?> ₫</span>
+                      </li>
+                      <?php
+                    endforeach;
+                  else:
+                    ?>
+                    <tr>
+                      <td colspan="2">Giỏ hàng trống.</td>
+                    </tr>
+                  </ul>
+                <?php endif; ?>
+                <ul>
+                  <li class="clearfix"><em><strong>Tạm tính</strong></em>
+                    <span><?= number_format($total, 0, ',', '.') ?> ₫</span>
+                  </li>
+                  <li class="clearfix"><em><strong>Phí vận chuyển</strong></em> <span>30.000 ₫</span></li>
 
-        <p class="mt-3 small text-muted">
-          Thông tin cá nhân của bạn sẽ được sử dụng để xử lý đơn hàng, cải thiện trải nghiệm, và cho các mục đích đã nêu trong chính sách bảo mật.
-        </p>
+                </ul>
+                <div class="total clearfix">Tổng <span><?= number_format($total + 30000, 0, ',', '.') ?> ₫</span></div>
+                <div class="form-group">
+                  <!-- <label class="container_check">Register to the Newsletter.
+                <input type="checkbox" checked>
+                <span class="checkmark"></span> -->
+                  </label>
+                </div>
+
+                <!-- <a href="confirm.html" class="btn_1 full-width">Confirm and Pay</a> -->
+                <button type="submit" class="btn btn-danger w-100">Đặt hàng</button>
+
+            </div>
+            <!-- /box_general -->
+          </div>
+          <!-- /step -->
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</main>
+<?php if (!empty($_SESSION['order_success'])): ?>
+  <div class="alert alert-success">
+    <?= htmlspecialchars($_SESSION['order_success']) ?>
+  </div>
+  <?php unset($_SESSION['order_success']); ?>
+<?php endif; ?>
+
+<?php if (!empty($_SESSION['order_error'])): ?>
+  <div class="alert alert-danger">
+    <?= htmlspecialchars($_SESSION['order_error']) ?>
+  </div>
+  <?php unset($_SESSION['order_error']); ?>
+<?php endif; ?>
+
+<?php require_once './views/layouts/layout_bottom.php'; ?>
 
 <script>
-  (function(){
+  (function () {
     const districtsByProvince = {
       "Hà Nội": ["Quận Ba Đình", "Quận Hoàn Kiếm", "Quận Đống Đa"],
       "Hồ Chí Minh": ["Quận 1", "Quận 3", "Quận 5"],
@@ -158,9 +308,9 @@
 
     // Hàm cập nhật dropdown Quận/Huyện theo Tỉnh/Thành phố
     function updateDistricts() {
-      const selectedProvince = provinceSelect.value;
+      const selectedProvince = districtSelect.value = oldDistrict;
       const districts = districtsByProvince[selectedProvince] || [];
-      
+
       districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
       districts.forEach(d => {
         const opt = document.createElement('option');
@@ -171,7 +321,7 @@
 
       // Giữ lại giá trị cũ nếu có
       const oldDistrict = <?= json_encode($oldInput['district'] ?? '') ?>;
-      if(oldDistrict) {
+      if (oldDistrict) {
         districtSelect.value = oldDistrict;
       }
     }
@@ -182,8 +332,8 @@
     updateDistricts();
 
     const form = document.getElementById('checkout-form');
-    
-    form.addEventListener('submit', function(event) {
+
+    form.addEventListener('submit', function (event) {
       // Reset lại trạng thái validation
       [...form.elements].forEach(el => {
         el.classList.remove('is-invalid');

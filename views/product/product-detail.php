@@ -33,13 +33,13 @@
                 </div>
 
                 <div class="prod_info">
-                    <h1><?= $product['name'] ?></h1>
-                    <span class="rating">
-                        <i class="icon-star voted"></i><i class="icon-star voted"></i>
-                        <i class="icon-star voted"></i><i class="icon-star voted"></i>
-                        <i class="icon-star"></i><em>4 reviews</em>
-                    </span>
-                    <p><small>SKU: MTKRY-00<?= $product['id'] ?></small></p>
+                    <h1><?= ($product['name']) ?></h1>
+                    <span class="rating"><em>Tồn kho:
+                            <?= isset($product['stock_quantity']) ? (int) $product['stock_quantity'] : 'Không có thông tin' ?></em></span>
+                    <p><small>SKU: MTKRY-00<?= ($product['id']) ?></small>
+                        <!-- <br>Sed ex labitur adolescens scriptorem. Te
+                        saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril
+                        oportere, amet wisi aperiri te cum.</p> -->
 
                     <div class="prod_options">
                         <form action="./?act=cart/add" method="post">
@@ -49,33 +49,44 @@
                                     <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 100px;" required>
                                 </div>
                             </div>
-
-                            <!-- Giá và giảm giá -->
                             <div class="row align-items-center">
                                 <div class="col-lg-5 col-md-6 mb-2">
                                     <div class="price_main">
-                                        <span class="new_price"><?= number_format($product['discount_price'] ?? 0, 0, ',', '.') ?>₫</span>
-
-                                        <?php
-                                        $original = $product['price'] ?? 0;
-                                        $discount = $product['discount_price'] ?? 0;
-                                        $percent = 0;
-                                        if ($original > 0 && $discount < $original) {
-                                            $percent = round((($original - $discount) / $original) * 100);
-                                        }
-                                        ?>
-                                        <?php if ($percent > 0): ?>
-                                            <span class="percentaged text-danger">-<?= $percent ?>%</span>
-                                        <?php endif; ?>
-
-                                        <span class="old_price"><?= number_format($product['price'] ?? 0, 0, ',', '.') ?>₫</span>
-                                    </div>
-                                    <div class="stock_quantity mt-2">
-                                        <strong>Số lượng tồn kho: </strong>
-                                        <?= isset($product['stock_quantity']) ? (int)$product['stock_quantity'] : 'Không có thông tin' ?>
+                                        <span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
+                                        <span class="percentaged"></span>
+                                        <span class="old_price"><?= number_format($product['price']) ?>₫</span>
                                     </div>
                                 </div>
 
+
+        <div class="row align-items-center">
+           <div class="col-lg-5 col-md-6 mb-2">
+    <div class="price_main">
+        <span class="new_price"><?= number_format($product['discount_price'] ?? 0, 0, ',', '.') ?>₫</span>
+
+<?php
+    $original = $product['price'] ?? 0;
+    $discount = $product['discount_price'] ?? 0;
+    $percent = 0;
+
+    if ($original > 0 && $discount < $original) {
+        $percent = round((($original - $discount) / $original) * 100);
+    }
+?>
+
+<?php if ($percent > 0): ?>
+    <span class="percentaged text-danger">-<?= $percent ?>%</span>
+<?php endif; ?>
+
+<span class="old_price"><?= number_format($product['price'] ?? 0, 0, ',', '.') ?>₫</span>
+
+    </div>
+   
+    <div class="stock_quantity mt-2">
+        <strong>Số lượng tồn kho: </strong>
+        <?= isset($product['stock_quantity']) ? (int)$product['stock_quantity'] : 'Không có thông tin' ?>
+    </div>
+</div>
                                 <div class="col-lg-4 col-md-6 mb-2">
                                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                                     <button type="submit" class="btn_1" title="Thêm vào giỏ hàng">

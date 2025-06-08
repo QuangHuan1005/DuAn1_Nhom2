@@ -3,11 +3,11 @@ class OrderModel
 {
     private $conn;
 
-  public function __construct()
+    public function __construct()
     {
         $this->conn = connectDB();
     }
-    
+
     public function getOrdersUser($user_id)
     {
         $sql = "SELECT * FROM orders WHERE user_id = :user_id ORDER BY created_at DESC";
@@ -16,19 +16,28 @@ class OrderModel
         return $stmt->fetchAll();
     }
 
+    public function getOrderById($id)
+    {
+        $sql = "SELECT o.*, u.username as user_name, u.email as user_email, u.phone as user_phone 
+            FROM orders o 
+            JOIN users u ON o.user_id = u.id 
+            WHERE o.id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getOrderItems($order_id)
     {
-        $sql = "SELECT 
-                    oi.*, 
-                    p.name AS product_name, 
-                    p.image_url 
-                FROM order_items oi
-                JOIN products p ON oi.product_id = p.id
-                WHERE oi.order_id = :order_id";
+        $sql = "SELECT oi.*, p.name AS product_name, p.image_url
+            FROM order_items oi
+            JOIN products p ON oi.product_id = p.id
+            WHERE oi.order_id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([':order_id' => $order_id]);
-        return $stmt->fetchAll();
+        $stmt->execute([$order_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function createOrder($user_id, $receiver_name, $receiver_phone, $receiver_email, $total_amount, $shipping_address = 'Chưa cung cấp')
     {
@@ -70,7 +79,7 @@ class OrderModel
             ':order_code' => $order_code,
             ':user_id' => $user_id,
             ':status_id' => 1,
-            ':payment_method_id' => 1, 
+            ':payment_method_id' => 1,
             ':total_amount' => $total_amount,
             ':shipping_address' => $shipping_address,
             ':receiver_name' => $receiver_name,

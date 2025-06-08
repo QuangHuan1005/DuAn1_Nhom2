@@ -7,10 +7,12 @@ require_once "models/OrderModel.php";
 
 class OrderController
 {
+    private $productModel;
     private $orderModel;
 
     public function __construct()
     {
+        $this->productModel = new ProductModel();
         $this->orderModel = new OrderModel();
     }
 
@@ -34,17 +36,35 @@ class OrderController
         require 'views/order/my_orders.php';
     }
 
-    public function orderDetail()
+    // public function orderDetail()
+    // {
+    //     if (!isset($_SESSION['user'])) {
+    //         header("Location: ?act=login");
+    //         exit;
+    //     }
+    //     $user_id = $_SESSION['user']['id'];
+    //     $order_id = $_GET['order_id'] ?? 0;
+    //     $orders = $this->orderModel->getOrdersUser($user_id);
+    //     $orderModel = new OrderModel();
+    //     $orderDetails = $orderModel->getOrderItems($user_id, $order_id);
+    //     require 'views/order/order_detail.php';
+    // }
+    public function orderDetail($id)
     {
         if (!isset($_SESSION['user'])) {
-            header("Location: ?act=login");
+            header('Location: index.php?act=login');
             exit;
         }
-        $user_id = $_SESSION['user']['id'];
-        $orders = $this->orderModel->getOrdersUser($user_id);
-        $orderModel = new OrderModel();
-        $products = $orderModel->getOrderItems($user_id);
-        require 'views/order/order_detail.php';
+
+        $order = $this->orderModel->getOrderById($id);
+        $productDetails = $this->productModel->getProductDetail($id);
+        // Chỉ cho phép xem đơn của chính mình
+        if ($order['user_id'] != $_SESSION['user']['id']) {
+            die('Bạn không có quyền xem đơn hàng này.');
+        } else {
+            $orderDetails = $this->orderModel->getOrderItems($id);
+            require './views/order/order_detail.php';
+        }
     }
 
 }
