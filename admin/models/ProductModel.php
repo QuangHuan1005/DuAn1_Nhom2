@@ -33,7 +33,7 @@ class ProductModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-   
+
 
 
     public function create($data)
@@ -97,5 +97,37 @@ class ProductModel
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Top 5 sản phẩm bán chạy
+    public function getTopSellingProducts()
+    {
+        $sql = "
+            SELECT p.*, SUM(oi.quantity) AS total_sold
+            FROM products p
+            JOIN order_items oi ON p.id = oi.product_id
+            JOIN orders o ON oi.order_id = o.id
+            WHERE oi.deleted_at IS NULL
+            GROUP BY p.id
+            ORDER BY total_sold DESC
+            LIMIT 5
+        ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    // Top 5 sản phẩm tồn kho cao nhất
+    public function getTopStockProducts()
+    {
+        $sql = "
+            SELECT * FROM products
+            WHERE status = 1
+            ORDER BY stock_quantity DESC
+            LIMIT 5
+        ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

@@ -71,7 +71,7 @@ $basePath = dirname(__DIR__, 2);
                                             ?>
                                         </td>
                                        <td>
-                        <a href="index.php?act=orderView&id=<?= $order['id'] ?>" class="btn btn-sm btn-info">👁️ Xem</a>
+                       <a href="index.php?act=orderView&order_code=<?= urlencode($order['order_code']) ?>" class="btn btn-sm btn-info">👁️ Xem</a>
                         <?php if ($order['status_id'] != 4 && $order['status_id'] != 5): ?>
                         <a href="index.php?act=orderEditStatus&id=<?= $order['id'] ?>" class="btn btn-sm btn-warning">✏️ Cập nhật</a>
                          <?php endif; ?>

@@ -18,8 +18,33 @@
       </div>
       <!-- /page_header -->
       <form id="cart-form" method="POST" action="index.php?act=cart/update">
-        <table class="table table-striped cart-list">
-          <thead>
+      <table class="table table-striped cart-list">
+        <thead>
+          <tr>
+            <th>
+              Sản phẩm
+            </th>
+            <th>
+              Giá
+            </th>
+            <th>
+              Số lượng
+            </th>
+            <th>
+              Thành tiền
+            </th>
+            <th>
+
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $total = 0;
+          foreach ($items as $item):
+            $subtotal = $item['price'] * $item['quantity'];
+            $total += $subtotal;
+            ?>
             <tr>
               <th>
                 Sản phẩm

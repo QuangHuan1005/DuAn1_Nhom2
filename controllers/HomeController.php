@@ -45,6 +45,9 @@ class HomeController
         $error = null;
 
         $user = User::findByUsername($username);
+    if ($user && $passwordInput === $user['password']) {
+        $_SESSION['user'] = $user;
+        $_SESSION['user_role'] = $user['role']; 
 
         if ($user && $passwordInput === $user['password']) {
             $_SESSION['user'] = $user;

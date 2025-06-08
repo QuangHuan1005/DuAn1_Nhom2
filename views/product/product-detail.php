@@ -79,6 +79,36 @@ require './views/layouts/layout_top.php'; ?>
                                         <span class="old_price"><?= number_format($product['price']) ?>₫</span>
                                     </div>
                                 </div>
+
+        <div class="row align-items-center">
+           <div class="col-lg-5 col-md-6 mb-2">
+    <div class="price_main">
+        <span class="new_price"><?= number_format($product['discount_price'] ?? 0, 0, ',', '.') ?>₫</span>
+
+<?php
+    $original = $product['price'] ?? 0;
+    $discount = $product['discount_price'] ?? 0;
+    $percent = 0;
+
+    if ($original > 0 && $discount < $original) {
+        $percent = round((($original - $discount) / $original) * 100);
+    }
+?>
+
+<?php if ($percent > 0): ?>
+    <span class="percentaged text-danger">-<?= $percent ?>%</span>
+<?php endif; ?>
+
+<span class="old_price"><?= number_format($product['price'] ?? 0, 0, ',', '.') ?>₫</span>
+
+        <button></button>
+    </div>
+   
+    <div class="stock_quantity mt-2">
+        <strong>Số lượng tồn kho: </strong>
+        <?= isset($product['stock_quantity']) ? (int)$product['stock_quantity'] : 'Không có thông tin' ?>
+    </div>
+</div>
                                 <div class="col-lg-4 col-md-6 mb-2">
                                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                                     <button type="submit" class="btn_1" title="Thêm vào giỏ hàng">
