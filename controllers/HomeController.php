@@ -5,8 +5,6 @@ require_once "models/ProductModel.php";
 require_once "models/CategoryModel.php";
 require_once "models/CartModel.php";
 
-
-
 class HomeController
 {
     private $productModel;
@@ -37,7 +35,6 @@ class HomeController
     {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
-
         }
 
         $username = $_POST['username'] ?? '';
@@ -45,14 +42,13 @@ class HomeController
         $error = null;
 
         $user = User::findByUsername($username);
-    if ($user && $passwordInput === $user['password']) {
-        $_SESSION['user'] = $user;
-        $_SESSION['user_role'] = $user['role']; 
 
         if ($user && $passwordInput === $user['password']) {
+            // Lưu thông tin user vào session
             $_SESSION['user'] = $user;
+            $_SESSION['user_role'] = $user['role'];
 
-            // ✅ Tạo CartModel và lấy cart_id
+            // Tạo CartModel và lấy cart_id của user
             $cartModel = new CartModel();
             $cart_id = $cartModel->getCartIdByUserId($user['id']);
             if (!$cart_id) {
@@ -60,6 +56,7 @@ class HomeController
             }
             $_SESSION['cart_id'] = $cart_id;
 
+            // Phân quyền redirect
             if ($user['role'] === 'admin') {
                 header('Location: index.php?act=adminDashboard');
                 exit;
@@ -68,12 +65,11 @@ class HomeController
                 exit;
             }
         } else {
+            // Sai username hoặc password
             $error = "Sai tên đăng nhập hoặc mật khẩu!";
             include "views/login.php";
         }
     }
-
-
 
     public function register()
     {
@@ -116,7 +112,8 @@ class HomeController
             }
         }
 
-        $hashedPassword = $password;
+        // Ở đây bạn nên hash password trước khi lưu, ví dụ dùng password_hash()
+        $hashedPassword = $password; // Bạn nên thay bằng: password_hash($password, PASSWORD_DEFAULT);
 
         $data = [
             'username' => $username,
