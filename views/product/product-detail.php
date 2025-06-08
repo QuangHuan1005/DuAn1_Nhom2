@@ -76,9 +76,24 @@ require './views/layouts/layout_top.php'; ?>
         <div class="row align-items-center">
            <div class="col-lg-5 col-md-6 mb-2">
     <div class="price_main">
-        <span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
-        <span class="percentaged"></span>
-        <span class="old_price"><?= number_format($product['price']) ?>₫</span>
+        <span class="new_price"><?= number_format($product['discount_price'] ?? 0, 0, ',', '.') ?>₫</span>
+
+<?php
+    $original = $product['price'] ?? 0;
+    $discount = $product['discount_price'] ?? 0;
+    $percent = 0;
+
+    if ($original > 0 && $discount < $original) {
+        $percent = round((($original - $discount) / $original) * 100);
+    }
+?>
+
+<?php if ($percent > 0): ?>
+    <span class="percentaged text-danger">-<?= $percent ?>%</span>
+<?php endif; ?>
+
+<span class="old_price"><?= number_format($product['price'] ?? 0, 0, ',', '.') ?>₫</span>
+
         <button></button>
     </div>
    

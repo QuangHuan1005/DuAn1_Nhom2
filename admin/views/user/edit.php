@@ -1,32 +1,5 @@
-<h2>Sửa người dùng</h2>
-<form method="POST" enctype="multipart/form-data" action="index.php?act=userUpdate&id=<?= $user['id'] ?>">
-  
-  <input type="hidden" name="old_avatar" value="<?= $user['avatar'] ?>">
-  
-  <div class="mb-3">
-    <label>Tên người dùng</label>
-    <input type="text" name="username" class="form-control" value="<?= $user['username'] ?>" required>
-  </div>
-
-  <div class="mb-3">
-    <label>Email</label>
-    <input type="email" name="email" class="form-control" value="<?= $user['email'] ?>" required>
-  </div>
-
-  <div class="mb-3">
-    <label>Số điện thoại</label>
-    <input type="text" name="phone" class="form-control" value="<?= $user['phone'] ?>" required>
-  </div>
-
-  <div class="mb-3">
-    <label>Ảnh đại diện hiện tại</label><br>
-    <?php if (!empty($user['avatar'])): ?>
-      <img src="uploads/<?= $user['avatar'] ?>" width="80">
-    <?php else: ?>
-      <span class="text-muted">Chưa có ảnh</span>
-    <?php endif; ?>
-    <input type="file" name="avatar" class="form-control mt-2">
-  </div>
+<h2>Sửa quyền & trạng thái người dùng</h2>
+<form method="POST" action="index.php?act=userUpdate&id=<?= $user['id'] ?>">
 
   <div class="mb-3">
     <label>Quyền</label>
