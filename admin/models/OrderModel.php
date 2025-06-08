@@ -193,6 +193,8 @@ class OrderModel {
         return $stmt->fetch(PDO::FETCH_ASSOC)['revenue'] ?? 0;
     }
 
+
+
     // Top 5 khách hàng mua nhiều nhất theo tổng tiền hoặc số đơn
     public function getTopCustomers($startDate = null, $endDate = null)
     {
@@ -239,4 +241,5 @@ class OrderModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 }
