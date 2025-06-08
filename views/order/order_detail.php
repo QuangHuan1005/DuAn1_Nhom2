@@ -66,31 +66,47 @@ require './views/layouts/layout_top.php'; ?>
             <div class="col-lg-4 col-md-6">
                 <div class="step last">
                     <h3>Địa chỉ nhận hàng</h3>
+                    <div class="box_general summary">
+                        <ul>
+                            <li class="clearfix"><em>Họ tên:</em> <span></span></li>
+                            <li class="clearfix"><em>Số điện thoại:</em> <span><?= $order['receiver_phone'] ?></span>
+                            </li>
+                            <li class="clearfix"><em>Email:</em> <span><?= $order['receiver_email'] ?></span></li>
+                        </ul>
+                        <ul>
+                            <li class="clearfix"><em><strong>Địa chỉ:</strong></em>
+                                <span><?= $order['shipping_address'] ?></span>
+                            </li>
+                            <?php
+							$status_id = $order['status_id'];
+							$statusMap = [
+								1 => ['label' => 'Chờ xác nhận', 'class' => 'bg-warning'],
+								2 => ['label' => 'Chờ lấy hàng', 'class' => 'bg-primary'],
+								3 => ['label' => 'Đang giao hàng', 'class' => 'bg-info'],
+								4 => ['label' => 'Đã giao hàng', 'class' => 'bg-success'],
+								5 => ['label' => 'Đã hủy', 'class' => 'bg-danger'],
+							];
 
+							if (isset($statusMap[$status_id])): ?>
+                            
+                            <li class="clearfix"><em><strong>Trạng thái đơn hàng:</strong></em>
+                                <span><?= $statusMap[$status_id]['label'] ?></span>
+                            </li>
 
-                        <div class="box_general summary">
-                            <ul>
-                                <li class="clearfix"><em>Họ tên:</em> <span><?= $order['receiver_name'] ?></span></li>
-                                <li class="clearfix"><em>Số điện thoại</em> <span><?= $order['receiver_phone'] ?></span>
-                                </li>
-                                <li class="clearfix"><em>Email:</em> <span><?= $order['receiver_email'] ?></span></li>
-                            </ul>
-                            <ul>
-                                <li class="clearfix"><em><strong>Địa chỉ:</strong></em>
-                                    <span><?= $order['shipping_address'] ?></span>
-                                </li>
-                                <li class="clearfix"><em><strong>Trạng thái đơn hàng:</strong></em>
-                                    <span><?= $order['payment_status'] ?></span>
-                                </li>
+							<?php endif; ?>
 
-                            </ul>
-                            <div class="total clearfix">Phương thức thanh toán
-                                <span>COD</span>
-                                <!-- <span><?= $order['payment_method_id'] ?></span> -->
-                            </div>
+                            <li class="clearfix"><em><strong>Trạng thái thanh toán:</strong></em>
+                                <span><?= $order['payment_status'] ?></span>
+                            </li>
 
-                            <!-- <a href="confirm.html" class="btn_1 full-width">Confirm and Pay</a> -->
+                        </ul>
+                        <div class="total clearfix">Phương thức thanh toán
+                            <span>COD</span>
+                            <!-- <span><?= $order['payment_method_id'] ?></span> -->
                         </div>
+
+                        <!-- <a href="confirm.html" class="btn_1 full-width">Confirm and Pay</a> -->
+                    </div>
                     <!-- /box_general -->
                 </div>
                 <!-- /step -->
