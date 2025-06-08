@@ -65,5 +65,7 @@ match ($act) {
       (new OrderController())->cancelOrder($order_id);
     })(),
 
+      'order-success' => require_once './views/order_success.php',
+
   default => header("Location: ./?act=home")
 };
