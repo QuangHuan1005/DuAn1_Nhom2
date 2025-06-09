@@ -48,7 +48,7 @@ class HomeController
             $_SESSION['user'] = $user;
             $_SESSION['user_role'] = $user['role'];
 
-            // Tạo CartModel và lấy cart_id của user
+         //   Tạo CartModel và lấy cart_id của user
             $cartModel = new CartModel();
             $cart_id = $cartModel->getCartIdByUserId($user['id']);
             if (!$cart_id) {
@@ -58,7 +58,7 @@ class HomeController
 
             // Phân quyền redirect
             if ($user['role'] === 'admin') {
-                header('Location: index.php?act=adminDashboard');
+                header('Location: admin/index.php?act=adminDashboard');
                 exit;
             } else {
                 header('Location: index.php?act=clientHome');

@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once './commons/env.php';
 require_once './commons/function.php';
@@ -42,7 +43,14 @@ match ($act) {
   'handle-login' => (new HomeController())->handleLogin(),
   'register' => (new HomeController())->register(),
   'handle-register' => (new HomeController())->handleregister(),
-  'adminDashboard' => (new DashboardController())->index(),
+  //  'adminDashboard' => fn() => (function () {
+  //     if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
+  //         header("Location: ./?act=login");
+  //         exit;
+  //     }
+  //     header("Location: ./admin/index.php");
+  //     exit;
+  // })(),
   'clientHome' => (new HomeController())->clientHome(),
   'logout' => (new HomeController())->logout(),
 
