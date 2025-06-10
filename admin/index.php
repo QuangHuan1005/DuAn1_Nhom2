@@ -14,6 +14,7 @@ require_once 'controllers/UserController.php';
 require_once 'controllers/ProductController.php'; 
 require_once 'controllers/OrderController.php';
 require_once 'controllers/CategoryController.php';
+require_once 'controllers/OrderStatusController.php';
 
 
 // Require Models
@@ -54,6 +55,14 @@ match ($act) {
     'orderDelete'  => (new OrderController())->delete($id),
 'orderUpdateStatus' => (new OrderController())->updateStatus($id),
 'orderEditStatus'   => (new OrderController())->updateStatusForm($id),
+
+//Trạng thái đơn hàng
+  'order-status-list'     => (new OrderStatusController())->index(),
+    'order-status-createForm' => (new OrderStatusController())->createForm(),
+    'order-status-create'   => (new OrderStatusController())->create(),
+    'order-status-edit'     => (new OrderStatusController())->edit($id),
+    'order-status-update'   => (new OrderStatusController())->update(),
+    'order-status-delete'   => (new OrderStatusController())->delete($id),
 
 
     'edit_product'        => (new ProductController())->editProduct(),
