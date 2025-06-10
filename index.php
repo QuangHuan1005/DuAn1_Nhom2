@@ -43,14 +43,6 @@ match ($act) {
   'handle-login' => (new HomeController())->handleLogin(),
   'register' => (new HomeController())->register(),
   'handle-register' => (new HomeController())->handleregister(),
-  //  'adminDashboard' => fn() => (function () {
-  //     if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
-  //         header("Location: ./?act=login");
-  //         exit;
-  //     }
-  //     header("Location: ./admin/index.php");
-  //     exit;
-  // })(),
   'clientHome' => (new HomeController())->clientHome(),
   'logout' => (new HomeController())->logout(),
 
