@@ -74,7 +74,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="order-status.php">
+                    <a class="nav-link menu-link" href="index.php?act=order-status-list">
                         <i class="ri-exchange-line"></i> <span>Trạng thái đơn hàng</span>
                     </a>
                 </li>
