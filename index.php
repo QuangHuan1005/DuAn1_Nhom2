@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once './commons/env.php';
 require_once './commons/function.php';
@@ -43,7 +44,6 @@ match ($act) {
   'handle-login' => (new HomeController())->handleLogin(),
   'register' => (new HomeController())->register(),
   'handle-register' => (new HomeController())->handleregister(),
-  'adminDashboard' => (new DashboardController())->index(),
   'clientHome' => (new HomeController())->clientHome(),
   'logout' => (new HomeController())->logout(),
 

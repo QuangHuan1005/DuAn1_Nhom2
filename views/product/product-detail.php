@@ -1,7 +1,7 @@
 <?php require './views/layouts/layout_top.php'; ?>
 
 <main>
-    <?php if (isset($_SESSION['cart_error'])): ?>
+    <?php if (!empty($_SESSION['cart_error'])): ?>
         <div class="alert alert-danger">
             <?= htmlspecialchars($_SESSION['cart_error']) ?>
         </div>
@@ -21,6 +21,7 @@
                         <div class="slider">
                             <img src="<?= $product['image_url'] ?>" alt="<?= $product['name'] ?>">
                         </div>
+        
                     </div>
                 </div>
 
@@ -54,10 +55,24 @@
                                 </div>
                                 <div class="row align-items-center">
                                     <!-- <div class="col-lg-5 col-md-6 mb-2">
+            
+
+                            <?php
+                                $original = $product['price'] ?? 0;
+                                $discount = $product['discount_price'] ?? $original;
+                                $percent = ($original > 0 && $discount < $original) ? round((($original - $discount) / $original) * 100) : 0;
+                            ?>
+                            <div class="row align-items-center mb-3">
+                                <div class="col-lg-5 col-md-6 mb-2">
                                     <div class="price_main">
-                                        <span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
-                                        <span class="percentaged"></span>
-                                        <span class="old_price"><?= number_format($product['price']) ?>₫</span>
+                                        <span class="new_price"><?= number_format($discount, 0, ',', '.') ?>₫</span>
+                                        <?php if ($percent > 0): ?>
+                                            <span class="percentaged text-danger">-<?= $percent ?>%</span>
+                                            <span class="old_price"><?= number_format($original, 0, ',', '.') ?>₫</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="stock_quantity mt-2">
+                                        <strong>Số lượng tồn kho: </strong><?= (int)$product['stock_quantity'] ?>
                                     </div>
                                 </div> -->
 
@@ -97,6 +112,14 @@
                                     </div>
                             </form>
                         </div>
+                                <div class="col-lg-4 col-md-6 mb-2">
+                                    <input type="hidden" name="product_id" value="<?= (int)$product['id'] ?>">
+                                    <button type="submit" class="btn_1" title="Thêm vào giỏ hàng">
+                                        <i class="ti-shopping-cart"></i> Thêm vào giỏ hàng
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -119,27 +142,17 @@
 
     <div class="tab_content_wrapper">
         <div class="container">
-            <div class="tab-content" role="tablist">
+            <div class="tab-content">
                 <!-- Mô tả -->
-                <div id="pane-A" class="card tab-pane fade active show" role="tabpanel" aria-labelledby="tab-A">
-                    <div class="card-header" role="tab" id="heading-A">
-                        <h5 class="mb-0">Mô tả</h5>
-                    </div>
+                <div id="pane-A" class="card tab-pane fade show active" role="tabpanel" aria-labelledby="tab-A">
                     <div class="card-body">
-                        <div class="row justify-content-between">
-                            <div class="col-lg-12">
-                                <h3>Chi tiết sản phẩm</h3>
-                                <p><?= nl2br($product['description']) ?></p>
-                            </div>
-                        </div>
+                        <h3>Chi tiết sản phẩm</h3>
+                        <p><?= nl2br(htmlspecialchars($product['description'])) ?></p>
                     </div>
                 </div>
 
                 <!-- Bình luận -->
                 <div id="pane-B" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
-                    <div class="card-header" role="tab" id="heading-B">
-                        <h5 class="mb-0">Đánh giá</h5>
-                    </div>
                     <div class="card-body">
                         <div class="row justify-content-between">
                             <?php if (!empty($comments)): ?>
@@ -174,14 +187,35 @@
                                 <?php endif; ?>
                             </div>
                         </div>
+                        <h5>Đánh giá</h5>
+                        <?php if (!empty($comments)): ?>
+                            <?php foreach ($comments as $cmt): ?>
+                                <div class="review_content mb-3">
+                                    <em><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></em>
+                                    <h4><?= htmlspecialchars($cmt['user_name']) ?></h4>
+                                    <p><?= nl2br(htmlspecialchars($cmt['content'])) ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p>Chưa có bình luận nào.</p>
+                        <?php endif; ?>
+
+                        <?php if (!empty($_SESSION['user'])): ?>
+                            <form method="post" action="index.php?act=add_comment">
+                                <input type="hidden" name="product_id" value="<?= (int)$product['id'] ?>">
+                                <textarea name="content" rows="4" class="form-control" required placeholder="Nhập bình luận..."></textarea>
+                                <button type="submit" class="btn btn-primary mt-2">Gửi bình luận</button>
+                            </form>
+                        <?php else: ?>
+                            <p>Vui lòng <a href="index.php?act=login">đăng nhập</a> để bình luận.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
-                <!-- /tab B -->
             </div>
         </div>
     </div>
 
-    <!-- Sản phẩm liên quan (gợi ý) -->
+    <!-- Sản phẩm liên quan -->
     <div class="container margin_60_35">
         <div class="main_title">
             <h2>Sản phẩm liên quan</h2>
@@ -189,24 +223,23 @@
         </div>
 
         <div class="owl-carousel owl-theme products_carousel">
-            <div class="item">
-                <div class="grid_item">
-                    <span class="ribbon new">New</span>
-                    <figure>
-                        <a href="product-detail-1.html">
-                            <img class="owl-lazy" src="img/products/product_placeholder_square_medium.jpg" alt="">
-                        </a>
-                    </figure>
-                    <div class="rating">
-                        <i class="icon-star voted"></i><i class="icon-star voted"></i>
-                        <i class="icon-star voted"></i><i class="icon-star voted"></i>
-                        <i class="icon-star"></i>
-                    </div>
-                    <a href="product-detail-1.html">
-                        <h3>ACG React Terra</h3>
-                    </a>
-                    <div class="price_box">
-                        <span class="new_price">110.000₫</span>
+            <?php if (!empty($relatedProducts)): ?>
+                <?php foreach ($relatedProducts as $item): ?>
+                    <div class="item">
+                        <div class="grid_item">
+                            <?php if ($item['is_new']): ?><span class="ribbon new">New</span><?php endif; ?>
+                            <figure>
+                                <a href="index.php?act=product_detail&id=<?= $item['id'] ?>">
+                                    <img class="owl-lazy" src="<?= htmlspecialchars($item['image_url']) ?>" alt="<?= htmlspecialchars($item['name']) ?>">
+                                </a>
+                            </figure>
+                            <a href="index.php?act=product_detail&id=<?= $item['id'] ?>">
+                                <h3><?= htmlspecialchars($item['name']) ?></h3>
+                            </a>
+                            <div class="price_box">
+                                <span class="new_price"><?= number_format($item['price'], 0, ',', '.') ?>₫</span>
+                            </div>
+                        </div>
                     </div>
                     <ul>
                         <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" title="Yêu thích"><i
@@ -220,6 +253,8 @@
             </div>
             <!-- /item -->
             <!-- Thêm các item khác nếu cần -->
+                <?php endforeach; ?>
+            <?php endif; ?>n
         </div>
     </div>
 </main>

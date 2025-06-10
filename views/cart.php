@@ -1,20 +1,16 @@
 <?php require_once './views/layouts/layout_top.php'; ?>
 
-
 <?php if (!empty($items)): ?>
 
-
-  <main class="bg_gray">
-    <div class="container margin_30">
-      <div class="page_header">
-        <div class="breadcrumbs">
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Category</a></li>
-            <li>Page active</li>
-          </ul>
-        </div>
-        <h1>Giỏ hàng</h1>
+<main class="bg_gray">
+  <div class="container margin_30">
+    <div class="page_header">
+      <div class="breadcrumbs">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Category</a></li>
+          <li>Page active</li>
+        </ul>
       </div>
       <!-- /page_header -->
       <form id="cart-form" method="POST" action="index.php?act=cart/update">
@@ -88,46 +84,43 @@
                 <div class="col-md-6"><input type="text" name="coupon-code" value="" placeholder="Promo code"
                     class="form-control"></div>
                 <div class="col-md-4"><button type="button" class="btn_1 outline">Apply Coupon</button></div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-        </div>
-      </form>
-      <!-- /cart_actions -->
-
+=======
+      <h1>Giỏ hàng</h1>
     </div>
-    <!-- /container -->
+    <!-- /page_header -->
 
-    <div class="box_cart">
-      <div class="container">
-        <div class="row justify-content-end">
-          <div class="col-xl-4 col-lg-4 col-md-6">
-            <ul>
-              <li>
-                <span>Tạm tính</span> <?= number_format($total) ?>đ
-              </li>
-              <li>
-                <!-- <span>Phí ship</span> $7.00 -->
-              </li>
-              <li>
-                <span>Tổng</span> <?= number_format($total) ?>đ
-              </li>
-            </ul>
-            <a href="index.php?act=payment" class="btn_1 full-width cart">Tiến hành thanh toán</a>
-          </div>
+  
+  <!-- /container -->
+
+  <div class="box_cart">
+    <div class="container">
+      <div class="row justify-content-end">
+        <div class="col-xl-4 col-lg-4 col-md-6">
+          <ul>
+            <li><span>Tạm tính</span> <?= number_format($total) ?>đ</li>
+            <!-- <li><span>Phí ship</span> $7.00</li> -->
+            <li><span>Tổng</span> <?= number_format($total) ?>đ</li>
+          </ul>
+          <a href="index.php?act=payment" class="btn_1 full-width cart">Tiến hành thanh toán</a>
         </div>
       </div>
     </div>
-    <!-- /box_cart -->
-  <?php else: ?>
-    <p>Giỏ hàng của bạn đang trống.</p>
-  <?php endif; ?>
-</main>
+  </div>
+  <!-- /box_cart -->
+
+<?php else: ?>
+
+  <main class="bg_gray">
+    <div class="container margin_30">
+      <p>Giỏ hàng của bạn đang trống.</p>
+    </div>
+  </main>
+
+<?php endif; ?>
+
 <script>
+  // JS xử lý update tổng tiền nếu muốn (có thể chỉnh lại tùy ý)
   const inputs = document.querySelectorAll('.quantity-input');
-  const subtotalElem = document.getElementById('subtotal-price');
-  const totalElem = document.getElementById('total-price');
 
   function formatVND(n) {
     return n.toLocaleString('vi-VN') + 'đ';
@@ -137,19 +130,21 @@
     let total = 0;
     inputs.forEach(input => {
       const tr = input.closest('tr');
-      const price = parseInt(tr.querySelector('.price').dataset.price);
+      const priceText = tr.querySelector('td:nth-child(2) strong').textContent.replace(/[^\d]/g, '');
+      const price = parseInt(priceText) || 0;
       let qty = parseInt(input.value);
       if (isNaN(qty) || qty < 1) qty = 1;
       const sub = price * qty;
-      tr.querySelector('.subtotal').textContent = formatVND(sub);
+      tr.querySelector('.subtotal strong').textContent = formatVND(sub);
       total += sub;
     });
-    subtotalElem.textContent = formatVND(total);
-    totalElem.textContent = formatVND(total);
+    // Cập nhật tổng tiền trên giao diện
+    document.querySelector('.box_cart ul li span').nextSibling.textContent = formatVND(total);
+    document.querySelector('.box_cart ul li:nth-child(3) span').nextSibling.textContent = formatVND(total);
   }
 
   inputs.forEach(input => {
     input.addEventListener('input', updateTotals);
   });
 </script>
-<?php require_once './views/layouts/layout_bottom.php'; ?>
+

@@ -16,6 +16,7 @@ class OrderController
         $this->orderModel = new OrderModel();
     }
 
+    // Hiển thị danh sách đơn hàng của user đang đăng nhập
     public function myOrders()
     {
         if (!isset($_SESSION['user'])) {
@@ -36,19 +37,7 @@ class OrderController
         require 'views/order/my_orders.php';
     }
 
-    // public function orderDetail()
-    // {
-    //     if (!isset($_SESSION['user'])) {
-    //         header("Location: ?act=login");
-    //         exit;
-    //     }
-    //     $user_id = $_SESSION['user']['id'];
-    //     $order_id = $_GET['order_id'] ?? 0;
-    //     $orders = $this->orderModel->getOrdersUser($user_id);
-    //     $orderModel = new OrderModel();
-    //     $orderDetails = $orderModel->getOrderItems($user_id, $order_id);
-    //     require 'views/order/order_detail.php';
-    // }
+    // Xem chi tiết đơn hàng, chỉ user chính chủ mới xem được
     public function orderDetail($id)
     {
         if (!isset($_SESSION['user'])) {
@@ -57,15 +46,14 @@ class OrderController
         }
 
         $order = $this->orderModel->getOrderById($id);
-        $productDetails = $this->productModel->getProductDetail($id);
-        // Chỉ cho phép xem đơn của chính mình
-        if ($order['user_id'] != $_SESSION['user']['id']) {
-            die('Bạn không có quyền xem đơn hàng này.');
-        } else {
-            $orderDetails = $this->orderModel->getOrderItems($id);
-            require './views/order/order_detail.php';
+
+        if (!$order) {
+            die('Đơn hàng không tồn tại.');
         }
 
+        if ($order['user_id'] != $_SESSION['user']['id']) {
+            die('Bạn không có quyền xem đơn hàng này.');
+        }
     }
     public function completeOrder($id)
     {
@@ -84,4 +72,51 @@ class OrderController
 
 
 
+}
+        $orderDetails = $this->orderModel->getOrderItems($id);
+        require './views/order/order_detail.php';
+    }
+
+    // Hủy đơn hàng, chỉ cho phép user chính chủ hủy đơn trạng thái 'pending'
+    public function cancelOrder($order_id)
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?act=login');
+            exit;
+        }
+
+        $user_id = $_SESSION['user']['id'];
+        $order = $this->orderModel->getOrderById($order_id);
+
+        if (!$order) {
+            $_SESSION['error'] = "Đơn hàng không tồn tại.";
+            header("Location: index.php?act=myOrders");
+            exit;
+        }
+
+        if ($order['user_id'] != $user_id) {
+            $_SESSION['error'] = "Bạn không có quyền hủy đơn hàng này.";
+            header("Location: index.php?act=myOrders");
+            exit;
+        }
+
+        // Kiểm tra trạng thái đơn hàng, ví dụ chỉ cho hủy khi đang pending
+        if ($order['status'] != 'pending') {
+            $_SESSION['error'] = "Đơn hàng không thể hủy ở trạng thái hiện tại.";
+            header("Location: index.php?act=myOrders");
+            exit;
+        }
+
+        // Cập nhật trạng thái hủy đơn hàng
+        $result = $this->orderModel->updateOrderStatus($order_id, 'cancelled');
+
+        if ($result) {
+            $_SESSION['success'] = "Hủy đơn hàng thành công.";
+        } else {
+            $_SESSION['error'] = "Hủy đơn hàng thất bại.";
+        }
+
+        header("Location: index.php?act=myOrders");
+        exit;
+    }
 }
