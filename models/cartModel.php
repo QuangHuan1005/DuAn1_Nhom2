@@ -92,4 +92,11 @@ class CartModel {
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$cart_id]);
     }
+    public function createCartForUser($user_id) {
+    $sql = "INSERT INTO carts (user_id, created_at, updated_at) VALUES (?, NOW(), NOW())";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$user_id]);
+    return $this->conn->lastInsertId();
+}
+
 }

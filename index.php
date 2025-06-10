@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once './commons/env.php';
 require_once './commons/function.php';
@@ -35,14 +36,21 @@ match ($act) {
   'category' => (new ProductController())->category($_GET['id']),
   'product-detail' => (new ProductController())->detail($_GET['id']),
   'add_comment' => (new CommentController())->add(),
-  'profile' => (new UserController())->profile(),
+  'profile' => (new UserController())->profile(), 
   'my_orders' => (new OrderController())->myOrders(),
-  'order_detail' => (new OrderController())->orderDetail(),
+  'order_detail' => (new OrderController())->orderDetail($_GET['id']),
   'login' => (new HomeController())->login(),
   'handle-login' => (new HomeController())->handleLogin(),
   'register' => (new HomeController())->register(),
   'handle-register' => (new HomeController())->handleregister(),
-  'adminDashboard' => (new DashboardController())->index(),
+  //  'adminDashboard' => fn() => (function () {
+  //     if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
+  //         header("Location: ./?act=login");
+  //         exit;
+  //     }
+  //     header("Location: ./admin/index.php");
+  //     exit;
+  // })(),
   'clientHome' => (new HomeController())->clientHome(),
   'logout' => (new HomeController())->logout(),
 
@@ -60,10 +68,12 @@ match ($act) {
 
   'payment' => (new CartController())->payment(),
 
-     'cancelOrder' => (function() {
-        $order_id = $_GET['order_id'] ?? 0;
-        (new OrderController())->cancelOrder($order_id);
+  'cancelOrder' => (function () {
+      $order_id = $_GET['order_id'] ?? 0;
+      (new OrderController())->cancelOrder($order_id);
     })(),
+
+      'order-success' => require_once './views/order_success.php',
 
   default => header("Location: ./?act=home")
 };

@@ -34,21 +34,18 @@ class UserModel {
 
 
 
-    public function update($id, $data) {
+  public function update($id, $data) {
     $sql = "UPDATE users 
-            SET username = ?, email = ?, phone = ?, avatar = ?, role = ?, status = ? 
+            SET role = ?, status = ? 
             WHERE id = ?";
     $stmt = $this->conn->prepare($sql);
     return $stmt->execute([
-        $data['username'],
-        $data['email'],
-        $data['phone'],
-        $data['avatar'],
         $data['role'],
-        $data['status'],  // thêm trường status
+        $data['status'],
         $id
     ]);
 }
+
 
     public function delete($id) {
         $sql = "DELETE FROM users WHERE id = ?";
