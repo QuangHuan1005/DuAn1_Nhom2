@@ -48,6 +48,7 @@ class HomeController
             $_SESSION['user'] = $user;
             $_SESSION['user_role'] = $user['role'];
 
+
          //   Tạo CartModel và lấy cart_id của user
             $cartModel = new CartModel();
             $cart_id = $cartModel->getCartIdByUserId($user['id']);
@@ -60,14 +61,7 @@ class HomeController
             if ($user['role'] === 'admin') {
                 header('Location: admin/index.php?act=adminDashboard');
                 exit;
-            } else {
-                header('Location: index.php?act=clientHome');
-                exit;
-            }
-        } else {
-            // Sai username hoặc password
-            $error = "Sai tên đăng nhập hoặc mật khẩu!";
-            include "views/login.php";
+
         }
     }
 

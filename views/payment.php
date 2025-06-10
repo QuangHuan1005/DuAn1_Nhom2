@@ -68,42 +68,70 @@
 
             </div>
           </div>
-        </section>
+          <!-- /step -->
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="step middle payments">
+            <h3>2. Thanh toán và Vận chuyển</h3>
+            <ul>
+              <!-- <li>
+              <label class="container_radio">Credit Card<a href="#0" class="info" data-bs-toggle="modal"
+                  data-bs-target="#payments_method"></a>
+                <input type="radio" name="payment" checked>
+                <span class="checkmark"></span>
+              </label>
+            </li>
+            <li>
+              <label class="container_radio">Paypal<a href="#0" class="info" data-bs-toggle="modal"
+                  data-bs-target="#payments_method"></a>
+                <input type="radio" name="payment">
+                <span class="checkmark"></span>
+              </label>
+            </li> -->
+              <li>
+                <label class="container_radio">Thanh toán khi nhận hàng (COD)<a href="#0" class="info"
+                    data-bs-toggle="modal" data-bs-target="#payments_method"></a>
+                  <input type="radio" name="payment_method" id="cod" value="cod" <?= (empty($oldInput['payment_method']) || $oldInput['payment_method'] === 'cod') ? 'checked' : '' ?>>
+                  <span class="checkmark"></span>
+                </label>
+              </li>
+              <!-- <li>
+              <label class="container_radio">Bank Transfer<a href="#0" class="info" data-bs-toggle="modal"
+                  data-bs-target="#payments_method"></a>
+                <input type="radio" name="payment">
+                <span class="checkmark"></span>
+              </label>
+            </li> -->
+            </ul>
+            <!-- <div class="payment_info d-none d-sm-block">
+            <figure><img src="img/cards_all.svg" alt=""></figure>
+            <p>Sensibus reformidans interpretaris sit ne, nec errem nostrum et, te nec meliore philosophia. At vix
+              quidam periculis. Solet tritani ad pri, no iisque definitiones sea.</p>
+          </div> -->
 
-        <!-- Thanh toán & Vận chuyển -->
-        <section class="col-lg-4">
-          <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-              <h5 class="mb-0">2. Thanh toán và Vận chuyển</h5>
-            </div>
-            <div class="card-body">
+            <h6 class="pb-2">Phương thức vận chuyển</h6>
 
-              <div class="mb-4">
-                <label class="form-label fw-semibold">Phương thức thanh toán</label>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="payment_method" id="cod" value="cod"
-                    <?= (empty($oldInput['payment_method']) || $oldInput['payment_method'] === 'cod') ? 'checked' : '' ?>>
-                  <label class="form-check-label" for="cod">Thanh toán khi nhận hàng (COD)</label>
-                </div>
-              </div>
 
-              <div class="mb-4">
-                <label class="form-label fw-semibold">Phương thức vận chuyển</label>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="shipping" id="standard" value="standard"
-                    <?= (empty($oldInput['shipping']) || $oldInput['shipping'] === 'standard') ? 'checked' : '' ?>>
-                  <label class="form-check-label" for="standard">Standard shipping</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="shipping" id="express" value="express"
-                    <?= (isset($oldInput['shipping']) && $oldInput['shipping'] === 'express') ? 'checked' : '' ?>>
-                  <label class="form-check-label" for="express">Express shipping</label>
-                </div>
-              </div>
+            <ul>
+              <li>
+                <label class="container_radio">Standard shipping<a href="#0" class="info" data-bs-toggle="modal"
+                    data-bs-target="#payments_method"></a>
+                  <input type="radio" name="shipping" checked>
+                  <span class="checkmark"></span>
+                </label>
+              </li>
+              <li>
+                <label class="container_radio">Express shipping<a href="#0" class="info" data-bs-toggle="modal"
+                    data-bs-target="#payments_method"></a>
+                  <input type="radio" name="shipping">
+                  <span class="checkmark"></span>
+                </label>
+              </li>
 
-              <div class="card border-secondary p-3">
-                <h5 class="mb-3">Đơn hàng của bạn</h5>
-                <div class="table-responsive">
+              <!-- Cột phải: Thông tin đơn hàng + thanh toán -->
+              <!-- <div class="col-md-6">
+                <div class="card p-3 shadow-sm mb-3">
+                  <h5 class="mb-3">Đơn hàng của bạn</h5>
                   <table class="table table-bordered align-middle text-center mb-0">
                     <thead class="table-light">
                       <tr>
@@ -118,41 +146,45 @@
                         foreach ($items as $item):
                           $subtotal = $item['price'] * $item['quantity'];
                           $total += $subtotal;
-                      ?>
-                      <tr>
-                        <td class="text-start"><?= htmlspecialchars($item['name']) ?> × <?= intval($item['quantity']) ?></td>
-                        <td><?= number_format($subtotal, 0, ',', '.') ?> ₫</td>
-                      </tr>
-                      <?php
+                          ?>
+                          <tr>
+                            <td class="text-start"><?= htmlspecialchars($item['name']) ?> × <?= intval($item['quantity']) ?>
+                            </td>
+                            <td><?= number_format($subtotal, 0, ',', '.') ?> ₫</td>
+                          </tr>
+                          <?php
                         endforeach;
                       else:
-                      ?>
-                      <tr>
-                        <td colspan="2">Giỏ hàng trống.</td>
-                      </tr>
+                        ?>
+                        <tr>
+                          <td colspan="2">Giỏ hàng trống.</td>
+                        </tr>
                       <?php endif; ?>
                     </tbody>
                     <tfoot>
                       <tr>
                         <th class="text-start">Tạm tính</th>
-                        <td><?= number_format($total, 0, ',', '.') ?> ₫</td>
+                        <td class="text-center"><?= number_format($total, 0, ',', '.') ?> ₫</td>
                       </tr>
                       <tr>
                         <th class="text-start">Phí vận chuyển</th>
-                        <td>30.000 ₫</td>
+                        <td class="text-center">30.000 ₫</td>
                       </tr>
                       <tr>
-                        <th class="text-start">Tổng cộng</th>
-                        <td><strong><?= number_format($total + 30000, 0, ',', '.') ?> ₫</strong></td>
+                        <th class="text-start">Tổng</th>
+                        <td class="text-center"><strong><?= number_format($total + 30000, 0, ',', '.') ?> ₫</strong>
+                        </td>
                       </tr>
                     </tfoot>
-                  </table>
-                </div>
-              </div>
 
-            </div>
-          </div>
+
+                  </table>
+                </div> -->
+            </ul>
         </section>
+
+        <!-- Thanh toán & Vận chuyển -->
+       
 
         <!-- Tóm tắt đơn hàng -->
         <section class="col-lg-4">
