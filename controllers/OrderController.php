@@ -65,6 +65,23 @@ class OrderController
             $orderDetails = $this->orderModel->getOrderItems($id);
             require './views/order/order_detail.php';
         }
+
     }
+    public function completeOrder($id)
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?act=login');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->orderModel->complete($id);
+        }
+
+        require 'views/order/my_orders.php';
+
+    }
+
+
 
 }

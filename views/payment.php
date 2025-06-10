@@ -167,56 +167,58 @@
                 </label>
               </li>
 
-      <!-- Cột phải: Thông tin đơn hàng + thanh toán -->
-      <div class="col-md-6">
-        <div class="card p-3 shadow-sm mb-3">
-          <h5 class="mb-3">Đơn hàng của bạn</h5>
-          <table class="table table-bordered align-middle text-center mb-0">
-            <thead class="table-light">
-              <tr>
-                <th class="text-start">Sản phẩm</th>
-                <th>Tạm tính</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              $total = 0;
-              if (!empty($items) && is_array($items)):
-                foreach ($items as $item):
-                  $subtotal = $item['price'] * $item['quantity'];
-                  $total += $subtotal;
-              ?>
-              <tr>
-                <td class="text-start"><?= htmlspecialchars($item['name']) ?> × <?= intval($item['quantity']) ?></td>
-                <td><?= number_format($subtotal, 0, ',', '.') ?> ₫</td>
-              </tr>
-              <?php
-                endforeach;
-              else:
-              ?>
-              <tr>
-                <td colspan="2">Giỏ hàng trống.</td>
-              </tr>
-              <?php endif; ?>
-            </tbody>
-           <tfoot>
-  <tr>
-    <th class="text-start">Tạm tính</th>
-    <td class="text-center"><?= number_format($total, 0, ',', '.') ?> ₫</td>
-  </tr>
-  <tr>
-    <th class="text-start">Phí vận chuyển</th>
-    <td class="text-center">30.000 ₫</td>
-  </tr>
-  <tr>
-    <th class="text-start">Tổng</th>
-    <td class="text-center"><strong><?= number_format($total + 30000, 0, ',', '.') ?> ₫</strong></td>
-  </tr>
-</tfoot>
+              <!-- Cột phải: Thông tin đơn hàng + thanh toán -->
+              <!-- <div class="col-md-6">
+                <div class="card p-3 shadow-sm mb-3">
+                  <h5 class="mb-3">Đơn hàng của bạn</h5>
+                  <table class="table table-bordered align-middle text-center mb-0">
+                    <thead class="table-light">
+                      <tr>
+                        <th class="text-start">Sản phẩm</th>
+                        <th>Tạm tính</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $total = 0;
+                      if (!empty($items) && is_array($items)):
+                        foreach ($items as $item):
+                          $subtotal = $item['price'] * $item['quantity'];
+                          $total += $subtotal;
+                          ?>
+                          <tr>
+                            <td class="text-start"><?= htmlspecialchars($item['name']) ?> × <?= intval($item['quantity']) ?>
+                            </td>
+                            <td><?= number_format($subtotal, 0, ',', '.') ?> ₫</td>
+                          </tr>
+                          <?php
+                        endforeach;
+                      else:
+                        ?>
+                        <tr>
+                          <td colspan="2">Giỏ hàng trống.</td>
+                        </tr>
+                      <?php endif; ?>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th class="text-start">Tạm tính</th>
+                        <td class="text-center"><?= number_format($total, 0, ',', '.') ?> ₫</td>
+                      </tr>
+                      <tr>
+                        <th class="text-start">Phí vận chuyển</th>
+                        <td class="text-center">30.000 ₫</td>
+                      </tr>
+                      <tr>
+                        <th class="text-start">Tổng</th>
+                        <td class="text-center"><strong><?= number_format($total + 30000, 0, ',', '.') ?> ₫</strong>
+                        </td>
+                      </tr>
+                    </tfoot>
 
 
-          </table>
-        </div>
+                  </table>
+                </div> -->
             </ul>
 
           </div>

@@ -78,32 +78,43 @@ require './views/layouts/layout_top.php'; ?>
                                 <span><?= $order['shipping_address'] ?></span>
                             </li>
                             <?php
-							$status_id = $order['status_id'];
-							$statusMap = [
-								1 => ['label' => 'Chờ xác nhận', 'class' => 'bg-warning'],
-								2 => ['label' => 'Chờ lấy hàng', 'class' => 'bg-primary'],
-								3 => ['label' => 'Đang giao hàng', 'class' => 'bg-info'],
-								4 => ['label' => 'Đã giao hàng', 'class' => 'bg-success'],
-								5 => ['label' => 'Đã hủy', 'class' => 'bg-danger'],
-							];
+                            $status_id = $order['status_id'];
+                            $statusMap = [
+                                1 => ['label' => 'Chờ xác nhận', 'class' => 'bg-warning'],
+                                2 => ['label' => 'Chờ lấy hàng', 'class' => 'bg-primary'],
+                                3 => ['label' => 'Đang giao hàng', 'class' => 'bg-info'],
+                                4 => ['label' => 'Đã giao hàng', 'class' => 'bg-secondary'],
+                                5 => ['label' => 'Đã hủy', 'class' => 'bg-danger'],
+                                6 => ['label' => 'Hoàn thành', 'class' => 'bg-success'],
 
-							if (isset($statusMap[$status_id])): ?>
-                            
-                            <li class="clearfix"><em><strong>Trạng thái đơn hàng:</strong></em>
-                                <span><?= $statusMap[$status_id]['label'] ?></span>
-                            </li>
+                            ];
 
-							<?php endif; ?>
+                            if (isset($statusMap[$status_id])): ?>
 
-                            <li class="clearfix"><em><strong>Trạng thái thanh toán:</strong></em>
+                                <li class="clearfix"><em><strong>Trạng thái đơn hàng:</strong></em>
+                                    <span><?= $statusMap[$status_id]['label'] ?></span>
+                                </li>
+
+                            <?php endif; ?>
+
+                            <li class="clearfix"><em><strong>Tình trạng thanh toán:</strong></em>
                                 <span><?= $order['payment_status'] ?></span>
                             </li>
 
                         </ul>
-                        <div class="total clearfix">Phương thức thanh toán
+                        <div class="total clearfix">Phương thức vận chuyển
                             <span>COD</span>
                             <!-- <span><?= $order['payment_method_id'] ?></span> -->
                         </div>
+                        
+                        <?php if ($order['status_id'] == 4): ?>
+                            <form action="index.php?act=my_orders_complete" method="POST"
+                                onsubmit="return confirm('Bạn xác nhận đã nhận hàng?');">
+                                <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
+                                <button type="submit" class="btn_1 full-width">Hoàn thành đơn hàng</button>
+
+                            </form>
+                        <?php endif; ?>
 
                         <!-- <a href="confirm.html" class="btn_1 full-width">Confirm and Pay</a> -->
                     </div>
