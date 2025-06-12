@@ -37,7 +37,25 @@ class OrderModel
         $stmt->execute([$order_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function complete($order_id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $order_id = intval($_POST['order_id']);
 
+            $stmt = $this->conn->prepare("SELECT status_id FROM orders WHERE id = ?");
+            $stmt->execute([$order_id]);
+            $order = $stmt->fetch();
+            if ($order && $order['status_id'] == 4) {
+                $update = $this->conn->prepare("UPDATE orders SET status_id = 6,payment_status = 'Đã thanh toán' WHERE id = ?");
+                $update->execute([$order_id]);
+                header("Location: index.php?act=my_orders");
+
+                exit();
+            } else {
+                echo "Không thể hoàn thành đơn hàng.";
+            }
+        }
+    }
 
     public function createOrder($user_id, $receiver_name, $receiver_phone, $receiver_email, $total_amount, $shipping_address = 'Chưa cung cấp')
     {

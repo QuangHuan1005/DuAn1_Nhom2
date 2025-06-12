@@ -54,7 +54,25 @@ class OrderController
         if ($order['user_id'] != $_SESSION['user']['id']) {
             die('Bạn không có quyền xem đơn hàng này.');
         }
+    }
+    public function completeOrder($id)
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?act=login');
+            exit;
+        }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->orderModel->complete($id);
+        }
+
+        require 'views/order/my_orders.php';
+
+    }
+
+
+
+}
         $orderDetails = $this->orderModel->getOrderItems($id);
         require './views/order/order_detail.php';
     }

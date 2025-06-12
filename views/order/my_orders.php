@@ -29,7 +29,7 @@ require './views/layouts/layout_top.php'; ?>
 							Trạng thái đơn hàng
 						</th>
 						<th>
-							Trạng thái thanh toán
+							Tình trạng thanh toán
 						</th>
 						<th>
 							Ngày tạo
@@ -62,8 +62,9 @@ require './views/layouts/layout_top.php'; ?>
 								1 => ['label' => 'Chờ xác nhận', 'class' => 'bg-warning'],
 								2 => ['label' => 'Chờ lấy hàng', 'class' => 'bg-primary'],
 								3 => ['label' => 'Đang giao hàng', 'class' => 'bg-info'],
-								4 => ['label' => 'Đã giao hàng', 'class' => 'bg-success'],
+								4 => ['label' => 'Đã giao hàng', 'class' => 'bg-secondary'],
 								5 => ['label' => 'Đã hủy', 'class' => 'bg-danger'],
+								6 => ['label' => 'Hoàn thành', 'class' => 'bg-success'],
 							];
 
 							if (isset($statusMap[$status_id])): ?>
@@ -85,7 +86,7 @@ require './views/layouts/layout_top.php'; ?>
 							</td>
 							<td>
 								<a href="?act=order_detail&id=<?= $order['id'] ?>">Xem chi tiết</a>
-								
+
 							</td>
 						</tr>
 					</tbody>
