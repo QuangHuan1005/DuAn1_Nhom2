@@ -44,12 +44,9 @@ class HomeController
         $user = User::findByUsername($username);
 
         if ($user && $passwordInput === $user['password']) {
-            // Lưu thông tin user vào session
             $_SESSION['user'] = $user;
             $_SESSION['user_role'] = $user['role'];
 
-
-         //   Tạo CartModel và lấy cart_id của user
             $cartModel = new CartModel();
             $cart_id = $cartModel->getCartIdByUserId($user['id']);
             if (!$cart_id) {
@@ -57,11 +54,16 @@ class HomeController
             }
             $_SESSION['cart_id'] = $cart_id;
 
-            // Phân quyền redirect
             if ($user['role'] === 'admin') {
                 header('Location: admin/index.php?act=adminDashboard');
                 exit;
-
+            } else {
+                header("Location: index.php");
+                exit;
+            }
+        } else {
+            $error = "Tên đăng nhập hoặc mật khẩu không đúng!";
+            include "views/login.php";
         }
     }
 
@@ -106,8 +108,8 @@ class HomeController
             }
         }
 
-        // Ở đây bạn nên hash password trước khi lưu, ví dụ dùng password_hash()
-        $hashedPassword = $password; // Bạn nên thay bằng: password_hash($password, PASSWORD_DEFAULT);
+        // Lưu password không mã hóa (theo yêu cầu của bạn)
+        $hashedPassword = $password;
 
         $data = [
             'username' => $username,

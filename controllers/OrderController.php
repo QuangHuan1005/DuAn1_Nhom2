@@ -23,6 +23,7 @@ class OrderController
             header("Location: index.php?action=login");
             exit;
         }
+
         $user_id = $_SESSION['user']['id'];
         $orders = $this->orderModel->getOrdersUser($user_id);
         if (!$orders) {
@@ -54,7 +55,12 @@ class OrderController
         if ($order['user_id'] != $_SESSION['user']['id']) {
             die('Bạn không có quyền xem đơn hàng này.');
         }
+
+        $orderDetails = $this->orderModel->getOrderItems($id);
+        require './views/order/order_detail.php';
     }
+
+    // Đánh dấu đơn hàng đã hoàn tất
     public function completeOrder($id)
     {
         if (!isset($_SESSION['user'])) {
@@ -67,14 +73,6 @@ class OrderController
         }
 
         require 'views/order/my_orders.php';
-
-    }
-
-
-
-}
-        $orderDetails = $this->orderModel->getOrderItems($id);
-        require './views/order/order_detail.php';
     }
 
     // Hủy đơn hàng, chỉ cho phép user chính chủ hủy đơn trạng thái 'pending'
@@ -100,14 +98,12 @@ class OrderController
             exit;
         }
 
-        // Kiểm tra trạng thái đơn hàng, ví dụ chỉ cho hủy khi đang pending
         if ($order['status'] != 'pending') {
             $_SESSION['error'] = "Đơn hàng không thể hủy ở trạng thái hiện tại.";
             header("Location: index.php?act=myOrders");
             exit;
         }
 
-        // Cập nhật trạng thái hủy đơn hàng
         $result = $this->orderModel->updateOrderStatus($order_id, 'cancelled');
 
         if ($result) {
