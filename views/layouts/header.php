@@ -1,3 +1,16 @@
+<?php
+require_once 'models/CartModel.php';
+$cartModel = new CartModel();
+
+$cart_count = 0;
+if (isset($_SESSION['user']['id'])) {
+  // Đếm số sản phẩm khác nhau thay vì tổng số lượng
+  $cart_items = $cartModel->getCartItems($_SESSION['user']['id']);
+  $cart_count = count($cart_items);
+} elseif (isset($_SESSION['cart'])) {
+  $cart_count = count($_SESSION['cart']);
+}
+?>
 <header class="version_1">
   <div class="layer"></div><!-- Mobile menu overlay mask -->
   <div class="main_header">
@@ -77,10 +90,11 @@
             <li>
               <div class="dropdown dropdown-cart">
                 <a href="?act=cart" class="cart_bt">
-                  <strong><?= isset($_SESSION['cart_total']) ? $_SESSION['cart_total'] : 0 ?></strong>
+                  <strong><?= $cart_count ?></strong>
                 </a>
               </div>
             </li>
+
             <li><a href="my-wishlist.html" class="wishlist"><span>Wishlist</span></a></li>
             <li>
 
