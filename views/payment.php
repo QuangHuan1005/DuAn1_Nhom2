@@ -10,7 +10,6 @@
 
       <div class="row gy-4">
 
-        <!-- Thông tin người dùng và địa chỉ -->
         <section class="col-lg-4">
           <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
@@ -54,7 +53,6 @@
                 <label for="district" class="form-label">Quận/Huyện <span class="text-danger">*</span></label>
                 <select id="district" name="district" class="form-select <?= !empty($errors['district']) ? 'is-invalid' : '' ?>" required>
                   <option value="" disabled selected>Chọn Quận/Huyện</option>
-                  <!-- JS sẽ load district -->
                 </select>
                 <div class="invalid-feedback"><?= $errors['district'] ?? 'Vui lòng chọn Quận/Huyện.' ?></div>
               </div>
@@ -69,8 +67,6 @@
             </div>
           </div>
         </section>
-
-        <!-- Thanh toán & Vận chuyển -->
         <section class="col-lg-4">
           <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
@@ -154,7 +150,6 @@
           </div>
         </section>
 
-        <!-- Tóm tắt đơn hàng -->
         <section class="col-lg-4">
           <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
@@ -229,7 +224,6 @@
     }
   })();
 
-  // Bootstrap 5 form validation
   (() => {
     'use strict';
     const form = document.getElementById('checkout-form');
