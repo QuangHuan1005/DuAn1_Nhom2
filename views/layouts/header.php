@@ -52,6 +52,7 @@ if (isset($_SESSION['user']['id'])) {
           <a class="phone_top" href="tel://9438843343">
             <strong><span>Liên hệ hotline:</span>+94 423-23-221</strong>
           </a>
+
         </div>
       </div>
       <!-- /row -->
@@ -62,9 +63,9 @@ if (isset($_SESSION['user']['id'])) {
   <div class="main_nav Sticky">
     <div class="container">
       <div class="row small-gutters">
-        <div class="col-xl-3 col-lg-3 col-md-3"></div>
-
-        <div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
+        <div class="col-xl-3 col-lg-3 col-md-3">
+        </div>
+        <div class="col-xl-5 col-lg-7 col-md-6 d-none d-md-block">
           <form action="index.php" method="get">
             <input type="hidden" name="act" value="search">
             <div class="custom-search-input">
@@ -73,9 +74,19 @@ if (isset($_SESSION['user']['id'])) {
             </div>
           </form>
         </div>
-
-        <div class="col-xl-3 col-lg-2 col-md-3">
+        <div class="col-xl-2 col-lg-3 d-lg-flex align-items-center justify-content-end text-end">
           <ul class="top_tools">
+            <li>
+              <?php if (isset($_SESSION['user'])): ?>
+                👤 Xin chào, <?= $_SESSION['user']['username'] ?>
+              <?php endif; ?>
+            </li>
+          </ul>
+
+        </div>
+        <div class="col-xl-2 col-lg-3 col-md-3">
+          <ul class="top_tools">
+
             <li>
               <div class="dropdown dropdown-cart">
                 <a href="?act=cart" class="cart_bt">
@@ -86,17 +97,20 @@ if (isset($_SESSION['user']['id'])) {
 
             <li><a href="my-wishlist.html" class="wishlist"><span>Wishlist</span></a></li>
             <li>
+
               <div class="dropdown dropdown-access">
+
                 <a href="?act=profile" class="access_link"><span>Account</span></a>
+
                 <div class="dropdown-menu">
                   <?php if (!isset($_SESSION['user'])): ?>
-                    <a href="?act=login" class="btn_1">Sign In or Sign Up</a>
+                    <a href="?act=login" class="btn_1">Đăng nhập/Đăng ký</a>
                   <?php else: ?>
                     <ul>
-                      <li><a href="track-order.html"><i class="ti-truck"></i>Track your Order</a></li>
-                      <li><a href="?act=profile"><i class="ti-user"></i>Profile info</a></li>
-                      <li><a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a></li>
-                      <li><a href="?act=logout"><i class="ti-shift-left"></i>Sign Out</a></li>
+                      <li><a href="?act=profile"><i class="ti-user"></i>Tài khoản của tôi</a></li>
+                      <li><a href="track-order.html"><i class="ti-truck"></i>Đơn hàng</a></li>
+                      <li><a href="help.html"><i class="ti-help-alt"></i>Câu hỏi thường gặp</a></li>
+                      <li><a href="?act=logout"><i class="ti-shift-left"></i>Đăng xuất</a></li>
                     </ul>
                   <?php endif; ?>
                 </div>
