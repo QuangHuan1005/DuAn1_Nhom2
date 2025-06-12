@@ -43,11 +43,11 @@ require './views/layouts/layout_top.php'; ?>
 					<tbody>
 						<tr>
 							<td>
-								<!-- <div class="thumb_product">
+								<div class="thumb_product">
 									<img src="img/products/product_placeholder_square_small.jpg"
 										data-src="img/products/shoes/1.jpg" class="lazy" alt="Image">
-								</div> -->
-								<span class="item_product"><!-- <a href="#"> -->
+								</div>
+								<span class="item_product"><a href="?act=order_detail&id=<?= $order['id'] ?>">
 									#<?= $order['order_code'] ?>
 							</td>
 							<td>

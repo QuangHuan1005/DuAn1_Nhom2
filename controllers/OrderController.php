@@ -47,6 +47,8 @@ class OrderController
         }
 
         $order = $this->orderModel->getOrderById($id);
+        $orderDetails = $this->orderModel->getOrderItems($id);
+        require './views/order/order_detail.php';
 
         if (!$order) {
             die('Đơn hàng không tồn tại.');
@@ -73,6 +75,7 @@ class OrderController
         }
 
         require 'views/order/my_orders.php';
+
     }
 
     // Hủy đơn hàng, chỉ cho phép user chính chủ hủy đơn trạng thái 'pending'

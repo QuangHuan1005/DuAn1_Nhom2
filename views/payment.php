@@ -1,69 +1,110 @@
 <?php require_once './views/layouts/layout_top.php'; ?>
 
-<main class="bg-light py-5">
-  <div class="container">
-    <h1 class="mb-4 text-primary">Thanh toán</h1>
-    <form action="index.php?act=payment" method="POST" id="checkout-form" class="needs-validation" novalidate autocomplete="off">
-      <div class="row gy-4">
 
-        <!-- 1. Thông tin người dùng -->
-        <section class="col-lg-4">
-          <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-              <h5 class="mb-0">1. Thông tin người dùng và địa chỉ thanh toán</h5>
-            </div>
-            <div class="card-body">
+<main class="bg_gray">
 
-              <!-- Họ tên -->
-              <div class="mb-3">
-                <label for="fullname" class="form-label">Họ và tên <span class="text-danger">*</span></label>
-                <input type="text" id="fullname" name="fullname" class="form-control <?= !empty($errors['fullname']) ? 'is-invalid' : '' ?>" placeholder="Nhập họ và tên" value="<?= htmlspecialchars($oldInput['fullname'] ?? '') ?>" required>
-                <div class="invalid-feedback"><?= $errors['fullname'] ?? 'Vui lòng nhập họ và tên.' ?></div>
+  <div class="container margin_30">
+    <div class="page_header">
+      <div class="breadcrumbs">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Category</a></li>
+          <li>Page active</li>
+        </ul>
+      </div>
+      <h1>Thanh toán</h1>
+
+    </div>
+    <!-- /page_header -->
+    <form action="index.php?act=payment" method="POST" id="checkout-form" novalidate>
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="step first">
+            <h3>1. Thông tin người dùng và địa chỉ thanh toán</h3>
+            <!-- <ul class="nav nav-tabs" id="tab_checkout" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#tab_1" role="tab"
+                aria-controls="tab_1" aria-selected="true">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab_2" role="tab" aria-controls="tab_2"
+                aria-selected="false">Login</a>
+            </li>
+          </ul> -->
+            <div class="tab-content checkout">
+              <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
+                <!-- <div class="form-group">
+                <input type="email" class="form-control" placeholder="Email">
               </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password">
+              </div> -->
+                <hr>
+                <div class="row no-gutters">
+                  <div class="col-6 form-group pr-1">
+                    <input type="text" name="fullname"
+                      class="form-control <?= !empty($errors['fullname']) ? 'is-invalid' : '' ?>" class="form-control"
+                      placeholder="Họ và tên " value="<?= htmlspecialchars($oldInput['fullname'] ?? '') ?>" required>
+                    <div class="invalid-feedback"><?= $errors['fullname'] ?? 'Vui lòng nhập họ và tên.' ?></div>
+                  </div>
+                  <div class="col-6 form-group pl-1">
+                    <input type="tel" name="phone" class="form-control" placeholder="Số điện thoại"
+                      pattern="^[0-9]{9,15}$" value="<?= htmlspecialchars($oldInput['phone'] ?? '') ?>" required>
+                    <div class="invalid-feedback">
+                      <?= $errors['phone'] ?? 'Vui lòng nhập số điện thoại hợp lệ (9-15 chữ số).' ?>
+                    </div>
+                  </div>
+                </div>
+                <!-- /row -->
 
-              <!-- SĐT -->
-              <div class="mb-3">
-                <label for="phone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
-                <input type="tel" id="phone" name="phone" pattern="^[0-9]{9,15}$" class="form-control <?= !empty($errors['phone']) ? 'is-invalid' : '' ?>" placeholder="Nhập số điện thoại" value="<?= htmlspecialchars($oldInput['phone'] ?? '') ?>" required>
-                <div class="invalid-feedback"><?= $errors['phone'] ?? 'Vui lòng nhập số điện thoại hợp lệ (9-15 chữ số).' ?></div>
+                <div class="form-group">
+                  <input type="email" class="form-control <?= !empty($errors['email']) ? 'is-invalid' : '' ?>"
+                    id="email" name="email" placeholder="Nhập địa chỉ email"
+                    value="<?= htmlspecialchars($oldInput['email'] ?? '') ?>" required>
+                  <div class="invalid-feedback"><?= $errors['email'] ?? 'Vui lòng nhập địa chỉ email hợp lệ.' ?></div>
+                </div>
+
+                <!-- <div class="row no-gutters">
+                <div class="col-6 form-group pr-1">
+                  <input type="text" class="form-control" placeholder="City">
+                </div>
+                <div class="col-6 form-group pl-1">
+                  <input type="text" class="form-control" placeholder="Postal code">
+                </div>
+              </div> -->
+                <!-- /row -->
+                <div class="row no-gutters">
+                  <div class="col-md-12 form-group">
+                    <div class="custom-select-form">
+                      <select class="wide add_bottom_15" <?= !empty($errors['province']) ? 'is-invalid' : '' ?>
+                        id="province" name="province" required>
+                        <option value="">Chọn Tỉnh/Thành phố</option>
+                        <option value="Hà Nội" <?= (isset($oldInput['province']) && $oldInput['province'] === 'Hà Nội') ? 'selected' : '' ?>>Hà Nội</option>
+                        <option value="Hồ Chí Minh" <?= (isset($oldInput['province']) && $oldInput['province'] === 'Hồ Chí Minh') ? 'selected' : '' ?>>Hồ Chí Minh</option>
+                        <option value="Đà Nẵng" <?= (isset($oldInput['province']) && $oldInput['province'] === 'Đà Nẵng') ? 'selected' : '' ?>>Đà Nẵng</option>
+                      </select>
+                      <div class="invalid-feedback"><?= $errors['province'] ?? 'Vui lòng chọn Tỉnh/Thành phố.' ?></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row no-gutters">
+                  <div class="col-md-12 form-group">
+                    <div class="custom-select-form" for="district">
+                      <select class="wide add_bottom_15" <?= !empty($errors['district']) ? 'is-invalid' : '' ?>"
+                        id="district" name="district" required>
+                        <option value="">Chọn Quận/Huyện</option>
+                        <!-- Các option sẽ được điền bởi JS -->
+                      </select>
+                      <div class="invalid-feedback"><?= $errors['district'] ?? 'Vui lòng chọn Quận/Huyện.' ?></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control <?= !empty($errors['address']) ? 'is-invalid' : '' ?>"
+                    id="address" name="address" placeholder="Số nhà, tên đường..."
+                    value="<?= htmlspecialchars($oldInput['address'] ?? '') ?>" required>
+                </div>
               </div>
-
-              <!-- Email -->
-              <div class="mb-3">
-                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                <input type="email" id="email" name="email" class="form-control <?= !empty($errors['email']) ? 'is-invalid' : '' ?>" placeholder="Nhập địa chỉ email" value="<?= htmlspecialchars($oldInput['email'] ?? '') ?>" required>
-                <div class="invalid-feedback"><?= $errors['email'] ?? 'Vui lòng nhập địa chỉ email hợp lệ.' ?></div>
-              </div>
-
-              <!-- Tỉnh -->
-              <div class="mb-3">
-                <label for="province" class="form-label">Tỉnh/Thành phố <span class="text-danger">*</span></label>
-                <select id="province" name="province" class="form-select <?= !empty($errors['province']) ? 'is-invalid' : '' ?>" required>
-                  <option value="" disabled selected>Chọn Tỉnh/Thành phố</option>
-                  <option value="Hà Nội" <?= ($oldInput['province'] ?? '') === 'Hà Nội' ? 'selected' : '' ?>>Hà Nội</option>
-                  <option value="Hồ Chí Minh" <?= ($oldInput['province'] ?? '') === 'Hồ Chí Minh' ? 'selected' : '' ?>>Hồ Chí Minh</option>
-                  <option value="Đà Nẵng" <?= ($oldInput['province'] ?? '') === 'Đà Nẵng' ? 'selected' : '' ?>>Đà Nẵng</option>
-                </select>
-                <div class="invalid-feedback"><?= $errors['province'] ?? 'Vui lòng chọn Tỉnh/Thành phố.' ?></div>
-              </div>
-
-              <!-- Quận -->
-              <div class="mb-3">
-                <label for="district" class="form-label">Quận/Huyện <span class="text-danger">*</span></label>
-                <select id="district" name="district" class="form-select <?= !empty($errors['district']) ? 'is-invalid' : '' ?>" required>
-                  <option value="" disabled selected>Chọn Quận/Huyện</option>
-                  <!-- Dữ liệu JS thêm sau -->
-                </select>
-                <div class="invalid-feedback"><?= $errors['district'] ?? 'Vui lòng chọn Quận/Huyện.' ?></div>
-              </div>
-
-              <!-- Địa chỉ -->
-              <div class="mb-3">
-                <label for="address" class="form-label">Địa chỉ chi tiết <span class="text-danger">*</span></label>
-                <input type="text" id="address" name="address" class="form-control <?= !empty($errors['address']) ? 'is-invalid' : '' ?>" placeholder="Số nhà, tên đường..." value="<?= htmlspecialchars($oldInput['address'] ?? '') ?>" required>
-                <div class="invalid-feedback"><?= $errors['address'] ?? 'Vui lòng nhập địa chỉ.' ?></div>
-              </div>
-
             </div>
           </div>
         </section>
@@ -95,61 +136,53 @@
                   <label class="form-check-label" for="express">Express Shipping</label>
                 </div>
               </div>
-
-            </div>
-          </div>
-        </section>
-
-        <!-- 3. Tóm tắt đơn hàng -->
-        <section class="col-lg-4">
-          <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-              <h5 class="mb-0">3. Tóm tắt đơn hàng</h5>
-            </div>
-            <div class="card-body">
-              <ul class="list-group mb-3">
-                <?php
-                $total = 0;
-                if (!empty($items) && is_array($items)):
-                  foreach ($items as $item):
-                    $subtotal = $item['price'] * $item['quantity'];
-                    $total += $subtotal;
-                ?>
-                <li class="list-group-item d-flex justify-content-between">
-                  <div><?= htmlspecialchars($item['name']) ?> × <?= intval($item['quantity']) ?></div>
-                  <div><?= number_format($subtotal, 0, ',', '.') ?> ₫</div>
-                </li>
-                <?php endforeach; else: ?>
-                <li class="list-group-item text-center">Giỏ hàng trống.</li>
                 <?php endif; ?>
-              </ul>
+                <ul>
+                  <li class="clearfix"><em><strong>Tạm tính</strong></em>
+                    <span><?= number_format($total, 0, ',', '.') ?> ₫</span>
+                  </li>
+                  <li class="clearfix"><em><strong>Phí vận chuyển</strong></em> <span>30.000 ₫</span></li>
 
-              <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between">
-                  <strong>Tạm tính</strong>
-                  <span><?= number_format($total, 0, ',', '.') ?> ₫</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                  <strong>Phí vận chuyển</strong>
-                  <span>30.000 ₫</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                  <strong>Tổng</strong>
-                  <strong><?= number_format($total + 30000, 0, ',', '.') ?> ₫</strong>
-                </li>
-              </ul>
+                </ul>
+                <div class="total clearfix">Tổng <span><?= number_format($total + 30000, 0, ',', '.') ?> ₫</span></div>
+                <div class="form-group">
+                  <!-- <label class="container_check">Register to the Newsletter.
+                <input type="checkbox" checked>
+                <span class="checkmark"></span> -->
+                  </label>
+                </div>
 
-              <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-primary btn-lg">Xác nhận đặt hàng</button>
-              </div>
+                <!-- <a href="confirm.html" class="btn_1 full-width">Confirm and Pay</a> -->
+                <button type="submit" class="btn btn-danger w-100">Đặt hàng</button>
+
             </div>
+            <!-- /box_general -->
           </div>
-        </section>
-
+          <!-- /step -->
+        </div>
       </div>
     </form>
+    <!-- /row -->
   </div>
+  <!-- /container -->
 </main>
+<?php if (!empty($_SESSION['order_success'])): ?>
+  <div class="alert alert-success">
+    <?= htmlspecialchars($_SESSION['order_success']) ?>
+  </div>
+  <?php unset($_SESSION['order_success']); ?>
+<?php endif; ?>
+
+<?php if (!empty($_SESSION['order_error'])): ?>
+  <div class="alert alert-danger">
+    <?= htmlspecialchars($_SESSION['order_error']) ?>
+  </div>
+  <?php unset($_SESSION['order_error']); ?>
+<?php endif; ?>
+
+<?php require_once './views/layouts/layout_bottom.php'; ?>
+
+        </section>
 <script>
   (function () {
     const districtsByProvince = {
@@ -160,39 +193,90 @@
 
     const provinceSelect = document.getElementById('province');
     const districtSelect = document.getElementById('district');
-    const oldDistrict = <?= json_encode($oldInput['district'] ?? '') ?>;
 
+    // Hàm cập nhật dropdown Quận/Huyện theo Tỉnh/Thành phố
     function updateDistricts() {
-      const selectedProvince = provinceSelect.value;
+      const selectedProvince = districtSelect.value = oldDistrict;
       const districts = districtsByProvince[selectedProvince] || [];
 
-      districtSelect.innerHTML = '<option value="" disabled selected>Chọn Quận/Huyện</option>';
-      districts.forEach(district => {
+      districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
+      districts.forEach(d => {
         const opt = document.createElement('option');
-        opt.value = district;
-        opt.textContent = district;
-        if (district === oldDistrict) opt.selected = true;
+        opt.value = d;
+        opt.textContent = d;
         districtSelect.appendChild(opt);
       });
+
+      // Giữ lại giá trị cũ nếu có
+      const oldDistrict = <?= json_encode($oldInput['district'] ?? '') ?>;
+      if (oldDistrict) {
+        districtSelect.value = oldDistrict;
+      }
     }
 
     provinceSelect.addEventListener('change', updateDistricts);
-    if (provinceSelect.value) {
-      updateDistricts();
-    }
-  })();
+
+    // Khởi tạo khi load trang
+    updateDistricts();
 
   (() => {
     'use strict';
     const form = document.getElementById('checkout-form');
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
+
+    form.addEventListener('submit', function (event) {
+      // Reset lại trạng thái validation
+      [...form.elements].forEach(el => {
+        el.classList.remove('is-invalid');
+      });
+
+      let valid = true;
+
+      // Kiểm tra fullname
+      const fullname = form.fullname.value.trim();
+      if (!fullname) {
+        valid = false;
+        form.fullname.classList.add('is-invalid');
+      }
+
+      // Kiểm tra phone với regex
+      const phone = form.phone.value.trim();
+      const phonePattern = /^[0-9]{9,15}$/;
+      if (!phonePattern.test(phone)) {
+        valid = false;
+        form.phone.classList.add('is-invalid');
+      }
+
+      // Kiểm tra email
+      const email = form.email.value.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        valid = false;
+        form.email.classList.add('is-invalid');
+      }
+
+      // Kiểm tra province
+      if (!form.province.value) {
+        valid = false;
+        form.province.classList.add('is-invalid');
+      }
+
+      // Kiểm tra district
+      if (!form.district.value) {
+        valid = false;
+        form.district.classList.add('is-invalid');
+      }
+
+      // Kiểm tra address
+      const address = form.address.value.trim();
+      if (!address) {
+        valid = false;
+        form.address.classList.add('is-invalid');
+      }
+
+      if (!valid) {
         event.preventDefault();
         event.stopPropagation();
       }
-      form.classList.add('was-validated');
-    }, false);
+    });
   })();
 </script>
-
-<?php require_once './views/layouts/layout_bottom.php'; ?>
