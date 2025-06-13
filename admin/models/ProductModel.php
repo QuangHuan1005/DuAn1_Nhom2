@@ -33,7 +33,42 @@ class ProductModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+//Tìm kiếm sản phẩm, phân trang
+public function get_list_by_keyword($keyword = null, $limit = 5, $offset = 0)
+{
+    $sql = "SELECT p.*, c.name as category_name
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.id
+            WHERE p.deleted_at IS NULL";
 
+    $params = [];
+
+    if ($keyword) {
+        $sql .= " AND p.name LIKE ?";
+        $params[] = $keyword . '%';
+    }
+
+    $sql .= " ORDER BY p.name ASC LIMIT $limit OFFSET $offset"; 
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function count_all_by_keyword($keyword = null)
+{
+    $sql = "SELECT COUNT(*) FROM products WHERE deleted_at IS NULL";
+    $params = [];
+
+    if ($keyword) {
+        $sql .= " AND name LIKE ?";
+        $params[] = $keyword . '%';
+    }
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchColumn();
+}
 
 
     public function create($data)
