@@ -75,7 +75,9 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                                 <td class="text-center"><?= $index + 1 ?></td>
                                 <td><?= htmlspecialchars($product['name']) ?></td>
                                 <td>
-                                    <img src="/DuAn1_Nhom2/<?= $product['image_url'] ?>" alt="Ảnh" class="img-thumbnail" width="60">
+                                    <a href="index.php?act=view_product&id=<?= $product['id'] ?>">
+                                        <img src="/DuAn1_Nhom2/<?= htmlspecialchars($product['image_url']) ?>" alt="Ảnh" class="img-thumbnail" width="60">
+                                    </a>
                                 </td>
                                 <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="<?= htmlspecialchars($product['description']) ?>">
                                     <?= htmlspecialchars($product['description']) ?>
