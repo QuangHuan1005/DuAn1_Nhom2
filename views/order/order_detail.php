@@ -66,31 +66,58 @@ require './views/layouts/layout_top.php'; ?>
             <div class="col-lg-4 col-md-6">
                 <div class="step last">
                     <h3>Địa chỉ nhận hàng</h3>
+                    <div class="box_general summary">
+                        <ul>
+                            <li class="clearfix"><em>Họ tên:</em> <span></span></li>
+                            <li class="clearfix"><em>Số điện thoại:</em> <span><?= $order['receiver_phone'] ?></span>
+                            </li>
+                            <li class="clearfix"><em>Email:</em> <span><?= $order['receiver_email'] ?></span></li>
+                        </ul>
+                        <ul>
+                            <li class="clearfix"><em><strong>Địa chỉ:</strong></em>
+                                <span><?= $order['shipping_address'] ?></span>
+                            </li>
+                            <?php
+                            $status_id = $order['status_id'];
+                            $statusMap = [
+                                1 => ['label' => 'Chờ xác nhận', 'class' => 'bg-warning'],
+                                2 => ['label' => 'Chờ lấy hàng', 'class' => 'bg-primary'],
+                                3 => ['label' => 'Đang giao hàng', 'class' => 'bg-info'],
+                                4 => ['label' => 'Đã giao hàng', 'class' => 'bg-secondary'],
+                                5 => ['label' => 'Đã hủy', 'class' => 'bg-danger'],
+                                6 => ['label' => 'Hoàn thành', 'class' => 'bg-success'],
 
+                            ];
 
-                        <div class="box_general summary">
-                            <ul>
-                                <li class="clearfix"><em>Họ tên:</em> <span><?= $order['receiver_name'] ?></span></li>
-                                <li class="clearfix"><em>Số điện thoại</em> <span><?= $order['receiver_phone'] ?></span>
-                                </li>
-                                <li class="clearfix"><em>Email:</em> <span><?= $order['receiver_email'] ?></span></li>
-                            </ul>
-                            <ul>
-                                <li class="clearfix"><em><strong>Địa chỉ:</strong></em>
-                                    <span><?= $order['shipping_address'] ?></span>
-                                </li>
+                            if (isset($statusMap[$status_id])): ?>
+
                                 <li class="clearfix"><em><strong>Trạng thái đơn hàng:</strong></em>
-                                    <span><?= $order['payment_status'] ?></span>
+                                    <span><?= $statusMap[$status_id]['label'] ?></span>
                                 </li>
 
-                            </ul>
-                            <div class="total clearfix">Phương thức thanh toán
-                                <span>COD</span>
-                                <!-- <span><?= $order['payment_method_id'] ?></span> -->
-                            </div>
+                            <?php endif; ?>
 
-                            <!-- <a href="confirm.html" class="btn_1 full-width">Confirm and Pay</a> -->
+                            <li class="clearfix"><em><strong>Tình trạng thanh toán:</strong></em>
+                                <span><?= $order['payment_status'] ?></span>
+                            </li>
+
+                        </ul>
+                        <div class="total clearfix">Phương thức vận chuyển
+                            <span>COD</span>
+                            <!-- <span><?= $order['payment_method_id'] ?></span> -->
                         </div>
+                        
+                        <?php if ($order['status_id'] == 4): ?>
+                            <form action="index.php?act=my_orders_complete" method="POST"
+                                onsubmit="return confirm('Bạn xác nhận đã nhận hàng?');">
+                                <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
+                                <button type="submit" class="btn_1 full-width">Hoàn thành đơn hàng</button>
+
+                            </form>
+                        <?php endif; ?>
+
+                        <!-- <a href="confirm.html" class="btn_1 full-width">Confirm and Pay</a> -->
+                    </div>
                     <!-- /box_general -->
                 </div>
                 <!-- /step -->
