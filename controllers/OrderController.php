@@ -20,15 +20,12 @@ class OrderController
     public function myOrders()
     {
         if (!isset($_SESSION['user'])) {
-            header("Location: index.php?action=login");
+            header("Location: index.php?act=login");
             exit;
         }
 
         $user_id = $_SESSION['user']['id'];
-        $orders = $this->orderModel->getOrdersUser($user_id);
-        if (!$orders) {
-            $orders = [];
-        }
+        $orders = $this->orderModel->getOrdersUser($user_id) ?? [];
 
         $success = $_SESSION['success'] ?? null;
         $error = $_SESSION['error'] ?? null;
@@ -38,7 +35,7 @@ class OrderController
         require 'views/order/my_orders.php';
     }
 
-    // Xem chi tiết đơn hàng, chỉ user chính chủ mới xem được
+    // Xem chi tiết đơn hàng
     public function orderDetail($id)
     {
         if (!isset($_SESSION['user'])) {
@@ -47,8 +44,6 @@ class OrderController
         }
 
         $order = $this->orderModel->getOrderById($id);
-        $orderDetails = $this->orderModel->getOrderItems($id);
-        require './views/order/order_detail.php';
 
         if (!$order) {
             die('Đơn hàng không tồn tại.');
@@ -59,6 +54,7 @@ class OrderController
         }
 
         $orderDetails = $this->orderModel->getOrderItems($id);
+
         require './views/order/order_detail.php';
     }
 
@@ -74,11 +70,11 @@ class OrderController
             $this->orderModel->complete($id);
         }
 
-        require 'views/order/my_orders.php';
-
+        header("Location: index.php?act=myOrders");
+        exit;
     }
 
-    // Hủy đơn hàng, chỉ cho phép user chính chủ hủy đơn trạng thái 'pending'
+    // Hủy đơn hàng
     public function cancelOrder($order_id)
     {
         if (!isset($_SESSION['user'])) {
@@ -101,13 +97,14 @@ class OrderController
             exit;
         }
 
-        if ($order['status'] != 'pending') {
+        // Điều chỉnh lại tên trường 'status_id' thay vì 'status' nếu bạn dùng ID
+        if ($order['status_id'] != 1) { // 1 = Chờ xác nhận
             $_SESSION['error'] = "Đơn hàng không thể hủy ở trạng thái hiện tại.";
             header("Location: index.php?act=myOrders");
             exit;
         }
 
-        $result = $this->orderModel->updateOrderStatus($order_id, 'cancelled');
+        $result = $this->orderModel->updateOrderStatus($order_id, 5); // 5 = Đã hủy
 
         if ($result) {
             $_SESSION['success'] = "Hủy đơn hàng thành công.";
