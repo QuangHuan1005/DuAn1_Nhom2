@@ -45,8 +45,6 @@ class HomeController
         if ($user && $passwordInput === $user['password']) {
             $_SESSION['user'] = $user;
             $_SESSION['user_role'] = $user['role'];
-
-            // ✅ Tạo CartModel và lấy cart_id
             $cartModel = new CartModel();
             $cart_id = $cartModel->getCartIdByUserId($user['id']);
             if (!$cart_id) {
@@ -107,7 +105,6 @@ class HomeController
             }
         }
 
-        // Lưu password không mã hóa (theo yêu cầu)
         $hashedPassword = $password;
 
         $data = [

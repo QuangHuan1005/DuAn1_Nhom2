@@ -108,7 +108,7 @@ class OrderController {
             "Đang vận chuyển",
             "Đã giao hàng",
             "Hoàn thành",
-            "Hủy hàng"
+             "Đã hủy"
         ];
 
         // Kiểm tra đủ các trạng thái cần thiết
@@ -142,7 +142,7 @@ class OrderController {
         $shippingId = $statusNameToId["Đang vận chuyển"];
         $deliveredId = $statusNameToId["Đã giao hàng"];
         $completedId = $statusNameToId["Hoàn thành"];
-        $cancelledId = $statusNameToId["Hủy hàng"];
+        $cancelledId = $statusNameToId[ "Đã hủy"];
 
         if ($userRole === 'admin') {
             switch ($currentStatusId) {
@@ -154,9 +154,11 @@ class OrderController {
                     return $newStatusId === $deliveredId;
                 case $deliveredId:
                     return $newStatusId === $completedId;
-                case $completedId:
-                case $cancelledId:
+                    case $cancelledId:
                     return false;
+                case $completedId:
+                // case $cancelledId:
+                //     return false;
                 default:
                     return false;
             }
