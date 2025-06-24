@@ -10,6 +10,7 @@ class OrderModel
 
     public function countOrdersByUser($user_id)
     {
+
         $sql = "SELECT COUNT(*) AS total_orders FROM orders WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':user_id' => $user_id]);
@@ -34,6 +35,7 @@ class OrderModel
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function getOrderById($id)
     {
