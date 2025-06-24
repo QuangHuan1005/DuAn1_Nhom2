@@ -14,7 +14,7 @@ class CategoryModel
     // Lấy danh sách category chưa bị xóa
     public function get_list()
     {
-        $sql = "SELECT * FROM categories WHERE deleted_at IS NULL ORDER BY id DESC ";
+        $sql = "SELECT * FROM categories  ORDER BY id DESC ";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -23,7 +23,7 @@ class CategoryModel
     // Lấy 1 category theo id
     public function getById($id)
     {
-        $sql = "SELECT * FROM categories WHERE id = ? AND deleted_at IS NULL";
+        $sql = "SELECT * FROM categories WHERE id = ? ";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -72,10 +72,24 @@ class CategoryModel
     }
 
     // Xóa mềm (soft delete) category
-    public function softDelete($id)
+
+    // public function updateStatus($id, $status)
+    // {
+    //     $stmt = $this->conn->prepare("UPDATE categories SET is_active = ? WHERE id = ?");
+    //     return $stmt->execute([$status, $id]);
+    // }
+    public function updateStatus($id, $status)
     {
-        $sql = "UPDATE categories SET deleted_at = NOW() WHERE id = ?";
+        // Cập nhật trạng thái danh mục
+        $sql = "UPDATE categories SET is_active = :status WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$id]);
+        $stmt->execute([':status' => $status, ':id' => $id]);
+
+        // Cập nhật trạng thái tất cả sản phẩm thuộc danh mục
+        $sql2 = "UPDATE products SET status = :status WHERE category_id = :category_id";
+        $stmt2 = $this->conn->prepare($sql2);
+        $stmt2->execute([':status' => $status, ':category_id' => $id]);
     }
+
+
 }
