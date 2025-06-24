@@ -11,64 +11,81 @@ class ProductModel
         }
     }
 
+    // public function get_list()
+    // {
+    //     $sql = "SELECT p.*, c.name as category_name 
+    //             FROM products p 
+    //             LEFT JOIN categories c ON p.category_id = c.id 
+    //             WHERE p.deleted_at IS NULL";
+    //     $stmt = $this->conn->prepare($sql);
+    //     $stmt->execute();
+    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // }
     public function get_list()
     {
-        $sql = "SELECT p.*, c.name as category_name 
-                FROM products p 
-                LEFT JOIN categories c ON p.category_id = c.id 
-                WHERE p.deleted_at IS NULL";
+        $sql = "SELECT p.*, c.name AS category_name 
+                FROM products p
+                JOIN categories c ON p.category_id = c.id
+                WHERE p.status = 1  AND c.is_active = 1";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     }
+
 
     public function getById($id)
     {
-        $sql = "SELECT p.*, c.name as category_name 
-                FROM products p 
+        $sql = "SELECT p.*, c.name AS category_name, c.is_active 
+                FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id 
-                WHERE p.id = ? AND p.deleted_at IS NULL";
+                WHERE p.id = ? ";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-//Tìm kiếm sản phẩm, phân trang
-public function get_list_by_keyword($keyword = null, $limit = 5, $offset = 0)
-{
-    $sql = "SELECT p.*, c.name as category_name
+    //Tìm kiếm sản phẩm, phân trang
+    public function get_list_by_keyword($keyword = null, $limit = 5, $offset = 0)
+    {
+        $sql = "SELECT p.*, c.name as category_name
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
-            WHERE p.deleted_at IS NULL";
+            WHERE c.is_active = 1";
 
-    $params = [];
+        $params = [];
 
-    if ($keyword) {
-        $sql .= " AND p.name LIKE ?";
-        $params[] = $keyword . '%';
+        if ($keyword) {
+            $sql .= " AND p.name LIKE ?";
+            $params[] = $keyword . '%';
+        }
+
+        $sql .= " ORDER BY p.name ASC LIMIT $limit OFFSET $offset";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
     }
 
-    $sql .= " ORDER BY p.name ASC LIMIT $limit OFFSET $offset"; 
+    public function count_all_by_keyword($keyword = null)
+    {
+        $sql = "SELECT COUNT(*) 
+                FROM products p
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE c.is_active = 1";
+        $params = [];
 
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        if ($keyword) {
+            $sql .= " AND p.name LIKE ?";
+            $params[] = $keyword . '%';
+        }
 
-public function count_all_by_keyword($keyword = null)
-{
-    $sql = "SELECT COUNT(*) FROM products WHERE deleted_at IS NULL";
-    $params = [];
-
-    if ($keyword) {
-        $sql .= " AND name LIKE ?";
-        $params[] = $keyword . '%';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchColumn();
     }
-
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetchColumn();
-}
 
 
     public function create($data)
@@ -90,6 +107,7 @@ public function count_all_by_keyword($keyword = null)
             ':status' => $data['status']
         ]);
     }
+
 
     public function update($id, $data)
     {
@@ -120,11 +138,10 @@ public function count_all_by_keyword($keyword = null)
 
 
 
-    public function softDelete($id)
+    public function updateStatus($id, $status)
     {
-        $sql = "UPDATE products SET deleted_at = NOW() WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$id]);
+        $stmt = $this->conn->prepare("UPDATE products SET status = ? WHERE id = ?");
+        return $stmt->execute([$status, $id]);
     }
 
     public function getAllCategories()
@@ -136,14 +153,16 @@ public function count_all_by_keyword($keyword = null)
     }
 
     // Top 5 sản phẩm bán chạy
+
     public function getTopSellingProducts()
     {
         $sql = "
             SELECT p.*, SUM(oi.quantity) AS total_sold
             FROM products p
+            JOIN categories c ON p.category_id = c.id
             JOIN order_items oi ON p.id = oi.product_id
             JOIN orders o ON oi.order_id = o.id
-            WHERE oi.deleted_at IS NULL
+            WHERE c.is_active = 1
             GROUP BY p.id
             ORDER BY total_sold DESC
             LIMIT 5
@@ -152,14 +171,15 @@ public function count_all_by_keyword($keyword = null)
         $stmt->execute();
         return $stmt->fetchAll();
     }
-
-    // Top 5 sản phẩm tồn kho cao nhất
+    // Top 5 sản phẩm tồn kho cao nhất 
     public function getTopStockProducts()
     {
         $sql = "
-            SELECT * FROM products
-            WHERE status = 1
-            ORDER BY stock_quantity DESC
+            SELECT p.*
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            WHERE p.status = 1 AND c.is_active = 1
+            ORDER BY p.stock_quantity DESC
             LIMIT 5
         ";
         $stmt = $this->conn->prepare($sql);

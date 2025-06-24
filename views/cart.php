@@ -131,7 +131,6 @@
   </main>
 
 <?php endif; ?>
-<?php require './views/layouts/layout_bottom.php'; ?>
 
 <script>
   // JS xử lý update tổng tiền nếu muốn (có thể chỉnh lại tùy ý)

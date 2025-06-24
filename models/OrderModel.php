@@ -8,35 +8,33 @@ class OrderModel
         $this->conn = connectDB();
     }
 
-    public function getOrdersUser($user_id)
+    public function countOrdersByUser($user_id)
     {
-        $sql = "SELECT COUNT(*) AS total_orders
-        FROM orders
-        WHERE orders.user_id = :user_id";
-
-        $data = $this->conn->prepare($sql);
-        $data->execute([':user_id' => $user_id]);
-        $result = $data->fetch();
-        return $result['total_orders'];
-
-
-
+        $sql = "SELECT COUNT(*) AS total FROM orders WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':user_id' => $user_id]);
+        $result = $stmt->fetch();
+        return $result['total'];
     }
-    // }
-    // public function getOrdersUser($user_id)
-    // {
-    //     $sql = "SELECT orders.*, order_statuses.name AS status_name
-    //     FROM orders
-    //     JOIN order_statuses ON orders.status_id = order_statuses.id
-    //     WHERE orders.user_id = :user_id
-    //     ORDER BY orders.created_at DESC";
 
-    //     $data = $this->conn->prepare($sql);
-    //     $data->execute([':user_id' => $user_id]);
-    //     return $data->fetchAll();
+    public function getOrdersUser($user_id, $limit, $offset)
+    {
+        $sql = "SELECT orders.*, order_statuses.name AS status_name
+            FROM orders
+            JOIN order_statuses ON orders.status_id = order_statuses.id
+            WHERE orders.user_id = :user_id
+            ORDER BY orders.created_at DESC
+            LIMIT :limit OFFSET :offset";
 
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
 
-    // }
+        return $stmt->fetchAll();
+    }
+
 
     public function getOrderById($id)
     {
