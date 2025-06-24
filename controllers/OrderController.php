@@ -21,19 +21,22 @@ class OrderController
     {
         if (!isset($_SESSION['user'])) {
             header("Location: index.php?action=login");
-            exit;
+            exit;   
         }
         $user_id = $_SESSION['user']['id'];
-        $orders = $this->orderModel->getOrdersUser($user_id);
+        $limit = 5;
+        $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        if ($page < 1)
+            $page = 1;
+
+        $offset = ($page - 1) * $limit;
+        $orders = $this->orderModel->getOrdersByPage($limit, $offset);
+        $totailOrders = $this->orderModel->getOrdersUser($user_id);
+        $totalPages = ceil($totailOrders / $limit);
+
         if (!$orders) {
             $orders = [];
         }
-
-        $success = $_SESSION['success'] ?? null;
-        $error = $_SESSION['error'] ?? null;
-
-        unset($_SESSION['success'], $_SESSION['error']);
-
         require 'views/order/my_orders.php';
     }
 
@@ -64,12 +67,13 @@ class OrderController
             exit;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->orderModel->complete($id);
-        }
+        $user_id = $_SESSION['user']['id'];
 
-        require 'views/order/my_orders.php';
+        $this->orderModel->complete($id);
+        $orders = $this->orderModel->getOrderById($id);
 
+        // Truyền dữ liệu ra view
+        require './views/order/my_orders.php';
     }
 
 

@@ -3,7 +3,8 @@
 $basePath = dirname(__DIR__, 2);
 ?>
 <!doctype html>
-<html lang="vi" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable" data-theme="default" data-theme-colors="default">
+<html lang="vi" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none" data-preloader="disable" data-theme="default" data-theme-colors="default">
 
 <head>
     <base href="/duan1_nhom2/admin/">
@@ -66,10 +67,16 @@ $basePath = dirname(__DIR__, 2);
                             <label for="price" class="form-label">Giá</label>
                             <input type="number" name="price" id="price" class="form-control" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="discount_price" class="form-label">Giá khuyến mãi</label>
+                            <input type="number" step="0.01" class="form-control" id="discount_price"
+                                name="discount_price" required>
+                        </div>
 
                         <div class="mb-3">
                             <label for="stock_quantity" class="form-label">Tồn kho</label>
-                            <input type="number" name="stock_quantity" id="stock_quantity" class="form-control" required>
+                            <input type="number" name="stock_quantity" id="stock_quantity" class="form-control"
+                                required>
                         </div>
 
                         <div class="mb-3">

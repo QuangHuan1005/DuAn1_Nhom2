@@ -74,6 +74,7 @@
         </div>
     </div>
 </main>
+<?php require_once './views/layouts/layout_bottom.php'; ?>
 
 <style>
 .error-msg {

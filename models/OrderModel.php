@@ -10,11 +10,33 @@ class OrderModel
 
     public function getOrdersUser($user_id)
     {
-        $sql = "SELECT * FROM orders WHERE user_id = :user_id ORDER BY created_at DESC";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([':user_id' => $user_id]);
-        return $stmt->fetchAll();
+        $sql = "SELECT COUNT(*) AS total_orders
+        FROM orders
+        WHERE orders.user_id = :user_id";
+
+        $data = $this->conn->prepare($sql);
+        $data->execute([':user_id' => $user_id]);
+        $result = $data->fetch();
+        return $result['total_orders'];
+
+
+
     }
+    // }
+    // public function getOrdersUser($user_id)
+    // {
+    //     $sql = "SELECT orders.*, order_statuses.name AS status_name
+    //     FROM orders
+    //     JOIN order_statuses ON orders.status_id = order_statuses.id
+    //     WHERE orders.user_id = :user_id
+    //     ORDER BY orders.created_at DESC";
+
+    //     $data = $this->conn->prepare($sql);
+    //     $data->execute([':user_id' => $user_id]);
+    //     return $data->fetchAll();
+
+
+    // }
 
     public function getOrderById($id)
     {
@@ -22,9 +44,21 @@ class OrderModel
             FROM orders o 
             JOIN users u ON o.user_id = u.id 
             WHERE o.id = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $data = $this->conn->prepare($sql);
+        $data->execute([$id]);
+        return $data->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getOrdersByPage($limit, $offset)
+    {
+        $sql = " SELECT orders.*, order_statuses.name AS status_name
+        FROM orders
+        JOIN order_statuses ON orders.status_id = order_statuses.id
+        ORDER BY orders.created_at DESC LIMIT :limit OFFSET :offset";
+        $data = $this->conn->prepare($sql);
+        $data->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $data->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $data->execute();
+        return $data->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getOrderItems($order_id)
@@ -33,24 +67,28 @@ class OrderModel
             FROM order_items oi
             JOIN products p ON oi.product_id = p.id
             WHERE oi.order_id = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$order_id]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $data = $this->conn->prepare($sql);
+        $data->execute([$order_id]);
+        return $data->fetchAll(PDO::FETCH_ASSOC);
     }
     public function complete($order_id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $order_id = intval($_POST['order_id']);
 
-            $stmt = $this->conn->prepare("SELECT status_id FROM orders WHERE id = ?");
-            $stmt->execute([$order_id]);
-            $order = $stmt->fetch();
-            if ($order && $order['status_id'] == 4) {
-                $update = $this->conn->prepare("UPDATE orders SET status_id = 6,payment_status = 'Đã thanh toán' WHERE id = ?");
+            $data = $this->conn->prepare("SELECT status_id FROM orders WHERE id = ?");
+            $data->execute([$order_id]);
+            $order = $data->fetch();
+            if ($order['status_id'] == 4) {
+                $update = $this->conn->prepare("UPDATE orders SET status_id = 6,payment_status = 'Đã thanh toán',updated_at =NOW() WHERE id = ?");
                 $update->execute([$order_id]);
                 header("Location: index.php?act=my_orders");
 
                 exit();
+            } elseif ($order['status_id'] == 2 || $order['status_id'] == 1) {
+                $update = $this->conn->prepare("UPDATE orders SET status_id = 5,payment_status = 'Chưa thanh toán',updated_at =NOW() WHERE id = ?");
+                $update->execute([$order_id]);
+                header("Location: index.php?act=my_orders");
             } else {
                 echo "Không thể hoàn thành đơn hàng.";
             }

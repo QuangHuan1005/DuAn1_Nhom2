@@ -38,8 +38,8 @@ class ProductModel
 
     public function create($data)
     {
-        $sql = "INSERT INTO products (category_id, name, description, image_url, price, stock_quantity, status) 
-            VALUES (:category_id, :name, :description, :image_url, :price, :stock_quantity, :status)";
+        $sql = "INSERT INTO products (category_id, name, description, image_url, price, discount_price, stock_quantity, status) 
+            VALUES (:category_id, :name, :description, :image_url, :price, :discount_price, :stock_quantity, :status)";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -50,6 +50,7 @@ class ProductModel
             ':description' => $data['description'],
             ':image_url' => $data['image_url'] ?? null,
             ':price' => $data['price'],
+            ':discount_price' => $data['discount_price'],
             ':stock_quantity' => $data['stock_quantity'],
             ':status' => $data['status']
         ]);

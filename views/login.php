@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-6 col-md-8">
                 <div class="box_account">
-                    <h3 class="client">Already Client</h3>
+                    <h3 class="client">Đăng nhập</h3>
                     <div class="form_container">
                         <div class="row no-gutters">
         
