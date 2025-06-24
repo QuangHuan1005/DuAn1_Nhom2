@@ -77,7 +77,6 @@ class OrderModel {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-    // Lấy đơn hàng kèm theo danh sách sản phẩm luôn
     public function getOrderByIdWithItems($id) {
         $order = $this->getOrderById($id);
         if (!$order) return false;
@@ -225,7 +224,6 @@ class OrderModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Lấy các đơn hàng "Chờ xác nhận"
     public function getPendingOrders()
     {
         $sql = "

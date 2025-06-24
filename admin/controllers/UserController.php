@@ -40,11 +40,4 @@ class UserController {
         header('Location: index.php?act=userIndex');
         exit;
     }
-
-    // Xóa user
-    public function delete($id) {
-        $this->userModel->delete($id);
-        header('Location: index.php?act=userIndex');
-        exit;
-    }
 }
