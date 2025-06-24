@@ -27,7 +27,7 @@ class User
             ':avatar' => $data['avatar'],
            ':password' => $data['password']
         ]);
-           return $stmt->execute($params);
+         //  return $stmt->execute($params);
     }
 
 }

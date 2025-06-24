@@ -5,8 +5,6 @@ require_once "models/ProductModel.php";
 require_once "models/CategoryModel.php";
 require_once "models/CartModel.php";
 
-
-
 class HomeController
 {
     private $productModel;
@@ -37,7 +35,6 @@ class HomeController
     {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
-
         }
 
         $username = $_POST['username'] ?? '';
@@ -48,33 +45,24 @@ class HomeController
         if ($user && $passwordInput === $user['password']) {
             $_SESSION['user'] = $user;
             $_SESSION['user_role'] = $user['role'];
-
-            if ($user && $passwordInput === $user['password']) {
-                $_SESSION['user'] = $user;
-
-                // ✅ Tạo CartModel và lấy cart_id
-                $cartModel = new CartModel();
-                $cart_id = $cartModel->getCartIdByUserId($user['id']);
-                if (!$cart_id) {
-                    $cart_id = $cartModel->createCartForUser($user['id']);
-                }
-                $_SESSION['cart_id'] = $cart_id;
-
-                if ($user['role'] === 'admin') {
-                    header('Location: index.php?act=adminDashboard');
-                    exit;
-                } else {
-                    header('Location: index.php?act=clientHome');
-                    exit;
-                }
-            } else {
-                $error = "Sai tên đăng nhập hoặc mật khẩu!";
-                include "views/login.php";
+            $cartModel = new CartModel();
+            $cart_id = $cartModel->getCartIdByUserId($user['id']);
+            if (!$cart_id) {
+                $cart_id = $cartModel->createCartForUser($user['id']);
             }
+            $_SESSION['cart_id'] = $cart_id;
+
+            if ($user['role'] === 'admin') {
+                header('Location: index.php?act=adminDashboard');
+            } else {
+                header('Location: index.php?act=clientHome');
+            }
+            exit;
+        } else {
+            $error = "Sai tên đăng nhập hoặc mật khẩu!";
+            include "views/login.php";
         }
     }
-
-
 
     public function register()
     {
@@ -154,6 +142,8 @@ class HomeController
             session_start();
         }
         unset($_SESSION['user']);
+        unset($_SESSION['user_role']);
+        unset($_SESSION['cart_id']);
         session_destroy();
         header("Location: index.php?act=login");
         exit;

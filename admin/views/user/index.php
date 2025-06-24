@@ -71,8 +71,7 @@ $basePath = dirname(__DIR__, 2);
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <a href="index.php?act=userEdit&id=<?= $user['id'] ?>" class="btn btn-sm btn-warning">✏️ Sửa</a>
-                                                <a href="index.php?act=userDelete&id=<?= $user['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Xoá người dùng này?')">🗑️ Xoá</a>
+                                                <a href="index.php?act=userEdit&id=<?= $user['id'] ?>" class="btn btn-sm btn-warning">✏️ Cập nhật</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

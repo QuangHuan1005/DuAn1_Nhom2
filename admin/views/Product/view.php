@@ -32,7 +32,9 @@ $basePath = dirname(__DIR__, 2);
                         <div class="mb-4">
                             <label class="form-label fw-bold">Ảnh sản phẩm:</label><br>
                             <?php if (!empty($product['image_url'])): ?>
-                                 <img src="<?= htmlspecialchars($product['image_url']) ?>" alt="Ảnh sản phẩm" class="img-thumbnail" style="max-width: 300px;">
+
+                                <img src="/DuAn1_Nhom2/<?= htmlspecialchars($product['image_url']) ?>" alt="Ảnh sản phẩm" class="img-thumbnail" style="max-width: 300px;">
+
                             <?php else: ?>
                                 <p class="text-muted">Không có ảnh</p>
                             <?php endif; ?>

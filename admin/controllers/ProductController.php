@@ -10,7 +10,17 @@ class ProductController
 
     public function getAllProduct()
     {
-        $products = $this->productModel->get_list();
+        // $products = $this->productModel->get_list();
+      
+    $keyword = $_GET['keyword'] ?? null;
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $limit = 5;
+    $offset = ($page - 1) * $limit;
+
+    $products = $this->productModel->get_list_by_keyword($keyword, $limit, $offset);
+    $totalProducts = $this->productModel->count_all_by_keyword($keyword);
+    $totalPages = ceil($totalProducts / $limit);
+
       
         require_once 'views/Product/list.php';
     }

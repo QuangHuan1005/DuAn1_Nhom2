@@ -164,8 +164,8 @@ $basePath = dirname(__DIR__, 2);
                     <td class="text-center"><?= $index + 1 ?></td>
                     <td><?= htmlspecialchars($item['product_name']) ?></td>
                     <td class="text-center">
-                        <?php if(!empty($item['product_image'])): ?>
-                            <img src="<?= htmlspecialchars($item['product_image']) ?>" alt="<?= htmlspecialchars($item['product_name']) ?>" class="product-img" />
+                        <?php if(!empty($item['image_url'])): ?>
+                            <img src="/DuAn1_Nhom2/<?= htmlspecialchars($item['image_url']) ?>" alt="<?= htmlspecialchars($item['product_name']) ?>" class="product-img" />
                         <?php else: ?>
                             <span class="text-muted">Không có ảnh</span>
                         <?php endif; ?>
