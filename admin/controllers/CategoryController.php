@@ -13,7 +13,7 @@ class CategoryController {
 
     public function index() {
         $categories = $this->categoryModel->get_list();
-        require 'views/category/list.php';
+        require './views/category/list.php';
     }
 
     //skip trang
@@ -29,7 +29,7 @@ class CategoryController {
         $total = $this->categoryModel->countCategories();
         $totalPages = ceil($total / $limit);
 
-        require_once 'views/Category/list.php';
+        require_once './views/Category/list.php';
     }
     
 

@@ -8,15 +8,7 @@ class ProductModel
         $this->conn = connectDB();
     }
 
-    public function searchProducts($keyword)
-    {
-        $sql = "SELECT * FROM products 
-                WHERE deleted_at IS NULL 
-                AND name LIKE :keyword";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute(['keyword' =>  $keyword . '%']);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+
 
     public function getBestseller()
     {
@@ -71,10 +63,19 @@ class ProductModel
     {
         $sql = "SELECT * FROM products WHERE name LIKE :keyword";
         $stmt = $this->conn->prepare($sql);
-        $keyword = "%$keyword%"; 
+        $keyword = "%$keyword%";
         $stmt->bindParam(':keyword', $keyword);
         $stmt->execute();
 
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function searchProducts($keyword)
+    {
+        $sql = "SELECT * FROM products 
+                WHERE deleted_at IS NULL 
+                AND name LIKE :keyword";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['keyword' => $keyword . '%']);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -53,6 +53,7 @@ class ProductController
                 'name' => $_POST['name'],
                 'description' => $_POST['description'],
                 'price' => $_POST['price'],
+                'discount_price' => $_POST['discount_price'],
                 'stock_quantity' => $_POST['stock_quantity'],
                 'status' => $_POST['status'] ?? 1
             ];
@@ -73,7 +74,7 @@ class ProductController
                 }
             }
 
-
+            
             if ($this->productModel->create($data)) {
                 $_SESSION['success'] = "Thêm sản phẩm thành công";
                 header("Location: index.php?act=product-list");

@@ -10,11 +10,10 @@
                     <li>Chi tiết đơn hàng</li>
                 </ul>
             </div>
-            <h1>Chi tiết đơn hàng</h1>
+            <h1>Chi tiết đơn hàng #<?= htmlspecialchars($order['order_code']) ?></h1>
         </div>
 
         <div class="row">
-            <!-- Bên trái: Danh sách sản phẩm -->
             <div class="col-lg-8 col-md-6">
                 <div class="step last">
                     <h3>Danh sách sản phẩm trong đơn hàng</h3>
@@ -36,7 +35,7 @@
                                 $tong += $thanhtien;
                                 ?>
                                 <tr>
-                                    <td><img src="<?= $product['image_url'] ?>" width="60" alt="Ảnh sản phẩm"></td>
+                                    <td><img src="<?= htmlspecialchars($product['image_url']) ?>" width="60" alt="Ảnh sản phẩm"></td>
                                     <td>
                                         <a href="?act=product-detail&id=<?= $product['product_id'] ?>">
                                             <?= htmlspecialchars($product['product_name']) ?>
@@ -58,7 +57,6 @@
                 </div>
             </div>
 
-            <!-- Bên phải: Thông tin đơn hàng -->
             <div class="col-lg-4 col-md-6">
                 <div class="step last">
                     <h3>Thông tin giao hàng</h3>
@@ -67,11 +65,19 @@
                             <li class="clearfix"><em>Họ tên:</em> <span><?= htmlspecialchars($order['receiver_name']) ?></span></li>
                             <li class="clearfix"><em>Số điện thoại:</em> <span><?= htmlspecialchars($order['receiver_phone']) ?></span></li>
                             <li class="clearfix"><em>Email:</em> <span><?= htmlspecialchars($order['receiver_email']) ?></span></li>
+                            <li class="clearfix"><em><strong>Địa chỉ:</strong></em> <span><?= htmlspecialchars($order['shipping_address']) ?></span></li>
+                            <li class="clearfix"><em>Ngày đặt hàng:</em> <span><?= $order['created_at'] ?></span></li>
+                            <li class="clearfix"><em>Ngày giao hàng:</em> <span><?= $order['updated_at'] ?></span></li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6">
+                <div class="step last">
+                    <h3>Tóm tắt đơn hàng</h3>
+                    <div class="box_general summary">
                         <ul>
-                            <li class="clearfix"><em><strong>Địa chỉ:</strong></em>
-                                <span><?= htmlspecialchars($order['shipping_address']) ?></span>
-                            </li>
                             <?php
                             $status_id = $order['status_id'];
                             $statusMap = [
@@ -94,7 +100,8 @@
                             <li class="clearfix">
                                 <em><strong>Tình trạng thanh toán:</strong></em>
                                 <?php
-                                $paymentClass = match (strtolower($order['payment_status'] ?? '')) {
+                                $payment_status = strtolower($order['payment_status'] ?? '');
+                                $paymentClass = match ($payment_status) {
                                     'đã thanh toán' => 'badge bg-success text-white',
                                     'chưa thanh toán' => 'badge bg-danger text-white',
                                     default => 'badge bg-secondary text-white',
@@ -102,9 +109,26 @@
                                 ?>
                                 <span class="<?= $paymentClass ?> px-2 py-1 rounded-pill"><?= htmlspecialchars($order['payment_status'] ?? 'Chưa xác định') ?></span>
                             </li>
+
+                            <li class="clearfix">
+                                <em><strong>Phương thức vận chuyển:</strong></em>
+                                <span>Thanh toán khi nhận hàng (COD)</span>
+                            </li>
+
+                            <li class="clearfix">
+                                <em><strong>Tổng giá tiền:</strong></em>
+                                <span><?= number_format($tong) ?>đ</span>
+                            </li>
+
+                            <li class="clearfix">
+                                <em><strong>Chi phí vận chuyển:</strong></em>
+                                <span>30,000đ</span>
+                            </li>
                         </ul>
 
-                        <div class="total clearfix">Phương thức vận chuyển: <span>COD</span></div>
+                        <div class="total clearfix">
+                            Tổng giá trị đơn hàng: <span><?= number_format($tong + 30000) ?>đ</span>
+                        </div>
 
                         <?php if ($order['status_id'] == 4): ?>
                             <form action="index.php?act=my_orders_complete" method="POST" onsubmit="return confirm('Bạn xác nhận đã nhận hàng?');">
@@ -118,3 +142,5 @@
         </div>
     </div>
 </main>
+
+<?php require_once './views/layouts/layout_bottom.php'; ?>

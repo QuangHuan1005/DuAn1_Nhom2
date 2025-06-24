@@ -219,8 +219,12 @@ require './views/layouts/layout_top.php'; ?>
 							<h3><?= $product['name'] ?></h3>
 						</a>
 						<div class="price_box">
-							<span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
-							<span class="old_price"><?= number_format($product['price']) ?>₫</span>
+							<?php if (!empty($product['discount_price']) && $product['discount_price'] < $product['price']): ?>
+								<span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
+								<span class="old_price"><del><?= number_format($product['price']) ?>₫</del></span>
+							<?php else: ?>
+								<span class="new_price"><?= number_format($product['price']) ?>₫</span>
+							<?php endif; ?>
 						</div>
 						<ul>
 							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
@@ -265,3 +269,4 @@ require './views/layouts/layout_top.php'; ?>
 	</div>
 	<!-- /container -->
 </main>
+<?php require './views/layouts/layout_bottom.php'; ?>

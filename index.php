@@ -26,6 +26,7 @@ require_once './models/CartModel.php';
 
 // Lấy tham số 'act' từ URL
 $act = $_GET['act'] ?? '/';
+
 // Điều hướng request
 match ($act) {
   '/' => (new HomeController())->index(),
@@ -39,6 +40,7 @@ match ($act) {
   'profile' => (new UserController())->profile(),
   'my_orders' => (new OrderController())->myOrders(),
   'order_detail' => (new OrderController())->orderDetail($_GET['id']),
+
   'my_orders_complete' => (new OrderController())->completeOrder($_GET['id']),
   'login' => (new HomeController())->login(),
   'handle-login' => (new HomeController())->handleLogin(),

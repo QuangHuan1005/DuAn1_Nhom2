@@ -9,7 +9,20 @@
     <?php endif; ?>
 
     <div class="container margin_30">
-        <div class="countdown_inner">-20% Ưu đãi này kết thúc sau <div data-countdown="2025/05/25" class="countdown">
+        <div class="countdown_inner">
+            <?php
+            $original = $product['price'] ?? 0;
+            $discount = $product['discount_price'] ?? 0;
+            $percent = 0;
+
+            if ($original > 0 && $discount < $original) {
+                $percent = round((($original - $discount) / $original) * 100);
+            }
+            ?>
+            <?php if ($percent > 0): ?>
+                -<?= $percent ?>%
+            <?php endif; ?>
+            <div data-countdown="2025/06/25" class="countdown">
             </div>
         </div>
 
@@ -54,62 +67,42 @@
                                     </div>
                                 </div>
                                 <div class="row align-items-center">
-                                    <!-- <div class="col-lg-5 col-md-6 mb-2">
-            
+                                    <div class="col-lg-6 col-md-6">
 
-                            <?php
-                            $original = $product['price'] ?? 0;
-                            $discount = $product['discount_price'] ?? $original;
-                            $percent = ($original > 0 && $discount < $original) ? round((($original - $discount) / $original) * 100) : 0;
-                            ?>
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-5 col-md-6 mb-2">
-                                    <div class="price_main">
-                                        <span class="new_price"><?= number_format($discount, 0, ',', '.') ?>₫</span>
-                                        <?php if ($percent > 0): ?>
-                                            <span class="percentaged text-danger">-<?= $percent ?>%</span>
-                                            <span class="old_price"><?= number_format($original, 0, ',', '.') ?>₫</span>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="stock_quantity mt-2">
-                                        <strong>Số lượng tồn kho: </strong><?= (int) $product['stock_quantity'] ?>
-                                    </div>
-                                </div> -->
+                                        <div class="price_main">
+                                            <?php
+                                            $original = $product['price'] ?? 0;
+                                            $discount = $product['discount_price'] ?? null;
+                                            $final_price = ($discount !== null && $discount < $original) ? $discount : $original;
 
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-5 col-md-6 mb-2">
-                                            <div class="price_main">
+                                            // Tính phần trăm giảm giá nếu có
+                                            $percent = 0;
+                                            if ($discount !== null && $original > 0 && $discount < $original) {
+                                                $percent = round((($original - $discount) / $original) * 100);
+                                            }
+                                            ?>
+
+                                            <span class="new_price"><?= number_format($final_price, 0, ',', '.') ?>₫</span>
+
+                                            <?php if ($percent > 0): ?>
+                                                <span class="percentage">-<?= $percent ?>%</span>
                                                 <span
-                                                    class="new_price"><?= number_format($product['discount_price'] ?? 0, 0, ',', '.') ?>₫</span>
-
-                                                <?php
-                                                $original = $product['price'] ?? 0;
-                                                $discount = $product['discount_price'] ?? 0;
-                                                $percent = 0;
-
-                                                if ($original > 0 && $discount < $original) {
-                                                    $percent = round((($original - $discount) / $original) * 100);
-                                                }
-                                                ?>
-
-                                                <?php if ($percent > 0): ?>
-                                                    <span class="percentaged text-danger">-<?= $percent ?>%</span>
-                                                <?php endif; ?>
-
-                                                <span
-                                                    class="old_price"><?= number_format($product['price'] ?? 0, 0, ',', '.') ?>₫</span>
-
-                                            </div>
-
-
+                                                    class="old_price"><del><?= number_format($original, 0, ',', '.') ?>₫</del></span>
+                                            <?php endif; ?>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 mb-2">
-                                            <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+
+
+
+                                    </div>
+                                    <div class="col-lg-5 col-md-6">
+                                        <div class="btn_add_to_cart"><input type="hidden" name="product_id"
+                                                value="<?= $product['id'] ?>">
                                             <button type="submit" class="btn_1" title="Thêm vào giỏ hàng">
                                                 <i class="ti-shopping-cart"></i> Thêm vào giỏ hàng
                                             </button>
                                         </div>
                                     </div>
+                                </div>
                             </form>
                         </div>
                     </div>
