@@ -39,7 +39,6 @@ match ($act) {
     'userIndex'      => (new UserController())->index(),
     'userEdit'       => (new UserController())->edit($id),
     'userUpdate'     => (new UserController())->update($id),
-    'userDelete'     => (new UserController())->delete($id),
 
     // Product Routes
     'product-list'        => (new ProductController())->getAllProduct(),
