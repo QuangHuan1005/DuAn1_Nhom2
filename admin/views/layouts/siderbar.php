@@ -74,12 +74,6 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="index.php?act=order-status-list">
-                        <i class="ri-exchange-line"></i> <span>Trạng thái đơn hàng</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a class="nav-link menu-link" href="index.php?act=adminDashboard">
                         <i class="ri-bar-chart-line"></i> <span>Thống kê</span>
                     </a>
