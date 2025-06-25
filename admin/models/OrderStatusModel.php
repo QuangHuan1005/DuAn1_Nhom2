@@ -6,7 +6,7 @@ class OrderStatusModel {
 
     public function __construct() {
         // Thay your_db_name, root, "" bằng thông tin của bạn
-        $this->conn = new PDO("mysql:host=localhost;dbname=nhom2", "root", "");
+        $this->conn = new PDO("mysql:host=localhost;dbname=da1_nhom2", "root", "");
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 

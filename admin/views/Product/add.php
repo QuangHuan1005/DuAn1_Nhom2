@@ -6,7 +6,8 @@ $old = $_SESSION['old'] ?? [];
 unset($_SESSION['errors'], $_SESSION['old']); 
 ?>
 <!doctype html>
-<html lang="vi" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable" data-theme="default" data-theme-colors="default">
+<html lang="vi" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none" data-preloader="disable" data-theme="default" data-theme-colors="default">
 
 <head>
     <base href="/duan1_nhom2/admin/">
@@ -73,6 +74,11 @@ unset($_SESSION['errors'], $_SESSION['old']);
                             <?php if (!empty($errors['price'])): ?>
                                 <div class="text-danger"><?= $errors['price'] ?></div>
                             <?php endif; ?>
+                        </div>
+                        <div class="mb-3">
+                            <label for="discount_price" class="form-label">Giá khuyến mãi</label>
+                            <input type="number" step="0.01" class="form-control" id="discount_price"
+                                name="discount_price" required>
                         </div>
 
                         <div class="mb-3">

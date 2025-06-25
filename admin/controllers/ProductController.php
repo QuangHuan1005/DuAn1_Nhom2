@@ -112,6 +112,7 @@ class ProductController
                 'name' => $_POST['name'],
                 'description' => $_POST['description'],
                 'price' => $_POST['price'],
+                'discount_price' => $_POST['discount_price'],
                 'stock_quantity' => $_POST['stock_quantity'],
                 'status' => $_POST['status'] ?? 1
             ];
@@ -234,7 +235,7 @@ class ProductController
 
 
 
-    public function softDelete()
+    public function softDelete($id)
     {
         if (!isset($_GET['id'])) {
             $_SESSION['error'] = "ID sản phẩm không hợp lệ";
@@ -271,4 +272,5 @@ class ProductController
 
         header("Location: index.php?act=product-list");
     }
+    
 }

@@ -14,7 +14,7 @@ class ProductController
     {
         $this->productModel = new ProductModel();
         $this->categoryModel = new CategoryModel();
-    }
+    }   
     public function store()
     {
         $limit = 8;

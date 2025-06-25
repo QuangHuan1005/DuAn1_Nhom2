@@ -41,9 +41,24 @@ if (isset($_SESSION['user']['id'])) {
             </div>
             <ul>
               <li><a href="?act=home">Trang chủ</a></li>
-              <li><a href="?act=page">Sản phẩm</a></li>
-              <li><a href="blog.html">Blog</a></li>
-              <li><a href="https://1.envato.market/3KVvr" target="_parent">Buy Template</a></li>
+              <li class="submenu">
+                <a href="?act=page" class="show-submenu">Sản phẩm</a>
+                <?php
+                $categoryModel = new CategoryModel();
+                $categories = $categoryModel->getAll();
+                ?>
+                <ul>
+                  <?php foreach ($categories as $cat): ?>
+                    <li>
+                      <a href="index.php?act=category&id=<?= $cat['id'] ?>">
+                        <?= $cat['name'] ?>
+                      </a>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
+              </li>
+              <li><a href="blog.html">Tin tức</a></li>
+              <li><a href="" target="_parent">Liên hệ</a></li>
             </ul>
           </div>
           <!--/main-menu -->
@@ -108,6 +123,7 @@ if (isset($_SESSION['user']['id'])) {
                   <?php else: ?>
                     <ul>
                       <li><a href="?act=profile"><i class="ti-user"></i>Tài khoản của tôi</a></li>
+                      <li><a href="admin"><i class="ti-user"></i>Tài khoản admin</a></li>
                       <li><a href="track-order.html"><i class="ti-truck"></i>Đơn hàng</a></li>
                       <li><a href="help.html"><i class="ti-help-alt"></i>Câu hỏi thường gặp</a></li>
                       <li><a href="?act=logout"><i class="ti-shift-left"></i>Đăng xuất</a></li>

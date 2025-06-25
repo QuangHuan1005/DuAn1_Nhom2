@@ -10,12 +10,11 @@ require './views/layouts/layout_top.php'; ?>
 						<div class="row justify-content-center justify-content-md-end">
 							<div class="col-lg-6 static">
 								<div class="slide-text text-end white">
-									<h2 class="owl-slide-animated owl-slide-title">Attack Air<br>Max 720 Sage Low</h2>
+									<h2 class="owl-slide-animated owl-slide-title"></h2>
 									<p class="owl-slide-animated owl-slide-subtitle">
-										Limited items available at this price
+										
 									</p>
-									<div class="owl-slide-animated owl-slide-cta"><a class="btn_1"
-											href="listing-grid-1-full.html" role="button">Shop Now</a></div>
+									
 								</div>
 							</div>
 						</div>
@@ -89,9 +88,12 @@ require './views/layouts/layout_top.php'; ?>
 							<h3><?= $product['name'] ?></h3>
 						</a>
 						<div class="price_box">
-							<span class="new_price"><?= number_format($product['discount_price'] ?? 0) ?>₫</span>
-                            <span class="old_price"><?= number_format($product['price'] ?? 0) ?>₫</span>
-
+							<?php if (!empty($product['discount_price']) && $product['discount_price'] < $product['price']): ?>
+								<span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
+								<span class="old_price"><del><?= number_format($product['price']) ?>₫</del></span>
+							<?php else: ?>
+								<span class="new_price"><?= number_format($product['price']) ?>₫</span>
+							<?php endif; ?>
 						</div>
 						<ul>
 							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
@@ -172,7 +174,12 @@ require './views/layouts/layout_top.php'; ?>
 							<h3><?= $product['name'] ?></h3>
 						</a>
 						<div class="price_box">
-							<span class="new_price"><?= number_format($product['price']) ?>₫</span>
+							<?php if (!empty($product['discount_price']) && $product['discount_price'] < $product['price']): ?>
+								<span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
+								<span class="old_price"><del><?= number_format($product['price']) ?>₫</del></span>
+							<?php else: ?>
+								<span class="new_price"><?= number_format($product['price']) ?>₫</span>
+							<?php endif; ?>
 						</div>
 						<ul>
 							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
