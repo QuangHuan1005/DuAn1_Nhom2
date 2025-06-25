@@ -97,6 +97,13 @@ class CategoryController
     {
         $category = $this->categoryModel->getById($id);
 
+         // Không cho ẩn nếu có sản phẩm thuộc danh mục nằm trong giỏ hàng
+    if ($category['is_active'] == 1 && $this->categoryModel->hasProductInCartByCategory($id)) {
+        $_SESSION['error'] = "Không thể ẩn danh mục vì có sản phẩm thuộc danh mục này trong giỏ hàng.";
+        header("Location: index.php?act=category-list");
+        return;
+    }
+
         if ($category) {
             $newStatus = $category['is_active'] == 1 ? 0 : 1;
             $this->categoryModel->updateStatus($id, $newStatus);
@@ -110,6 +117,4 @@ class CategoryController
         header('Location: index.php?act=category-list');
         exit;
     }
-    
-    
 }
