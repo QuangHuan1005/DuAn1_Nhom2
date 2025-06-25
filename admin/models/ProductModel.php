@@ -65,23 +65,18 @@ class ProductModel
         $stmt = $this->conn->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
     }
 
     public function count_all_by_keyword($keyword = null)
     {
-        $sql = "SELECT COUNT(*) 
-                FROM products p
-                LEFT JOIN categories c ON p.category_id = c.id
-                WHERE c.is_active = 1";
+        $sql = "SELECT COUNT(*) FROM products WHERE deleted_at IS NULL";
         $params = [];
 
         if ($keyword) {
-            $sql .= " AND p.name LIKE ?";
+            $sql .= " AND name LIKE ?";
             $params[] = $keyword . '%';
         }
-
+      
         $stmt = $this->conn->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchColumn();
@@ -134,15 +129,24 @@ class ProductModel
 
         return $stmt->execute();
     }
+  
+   public function updateStatus($productId, $status)
+{
+    $sql = "UPDATE products SET status = ? WHERE id = ?";
+    $stmt = $this->conn->prepare($sql);
+    return $stmt->execute([$status, $productId]);
+}
 
 
-
-
-    public function updateStatus($id, $status)
+    public function isProductInAnyCart($productId)
     {
-        $stmt = $this->conn->prepare("UPDATE products SET status = ? WHERE id = ?");
-        return $stmt->execute([$status, $id]);
+        $sql = "SELECT COUNT(*) FROM cart_items WHERE product_id = :product_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['product_id' => $productId]);
+        return $stmt->fetchColumn() > 0;
+
     }
+
 
     public function getAllCategories()
     {
