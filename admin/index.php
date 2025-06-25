@@ -46,7 +46,7 @@ match ($act) {
     'view_product'        => (new ProductController())->viewProduct(),
     'add_product'         => (new ProductController())->addProduct(),
     'edit_product'        => (new ProductController())->editProduct(), 
-    'product-soft-delete' => (new ProductController())->softDelete(),
+    'product-soft-delete' => (new ProductController())->softDelete($id),
 
     // Order Routes
     'orderIndex'          => (new OrderController())->index(),

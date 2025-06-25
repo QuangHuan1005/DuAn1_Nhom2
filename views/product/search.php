@@ -221,10 +221,22 @@ require './views/layouts/layout_top.php'; ?>
                             <a href="?act=product-detail&id=<?= $product['id'] ?>">
                                 <h3><?= $product['name'] ?></h3>
                             </a>
-                            <div class="price_box">
-                                <span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
-                                <span class="old_price"><?= number_format($product['price']) ?>₫</span>
-                            </div>
+                            <?php if ($product['category_active'] == 0 || $product['status'] == 0): ?>
+                                <div class="price_box">
+                                    <span class="text-danger">Sản phẩm đã ngừng kinh doanh</span>
+                                </div>
+                                <!-- <button class="btn btn-secondary" disabled>Không thể mua</button> -->
+                            <?php else: ?>
+                                <div class="price_box">
+                                    <?php if (!empty($product['discount_price']) && $product['discount_price'] < $product['price']): ?>
+                                        <span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
+                                        <span class="old_price"><del><?= number_format($product['price']) ?>₫</del></span>
+                                    <?php else: ?>
+                                        <span class="new_price"><?= number_format($product['price']) ?>₫</span>
+                                    <?php endif; ?>
+                                </div>
+
+                            <?php endif; ?>
                             <ul>
                                 <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
                                         title="Add to favorites"><i class="ti-heart"></i><span>Add to
@@ -271,3 +283,4 @@ require './views/layouts/layout_top.php'; ?>
     </div>
     <!-- /container -->
 </main>
+<?php require './views/layouts/layout_bottom.php'; ?>

@@ -46,7 +46,8 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
         <form method="GET" action="index.php" class="row g-3 mb-3">
             <input type="hidden" name="act" value="product-list">
             <div class="col">
-                <input type="text" name="keyword" class="form-control" placeholder="Nhập chữ cái đầu tên sản phẩm" value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
+                <input type="text" name="keyword" class="form-control" placeholder="Nhập chữ cái đầu tên sản phẩm"
+                    value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Tìm kiếm</button>
@@ -64,6 +65,7 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                         <th>Mô tả</th>
                         <th class="text-center">Giá</th>
                         <th class="text-center">Tồn kho</th>
+                        <th class="text-center">Trạng thái</th>
                         <th>Danh mục</th>
                         <th class="text-center" style="width: 150px;">Hành động</th>
                     </tr>
@@ -72,7 +74,7 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                     <?php if (!empty($products)): ?>
                         <?php foreach ($products as $index => $product): ?>
                             <tr>
-                                <td class="text-center"><?= $index + 1 ?></td>
+                                <td class="text-center"><?= ($page - 1) * $limit + $index + 1 ?></td>
                                 <td>
                                     <a href="index.php?act=view_product&id=<?= $product['id'] ?>" class="text-decoration-none" style="color: black;">
                                         <?= htmlspecialchars($product['name']) ?>
@@ -80,10 +82,12 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                                 </td>
                                 <td>
                                     <a href="index.php?act=view_product&id=<?= $product['id'] ?>">
-                                        <img src="/DuAn1_Nhom2/<?= htmlspecialchars($product['image_url']) ?>" alt="Ảnh" class="img-thumbnail" width="60">
+                                        <img src="/DuAn1_Nhom2/<?= htmlspecialchars($product['image_url']) ?>" alt="Ảnh"
+                                            class="img-thumbnail" width="60">
                                     </a>
                                 </td>
-                                <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="<?= htmlspecialchars($product['description']) ?>">
+                                <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                                    title="<?= htmlspecialchars($product['description']) ?>">
                                     <?= htmlspecialchars($product['description']) ?>
                                 </td>
                                 <td class="text-end">
@@ -92,6 +96,11 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                                 <td class="text-center">
                                     <span class="badge <?= $product['stock_quantity'] > 0 ? 'bg-success' : 'bg-danger' ?>">
                                         <?= htmlspecialchars($product['stock_quantity']) ?>
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge <?= $product['status'] == 1 ? 'bg-success' : 'bg-danger' ?>">
+                                        <?= $product['status'] == 1 ? 'Hiển thị' : 'Ẩn' ?>
                                     </span>
                                 </td>
                                 <td><?= htmlspecialchars($product['category_name']) ?></td>
@@ -129,7 +138,8 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
             <ul class="pagination justify-content-center">
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                     <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                        <a class="page-link" href="index.php?act=product-list&page=<?= $i ?>&keyword=<?= urlencode($keyword) ?>">
+                        <a class="page-link"
+                            href="index.php?act=product-list&page=<?= $i ?>&keyword=<?= urlencode($keyword) ?>">
                             <?= $i ?>
                         </a>
                     </li>

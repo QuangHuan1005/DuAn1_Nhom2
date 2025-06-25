@@ -18,6 +18,7 @@
                     <th>STT</th>
                     <th>Tên danh mục</th>
                     <th>Mô tả</th>
+                    <th>Trạng thái</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -28,12 +29,22 @@
                             <td class="text-center"><?= $index + 1 ?></td>
                             <td><?= htmlspecialchars($cat['name']) ?></td>
                             <td><?= nl2br(htmlspecialchars($cat['description'])) ?></td>
+
+                            <td class="text-center">
+                                <span class="badge <?= $cat['is_active'] == 1 ? 'bg-success' : 'bg-danger' ?>">
+                                    <?= $cat['is_active'] == 1 ? 'Hiển thị' : 'Ẩn' ?>
+                                </span>
+                            </td>
                             <td>
                                 <a href="index.php?act=category-view&id=<?= $cat['id'] ?>" class="btn btn-info btn-sm">Xem</a>
-                                <a href="index.php?act=category-edit&id=<?= $cat['id'] ?>" class="btn btn-warning btn-sm">Sửa</a>
+                                <a href="index.php?act=category-edit&id=<?= $cat['id'] ?>"
+                                    class="btn btn-warning btn-sm">Sửa</a>
                                 <a href="index.php?act=category-soft-delete&id=<?= $cat['id'] ?>"
-                                    onclick="return confirm('Bạn có chắc muốn ẩn?')"
-                                    class="btn btn-danger btn-sm">Ẩn</a>
+                                    onclick="return confirm('<?= $cat['is_active'] == 1 ? 'Bạn có chắc muốn ẩn?' : 'Bạn có chắc muốn hiển thị lại?' ?>')"
+                                    class="btn btn-sm <?= $cat['is_active'] == 1 ? 'btn-danger' : 'btn-success' ?>">
+                                    <?= $cat['is_active'] == 1 ? 'Ẩn' : 'Hiển thị' ?>
+                                    
+                                </a>
 
                             </td>
                         </tr>

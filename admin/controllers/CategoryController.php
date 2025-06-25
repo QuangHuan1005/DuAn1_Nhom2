@@ -1,43 +1,52 @@
 <?php
 require_once 'models/CategoryModel.php';
+require_once 'models/ProductModel.php';
 
-class CategoryController {
-    
-   
+class CategoryController
+{
+
+
     private $categoryModel;
+    private $productModel;
 
     public function __construct()
     {
         $this->categoryModel = new CategoryModel();
+        $this->productModel = new ProductModel();
     }
 
-    public function index() {
+    public function index()
+    {
         $categories = $this->categoryModel->get_list();
-        require 'views/category/list.php';
+        require './views/category/list.php';
     }
 
     //skip trang
-     public function listCategories() {
-        $limit = 10; 
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        if ($page < 1) $page = 1;
+    public function listCategories()
+    {
+        $limit = 10;
+        $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        if ($page < 1)
+            $page = 1;
         $offset = ($page - 1) * $limit;
 
         $categories = $this->categoryModel->getCategoriesLimitOffset($limit, $offset);
 
-        
+
         $total = $this->categoryModel->countCategories();
         $totalPages = ceil($total / $limit);
 
-        require_once 'views/Category/list.php';
+        require_once './views/Category/list.php';
     }
-    
 
-    public function create() {
+
+    public function create()
+    {
         require 'views/category/add.php';
     }
 
-    public function store() {
+    public function store()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
                 'name' => $_POST['name'] ?? '',
@@ -48,43 +57,59 @@ class CategoryController {
             exit();
         }
     }
-public function edit($id) {
-    $category = $this->categoryModel->getById($id);
-    if (!$category) {
-        echo "Category not found";
-        exit();
+    public function edit($id)
+    {
+        $category = $this->categoryModel->getById($id);
+        if (!$category) {
+            echo "Category not found";
+            exit();
+        }
+        $categories = $this->categoryModel->get_list(); // lấy tất cả danh mục khác để hiển thị trong select
+        require 'views/category/edit.php';
     }
-    $categories = $this->categoryModel->get_list(); // lấy tất cả danh mục khác để hiển thị trong select
-    require 'views/category/edit.php';
-}
 
-public function view($id) {
-    $category = $this->categoryModel->getById($id);
-    if (!$category) {
-        echo "Không tìm thấy danh mục.";
-        exit();
+    public function view($id)
+    {
+        $category = $this->categoryModel->getById($id);
+        if (!$category) {
+            echo "Không tìm thấy danh mục.";
+            exit();
+        }
+        require 'views/category/view.php';
     }
-    require 'views/category/view.php';
-}
 
 
 
-   public function update($id) {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $data = [
-            'name' => $_POST['name'] ?? '',
-            'description' => $_POST['description'] ?? '',
-        ];
-        $this->categoryModel->update($id, $data);
+    public function update($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data = [
+                'name' => $_POST['name'] ?? '',
+                'description' => $_POST['description'] ?? '',
+            ];
+            $this->categoryModel->update($id, $data);
+            header('Location: index.php?act=category-list');
+            exit();
+        }
+    }
+
+    public function softDelete($id)
+    {
+        $category = $this->categoryModel->getById($id);
+
+        if ($category) {
+            $newStatus = $category['is_active'] == 1 ? 0 : 1;
+            $this->categoryModel->updateStatus($id, $newStatus);
+        }
+        $product = $this->productModel->getById($id);
+
+        if ($product) {
+            $newStatus = $product['status'] == 1 ? 0 : 1;
+            $this->productModel->updateStatus($id, $newStatus);
+        }
         header('Location: index.php?act=category-list');
-        exit();
+        exit;
     }
-}
-
-
-    public function softDelete($id) {
-        $this->categoryModel->softDelete($id);
-        header('Location: index.php?act=category-list');
-        exit();
-    }
+    
+    
 }

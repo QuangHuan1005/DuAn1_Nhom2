@@ -6,11 +6,9 @@ class OrderController {
 
     public function __construct() {
         $this->orderModel = new OrderModel();
-        // Lấy quyền user từ session, nếu không có thì mặc định là 'customer'
         $this->userRole = $_SESSION['user']['role'] ?? 'customer';
     }
 
-    // Trang danh sách đơn hàng với tìm kiếm, phân trang và lọc trạng thái
     public function index() {
         $keyword = $_GET['keyword'] ?? '';
         $status_id = $_GET['status_id'] ?? '';
@@ -27,9 +25,7 @@ class OrderController {
         require_once __DIR__ . '/../views/orders/index.php';
     }
 
-    // Xem chi tiết 1 đơn hàng
     public function view() {
-        // Lấy order_code từ URL, ví dụ: ?order_code=DH1
         $orderCode = $_GET['order_code'] ?? null;
 
         if (!$orderCode) {
@@ -49,7 +45,6 @@ class OrderController {
         require_once __DIR__ . '/../views/orders/show.php';
     }
 
-    // Form cập nhật trạng thái đơn hàng
    public function updateStatusForm() {
     $id = (int)($_GET['id'] ?? 0);
 
@@ -58,7 +53,7 @@ class OrderController {
         return;
     }
 
-    $order = $this->orderModel->getOrderById($id); // Lấy đơn hàng theo id
+    $order = $this->orderModel->getOrderById($id);
     $statuses = $this->orderModel->getAllStatuses();
 
     if (!$order) {
@@ -70,14 +65,12 @@ class OrderController {
 }
 
 
-    // Xử lý cập nhật trạng thái đơn hàng
     public function updateStatus() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo "Phương thức không hợp lệ.";
             return;
         }
 
-        // Ở đây update theo ID đơn hàng
         $id = (int)($_GET['id'] ?? 0);
         $newStatusId = isset($_POST['status_id']) ? (int)$_POST['status_id'] : 0;
 
@@ -95,23 +88,20 @@ class OrderController {
         $currentStatusId = $order['status_id'];
         $statuses = $this->orderModel->getAllStatuses();
 
-        // Map trạng thái theo tên => id
         $statusNameToId = [];
         foreach ($statuses as $status) {
             $statusNameToId[$status['name']] = $status['id'];
         }
 
-        // Các trạng thái cần có
         $requiredStatuses = [
             "Chờ xác nhận",
-            "Xác nhận",
-            "Đang vận chuyển",
+            "Chờ lấy hàng",
+            "Đang giao hàng",
             "Đã giao hàng",
             "Hoàn thành",
-            "Hủy hàng"
+             "Đã hủy"
         ];
 
-        // Kiểm tra đủ các trạng thái cần thiết
         foreach ($requiredStatuses as $statusName) {
             if (!isset($statusNameToId[$statusName])) {
                 echo "Trạng thái '{$statusName}' chưa được khai báo trong hệ thống.";
@@ -119,15 +109,12 @@ class OrderController {
             }
         }
 
-        // Kiểm tra quyền và logic chuyển trạng thái
         if (!$this->canChangeStatus($currentStatusId, $newStatusId, $this->userRole, $statusNameToId)) {
             echo "Không thể chuyển trạng thái từ '{$this->getStatusName($currentStatusId, $statuses)}' sang '{$this->getStatusName($newStatusId, $statuses)}' với quyền '{$this->userRole}'.";
             return;
         }
 
-        // Cập nhật trạng thái đơn hàng
         if ($this->orderModel->updateOrderStatus($id, $newStatusId)) {
-            // Cập nhật thành công, quay lại danh sách
             header("Location: index.php?act=orderIndex");
             exit;
         } else {
@@ -135,14 +122,13 @@ class OrderController {
         }
     }
 
-    // Kiểm tra quyền và logic chuyển trạng thái hợp lệ
     private function canChangeStatus($currentStatusId, $newStatusId, $userRole, $statusNameToId) {
         $waitingId = $statusNameToId["Chờ xác nhận"];
-        $confirmedId = $statusNameToId["Xác nhận"];
-        $shippingId = $statusNameToId["Đang vận chuyển"];
+        $confirmedId = $statusNameToId["Chờ lấy hàng"];
+        $shippingId = $statusNameToId["Đang giao hàng"];
         $deliveredId = $statusNameToId["Đã giao hàng"];
         $completedId = $statusNameToId["Hoàn thành"];
-        $cancelledId = $statusNameToId["Hủy hàng"];
+        $cancelledId = $statusNameToId[ "Đã hủy"];
 
         if ($userRole === 'admin') {
             switch ($currentStatusId) {
@@ -154,23 +140,23 @@ class OrderController {
                     return $newStatusId === $deliveredId;
                 case $deliveredId:
                     return $newStatusId === $completedId;
-                case $completedId:
-                case $cancelledId:
+                    case $cancelledId:
                     return false;
+                case $completedId:
+                // case $cancelledId:
+                //     return false;
                 default:
                     return false;
             }
         }
 
         if ($userRole === 'customer') {
-            // Khách hàng chỉ được chuyển từ "Đã giao hàng" sang "Hoàn thành"
             return ($currentStatusId === $deliveredId && $newStatusId === $completedId);
         }
 
         return false;
     }
 
-    // Lấy tên trạng thái từ id
     private function getStatusName($statusId, $statuses) {
         foreach ($statuses as $status) {
             if ($status['id'] == $statusId) {

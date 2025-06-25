@@ -27,7 +27,8 @@ class HomeController
 
     public function login()
     {
-        $error = null;
+        $error = $_SESSION['error'] ?? null;
+        unset($_SESSION['error']);
         include "views/login.php";
     }
 
@@ -42,28 +43,40 @@ class HomeController
         $error = null;
 
         $user = User::findByUsername($username);
-        if ($user && $passwordInput === $user['password']) {
-            $_SESSION['user'] = $user;
-            $_SESSION['user_role'] = $user['role'];
 
-            // ✅ Tạo CartModel và lấy cart_id
-            $cartModel = new CartModel();
-            $cart_id = $cartModel->getCartIdByUserId($user['id']);
-            if (!$cart_id) {
-                $cart_id = $cartModel->createCartForUser($user['id']);
-            }
-            $_SESSION['cart_id'] = $cart_id;
-
-            if ($user['role'] === 'admin') {
-                header('Location: index.php?act=adminDashboard');
-            } else {
-                header('Location: index.php?act=clientHome');
-            }
-            exit;
-        } else {
+        // Nếu user không tồn tại hoặc mật khẩu sai
+        if (!$user || $passwordInput !== $user['password']) {
             $error = "Sai tên đăng nhập hoặc mật khẩu!";
             include "views/login.php";
+            return;
         }
+
+        // Kiểm tra trạng thái tài khoản (0 = bị khóa)
+        if (isset($user['status']) && $user['status'] == 0) {
+            $_SESSION['error'] = "Tài khoản của bạn đã bị ngừng hoạt động.";
+            header("Location: index.php?act=login");
+            exit;
+        }
+
+        // Đăng nhập thành công
+        $_SESSION['user'] = $user;
+        $_SESSION['user_role'] = $user['role'];
+
+        // Gắn giỏ hàng
+        $cartModel = new CartModel();
+        $cart_id = $cartModel->getCartIdByUserId($user['id']);
+        if (!$cart_id) {
+            $cart_id = $cartModel->createCartForUser($user['id']);
+        }
+        $_SESSION['cart_id'] = $cart_id;
+
+        // Chuyển hướng
+        if ($user['role'] === 'admin') {
+            header('Location: index.php?act=adminDashboard');
+        } else {
+            header('Location: index.php?act=clientHome');
+        }
+        exit;
     }
 
     public function register()
@@ -85,6 +98,7 @@ class HomeController
         $avatar = $_FILES['avatar']['name'] ?? 'default.png';
         $error = null;
 
+        // Kiểm tra dữ liệu
         if (empty($username) || empty($email) || empty($password) || empty($confirm) || $password !== $confirm) {
             $error = "Vui lòng điền đầy đủ thông tin và kiểm tra mật khẩu!";
             include "views/register.php";
@@ -97,6 +111,7 @@ class HomeController
             return;
         }
 
+        // Upload ảnh
         if (!empty($_FILES['avatar']['name'])) {
             $targetDir = 'uploads/';
             $targetFile = $targetDir . basename($avatar);
@@ -107,8 +122,7 @@ class HomeController
             }
         }
 
-        // Lưu password không mã hóa (theo yêu cầu)
-        $hashedPassword = $password;
+        $hashedPassword = $password; // Thực tế nên hash: password_hash($password, PASSWORD_BCRYPT)
 
         $data = [
             'username' => $username,
@@ -144,10 +158,12 @@ class HomeController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
+
         unset($_SESSION['user']);
         unset($_SESSION['user_role']);
         unset($_SESSION['cart_id']);
         session_destroy();
+
         header("Location: index.php?act=login");
         exit;
     }

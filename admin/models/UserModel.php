@@ -47,11 +47,6 @@ class UserModel {
 }
 
 
-    public function delete($id) {
-        $sql = "DELETE FROM users WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$id]);
-    }
    public function get_list_paged($keyword = '', $limit = 10, $offset = 0) {
     $sql = "SELECT * FROM users";
 

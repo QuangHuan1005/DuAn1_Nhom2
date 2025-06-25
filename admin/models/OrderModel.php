@@ -7,35 +7,39 @@ class OrderModel {
         $this->conn = connectDB();
     }
 
-    public function searchOrders($keyword, $limit, $offset, $status_id = null) {
-        $sql = "SELECT o.*, os.name as status_name 
-                FROM orders o
-                LEFT JOIN order_statuses os ON o.status_id = os.id
-                WHERE (o.receiver_name LIKE :keyword 
-                       OR o.receiver_email LIKE :keyword 
-                       OR o.receiver_phone LIKE :keyword)";
+   public function searchOrders($keyword, $limit, $offset, $status_id = null)
+{
+    $sql = "SELECT o.*, os.name as status_name 
+            FROM orders o
+            LEFT JOIN order_statuses os ON o.status_id = os.id
+            WHERE (o.order_code LIKE :keyword 
+                   OR o.receiver_name LIKE :keyword 
+                   OR o.receiver_email LIKE :keyword 
+                   OR o.receiver_phone LIKE :keyword)";
+    
+    $params = [':keyword' => "%$keyword%"];
 
-        $params = [':keyword' => "%$keyword%"];
-
-        if ($status_id !== null && $status_id !== '' && $status_id !== 'all') {
-            $sql .= " AND o.status_id = :status_id";
-            $params[':status_id'] = $status_id;
-        }
-
-        $sql .= " ORDER BY o.created_at DESC 
-                  LIMIT :limit OFFSET :offset";
-
-        $stmt = $this->conn->prepare($sql);
-
-        foreach ($params as $key => $val) {
-            $stmt->bindValue($key, $val, PDO::PARAM_STR);
-        }
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($status_id !== null && $status_id !== '' && $status_id !== 'all') {
+        $sql .= " AND o.status_id = :status_id";
+        $params[':status_id'] = $status_id;
     }
+
+    $sql .= " ORDER BY o.created_at DESC 
+              LIMIT :limit OFFSET :offset";
+
+    $stmt = $this->conn->prepare($sql);
+
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val, PDO::PARAM_STR);
+    }
+
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
     public function countTotalOrders($keyword, $status_id = null) {
         $sql = "SELECT COUNT(*) FROM orders 
@@ -77,7 +81,6 @@ class OrderModel {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-    // Lấy đơn hàng kèm theo danh sách sản phẩm luôn
     public function getOrderByIdWithItems($id) {
         $order = $this->getOrderById($id);
         if (!$order) return false;
@@ -87,7 +90,7 @@ class OrderModel {
     }
 
     public function getOrderItemsByOrderId($orderId) {
-        $sql = "SELECT oi.*, p.name as product_name
+        $sql = "SELECT oi.*, p.name as product_name, p.image_url
                 FROM order_items oi
                 JOIN products p ON oi.product_id = p.id
                 WHERE oi.order_id = :order_id";
@@ -225,7 +228,6 @@ class OrderModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Lấy các đơn hàng "Chờ xác nhận"
     public function getPendingOrders()
     {
         $sql = "
