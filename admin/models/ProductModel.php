@@ -33,42 +33,42 @@ class ProductModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-//Tìm kiếm sản phẩm, phân trang
-public function get_list_by_keyword($keyword = null, $limit = 5, $offset = 0)
-{
-    $sql = "SELECT p.*, c.name as category_name
+    //Tìm kiếm sản phẩm, phân trang
+    public function get_list_by_keyword($keyword = null, $limit = 5, $offset = 0)
+    {
+        $sql = "SELECT p.*, c.name as category_name
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE p.deleted_at IS NULL";
 
-    $params = [];
+        $params = [];
 
-    if ($keyword) {
-        $sql .= " AND p.name LIKE ?";
-        $params[] = $keyword . '%';
+        if ($keyword) {
+            $sql .= " AND p.name LIKE ?";
+            $params[] = $keyword . '%';
+        }
+
+        $sql .= " ORDER BY p.name ASC LIMIT $limit OFFSET $offset";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    $sql .= " ORDER BY p.name ASC LIMIT $limit OFFSET $offset"; 
+    public function count_all_by_keyword($keyword = null)
+    {
+        $sql = "SELECT COUNT(*) FROM products WHERE deleted_at IS NULL";
+        $params = [];
 
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        if ($keyword) {
+            $sql .= " AND name LIKE ?";
+            $params[] = $keyword . '%';
+        }
 
-public function count_all_by_keyword($keyword = null)
-{
-    $sql = "SELECT COUNT(*) FROM products WHERE deleted_at IS NULL";
-    $params = [];
-
-    if ($keyword) {
-        $sql .= " AND name LIKE ?";
-        $params[] = $keyword . '%';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchColumn();
     }
-
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetchColumn();
-}
 
 
     public function create($data)
@@ -119,12 +119,22 @@ public function count_all_by_keyword($keyword = null)
 
 
 
-    public function softDelete($id)
+   public function updateStatus($productId, $status)
+{
+    $sql = "UPDATE products SET status = ? WHERE id = ?";
+    $stmt = $this->conn->prepare($sql);
+    return $stmt->execute([$status, $productId]);
+}
+
+
+    public function isProductInAnyCart($productId)
     {
-        $sql = "UPDATE products SET deleted_at = NOW() WHERE id = ?";
+        $sql = "SELECT COUNT(*) FROM cart_items WHERE product_id = :product_id";
         $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$id]);
+        $stmt->execute(['product_id' => $productId]);
+        return $stmt->fetchColumn() > 0;
     }
+
 
     public function getAllCategories()
     {

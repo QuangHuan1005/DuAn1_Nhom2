@@ -62,7 +62,7 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                         <th>Tên sản phẩm</th>
                         <th class="text-center">Hình ảnh</th>
                         <th>Mô tả</th>
-                        <th class="text-end">Giá</th>
+                        <th class="text-center">Giá</th>
                         <th class="text-center">Tồn kho</th>
                         <th>Danh mục</th>
                         <th class="text-center" style="width: 150px;">Hành động</th>
@@ -73,7 +73,11 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                         <?php foreach ($products as $index => $product): ?>
                             <tr>
                                 <td class="text-center"><?= $index + 1 ?></td>
-                                <td><?= htmlspecialchars($product['name']) ?></td>
+                                <td>
+                                    <a href="index.php?act=view_product&id=<?= $product['id'] ?>" class="text-decoration-none" style="color: black;">
+                                        <?= htmlspecialchars($product['name']) ?>
+                                    </a>
+                                </td>
                                 <td>
                                     <a href="index.php?act=view_product&id=<?= $product['id'] ?>">
                                         <img src="/DuAn1_Nhom2/<?= htmlspecialchars($product['image_url']) ?>" alt="Ảnh" class="img-thumbnail" width="60">
@@ -95,9 +99,15 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                                     <div class="d-flex justify-content-center gap-1">
                                         <a href="index.php?act=view_product&id=<?= urlencode($product['id']) ?>" class="btn btn-info btn-sm" title="Xem">Xem</a>
                                         <a href="index.php?act=edit_product&id=<?= urlencode($product['id']) ?>" class="btn btn-warning btn-sm" title="Sửa">Sửa</a>
-                                        <a href="index.php?act=product-soft-delete&id=<?= urlencode($product['id']) ?>"
-                                            onclick="return confirm('Bạn có chắc muốn ẩn sản phẩm này?')"
-                                            class="btn btn-secondary btn-sm" title="Ẩn">Ẩn</a>
+                                        <?php if ($product['status'] == 1): ?>
+                                            <a href="index.php?act=product-soft-delete&id=<?= urlencode($product['id']) ?>"
+                                                onclick="return confirm('Bạn có chắc muốn ẩn sản phẩm này?')"
+                                                class="btn btn-secondary btn-sm" title="Ẩn">Ẩn</a>
+                                        <?php else: ?>
+                                            <a href="index.php?act=product-soft-delete&id=<?= urlencode($product['id']) ?>"
+                                                onclick="return confirm('Bạn có chắc muốn hiện sản phẩm này?')"
+                                                class="btn btn-success btn-sm" title="Hiện">Hiện</a>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>

@@ -1,6 +1,9 @@
 <?php
 // session_start();
 $basePath = dirname(__DIR__, 2);
+$errors = $_SESSION['errors'] ?? [];
+$old = $_SESSION['old'] ?? [];
+unset($_SESSION['errors'], $_SESSION['old']); 
 ?>
 <!doctype html>
 <html lang="vi" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable" data-theme="default" data-theme-colors="default">
@@ -24,36 +27,38 @@ $basePath = dirname(__DIR__, 2);
             <main class="col-lg-9 col-md-8 d-flex justify-content-center align-items-start py-4 bg-white">
                 <div class="w-75">
 
-                    <h2>Thêm sản phẩm mới</h2>
 
-                    <?php if (!empty($_SESSION['error'])): ?>
-                        <div class="alert alert-danger">
-                            <?= $_SESSION['error'] ?>
-                        </div>
-                        <?php unset($_SESSION['error']); ?>
-                    <?php endif; ?>
 
                     <form action="index.php?act=add_product" method="POST" enctype="multipart/form-data">
+                        <!-- Danh mục -->
                         <div class="mb-3">
                             <label for="category_id" class="form-label">Danh mục</label>
-                            <select name="category_id" id="category_id" class="form-select" required>
+                            <select name="category_id" id="category_id" class="form-select">
                                 <option value="">-- Chọn danh mục --</option>
                                 <?php foreach ($categories as $category): ?>
-                                    <option value="<?= $category['id'] ?>">
+                                    <option value="<?= $category['id'] ?>" <?= ($old['category_id'] ?? '') == $category['id'] ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($category['name']) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
+                            <?php if (!empty($errors['category_id'])): ?>
+                                <div class="text-danger"><?= $errors['category_id'] ?></div>
+                            <?php endif; ?>
                         </div>
-
                         <div class="mb-3">
                             <label for="name" class="form-label">Tên sản phẩm</label>
-                            <input type="text" name="name" id="name" class="form-control" required>
+                            <input type="text" name="name" id="name" class="form-control" value="<?= htmlspecialchars($old['name'] ?? '') ?>">
+                            <?php if (!empty($errors['name'])): ?>
+                                <div class="text-danger"><?= $errors['name'] ?></div>
+                            <?php endif; ?>
                         </div>
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Mô tả</label>
                             <textarea name="description" id="description" rows="4" class="form-control"></textarea>
+                              <?php if (!empty($errors['description'])): ?>
+                                <div class="text-danger"><?= $errors['description'] ?></div>
+                            <?php endif; ?>
                         </div>
                         <!-- <div class="mb-3">
                             <label for="status" class="form-label">Trạng thái</label>
@@ -64,17 +69,26 @@ $basePath = dirname(__DIR__, 2);
                         </div> -->
                         <div class="mb-3">
                             <label for="price" class="form-label">Giá</label>
-                            <input type="number" name="price" id="price" class="form-control" required>
+                            <input type="number" name="price" id="price" class="form-control" value="<?= htmlspecialchars($old['price'] ?? '') ?>">
+                            <?php if (!empty($errors['price'])): ?>
+                                <div class="text-danger"><?= $errors['price'] ?></div>
+                            <?php endif; ?>
                         </div>
 
                         <div class="mb-3">
                             <label for="stock_quantity" class="form-label">Tồn kho</label>
-                            <input type="number" name="stock_quantity" id="stock_quantity" class="form-control" required>
+                            <input type="number" name="stock_quantity" id="stock_quantity" class="form-control" value="<?= htmlspecialchars($old['stock_quantity'] ?? '') ?>">
+                            <?php if (!empty($errors['stock_quantity'])): ?>
+                                <div class="text-danger"><?= $errors['stock_quantity'] ?></div>
+                            <?php endif; ?>
                         </div>
 
                         <div class="mb-3">
                             <label for="image" class="form-label">Ảnh sản phẩm</label>
                             <input type="file" name="image" id="image" class="form-control">
+                            <?php if (!empty($errors['image'])): ?>
+                                <div class="text-danger"><?= $errors['image'] ?></div>
+                            <?php endif; ?>
                         </div>
 
 
