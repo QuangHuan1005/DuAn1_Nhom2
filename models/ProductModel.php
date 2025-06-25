@@ -27,14 +27,17 @@ class ProductModel
         return $data->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // 3. Lấy sản phẩm theo danh mục
-    public function getByCategory($category_id)
-    {
-        $sql = "SELECT * FROM products WHERE status = 1 AND category_id = :category_id";
-        $data = $this->conn->prepare($sql);
-        $data->execute(['category_id' => $category_id]);
-        return $data->fetchAll(PDO::FETCH_ASSOC);
-    }
+   public function getByCategory($category_id)
+{
+    $sql = "SELECT p.*, c.is_active AS category_active
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            WHERE p.status = 1 AND p.category_id = :category_id";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute(['category_id' => $category_id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
     // 4. Đếm tổng sản phẩm
     public function getAll()
@@ -55,37 +58,45 @@ class ProductModel
         return $data->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // 6. Chi tiết sản phẩm
     public function getProductDetail($id)
-    {
-        $sql = "SELECT * FROM products WHERE id = :id AND status = 1 ";
-        $data = $this->conn->prepare($sql);
-        $data->execute(['id' => $id]);
-        return $data->fetch(PDO::FETCH_ASSOC);
-    }
+{
+    $sql = "SELECT p.*, c.is_active AS category_active
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            WHERE p.id = :id AND p.status = 1";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute(['id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
-    // 7. Tìm kiếm từ khóa
-    public function searchByKeyword($keyword)
-    {
-        $sql = "SELECT * FROM products WHERE status = 1 AND name LIKE :keyword";
-        $stmt = $this->conn->prepare($sql);
-        $keyword = "%$keyword%";
-        $stmt->bindParam(':keyword', $keyword);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 
-    // 8. Tìm kiếm sản phẩm có kiểm tra deleted_at
-    public function searchProducts($keyword)
-    {
-            $sql = "SELECT * FROM products 
-                WHERE deleted_at IS NULL 
-                AND  status = 1
-                AND  name LIKE :keyword";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute(['keyword' => $keyword . '%']);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+   public function searchByKeyword($keyword)
+{
+    $sql = "SELECT p.*, c.is_active AS category_active
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            WHERE p.status = 1 AND p.name LIKE :keyword";
+    $stmt = $this->conn->prepare($sql);
+    $keyword = "%$keyword%";
+    $stmt->bindParam(':keyword', $keyword);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+   public function searchProducts($keyword)
+{
+    $sql = "SELECT p.*, c.is_active AS category_active
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            WHERE p.deleted_at IS NULL
+              AND p.status = 1
+              AND p.name LIKE :keyword";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute(['keyword' => $keyword . '%']);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
    public function increaseStockQuantity($product_id, $quantity)
 {

@@ -67,20 +67,24 @@ class ProductModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function count_all_by_keyword($keyword = null)
-    {
-        $sql = "SELECT COUNT(*) FROM products WHERE deleted_at IS NULL";
-        $params = [];
+  public function count_all_by_keyword($keyword = null)
+{
+    $sql = "SELECT COUNT(*) 
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            WHERE c.is_active = 1";
 
-        if ($keyword) {
-            $sql .= " AND name LIKE ?";
-            $params[] = $keyword . '%';
-        }
-      
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchColumn();
+    $params = [];
+
+    if ($keyword) {
+        $sql .= " AND p.name LIKE ?";
+        $params[] = $keyword . '%';
     }
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchColumn();
+}
 
 
     public function create($data)

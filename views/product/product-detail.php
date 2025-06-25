@@ -50,7 +50,7 @@
 
                     <div class="prod_info">
                         <h1><?= ($product['name']) ?></h1>
-                        <?php if ($product['category_active'] == 0 || $product['status'] == 0): ?>
+                       <?php if (($product['category_active'] ?? 1) == 0 || ($product['status'] ?? 1) == 0): ?>
                             <div class="row align-items-center">
                                 <div class="col-lg-6 col-md-6">
 

@@ -74,7 +74,7 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                     <?php if (!empty($products)): ?>
                         <?php foreach ($products as $index => $product): ?>
                             <tr>
-                                <td class="text-center"><?= $index + 1 ?></td>
+                                <td class="text-center"><?= ($page - 1) * $limit + $index + 1 ?></td>
                                 <td>
                                     <a href="index.php?act=view_product&id=<?= $product['id'] ?>" class="text-decoration-none" style="color: black;">
                                         <?= htmlspecialchars($product['name']) ?>
@@ -105,7 +105,7 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                                 </td>
                                 <td><?= htmlspecialchars($product['category_name']) ?></td>
                                 <td class="text-center">
-                                    <div class="d-flex justify-content-center gap-1"><<<<<<< nampt
+                                    <div class="d-flex justify-content-center gap-1">
                                         <a href="index.php?act=view_product&id=<?= urlencode($product['id']) ?>" class="btn btn-info btn-sm" title="Xem">Xem</a>
                                         <a href="index.php?act=edit_product&id=<?= urlencode($product['id']) ?>" class="btn btn-warning btn-sm" title="Sửa">Sửa</a>
                                         <?php if ($product['status'] == 1): ?>

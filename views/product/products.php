@@ -53,7 +53,7 @@ require './views/layouts/layout_top.php'; ?>
 						<a href="?act=product-detail&id=<?= $product['id'] ?>">
 							<h3><?= $product['name'] ?></h3>
 						</a>
-						<?php if ($product['category_active'] == 0 || $product['status'] == 0): ?>
+						<?php if (($product['category_active'] ?? 1) == 0 || ($product['status'] ?? 1) == 0): ?>
 							<div class="price_box">
 								<span class="text-danger">Sản phẩm đã ngừng kinh doanh</span>
 							</div>
