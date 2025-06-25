@@ -44,25 +44,22 @@ class HomeController
 
         $user = User::findByUsername($username);
 
-        // Nếu user không tồn tại hoặc mật khẩu sai
+
         if (!$user || $passwordInput !== $user['password']) {
             $error = "Sai tên đăng nhập hoặc mật khẩu!";
             include "views/login.php";
             return;
         }
 
-        // Kiểm tra trạng thái tài khoản (0 = bị khóa)
         if (isset($user['status']) && $user['status'] == 0) {
             $_SESSION['error'] = "Tài khoản của bạn đã bị ngừng hoạt động.";
             header("Location: index.php?act=login");
             exit;
         }
 
-        // Đăng nhập thành công
         $_SESSION['user'] = $user;
         $_SESSION['user_role'] = $user['role'];
 
-        // Gắn giỏ hàng
         $cartModel = new CartModel();
         $cart_id = $cartModel->getCartIdByUserId($user['id']);
         if (!$cart_id) {
@@ -70,7 +67,6 @@ class HomeController
         }
         $_SESSION['cart_id'] = $cart_id;
 
-        // Chuyển hướng
         if ($user['role'] === 'admin') {
             header('Location: index.php?act=adminDashboard');
         } else {
@@ -98,7 +94,6 @@ class HomeController
         $avatar = $_FILES['avatar']['name'] ?? 'default.png';
         $error = null;
 
-        // Kiểm tra dữ liệu
         if (empty($username) || empty($email) || empty($password) || empty($confirm) || $password !== $confirm) {
             $error = "Vui lòng điền đầy đủ thông tin và kiểm tra mật khẩu!";
             include "views/register.php";
@@ -111,7 +106,6 @@ class HomeController
             return;
         }
 
-        // Upload ảnh
         if (!empty($_FILES['avatar']['name'])) {
             $targetDir = 'uploads/';
             $targetFile = $targetDir . basename($avatar);
@@ -121,8 +115,7 @@ class HomeController
                 return;
             }
         }
-
-        $hashedPassword = $password; // Thực tế nên hash: password_hash($password, PASSWORD_BCRYPT)
+   $hashedPassword = $password; 
 
         $data = [
             'username' => $username,
