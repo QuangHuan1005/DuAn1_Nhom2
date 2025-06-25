@@ -52,7 +52,7 @@ match ($act) {
     'orderView'           => (new OrderController())->view($order_code),
     'orderUpdateStatus'   => (new OrderController())->updateStatus($id),
     'orderEditStatus'     => (new OrderController())->updateStatusForm($id),
-
+    
     // Category Routes
     'category-list'       => (new CategoryController())->index(),
     'category-add'        => (new CategoryController())->create(),

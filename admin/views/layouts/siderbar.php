@@ -69,7 +69,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="index.php?act=orderIndex">
-                        <i class="ri-file-list-3-line"></i> <span>quản lý đơn hàng</span>
+                        <i class="ri-file-list-3-line"></i> <span>Quản lý đơn hàng</span>
                     </a>
                 </li>
 
