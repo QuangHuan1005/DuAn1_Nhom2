@@ -8,16 +8,17 @@ class OrderModel
         $this->conn = connectDB();
     }
 
+    // Đếm tổng số đơn hàng của 1 user
     public function countOrdersByUser($user_id)
     {
-
         $sql = "SELECT COUNT(*) AS total_orders FROM orders WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':user_id' => $user_id]);
         $result = $stmt->fetch();
-        return $result['total_orders'];
+        return $result['total_orders'] ?? 0;
     }
 
+    // Lấy danh sách đơn hàng theo trang
     public function getOrdersByPage($user_id, $limit, $offset)
     {
         $sql = "SELECT orders.*, order_statuses.name AS status_name
@@ -36,7 +37,7 @@ class OrderModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
+    // Lấy đơn hàng theo ID
     public function getOrderById($id)
     {
         $sql = "SELECT o.*, u.username AS user_name, u.email AS user_email, u.phone AS user_phone
@@ -48,6 +49,7 @@ class OrderModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Lấy danh sách sản phẩm trong đơn hàng
     public function getOrderItems($order_id)
     {
         $sql = "SELECT oi.*, p.name AS product_name, p.image_url
@@ -59,6 +61,7 @@ class OrderModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Hoàn tất đơn hàng
     public function complete($order_id)
     {
         $stmt = $this->conn->prepare("SELECT status_id FROM orders WHERE id = ?");
@@ -67,17 +70,22 @@ class OrderModel
 
         if (!$order) return false;
 
+        // Nếu đang giao thì chuyển sang đã giao và cập nhật trạng thái thanh toán
         if ($order['status_id'] == 4) {
-            $update = $this->conn->prepare("UPDATE orders SET status_id = 6, payment_status = 'Đã thanh toán', updated_at = NOW() WHERE id = ?");
-            return $update->execute([$order_id]);
-        } elseif (in_array($order['status_id'], [1, 2])) {
-            $update = $this->conn->prepare("UPDATE orders SET status_id = 5, payment_status = 'Chưa thanh toán', updated_at = NOW() WHERE id = ?");
-            return $update->execute([$order_id]);
+            $sql = "UPDATE orders SET status_id = 6, payment_status = 'Đã thanh toán', updated_at = NOW() WHERE id = ?";
+        }
+        // Nếu đang xử lý hoặc đang chờ thì chuyển sang đã hủy
+        elseif (in_array($order['status_id'], [1, 2])) {
+            $sql = "UPDATE orders SET status_id = 5, payment_status = 'Chưa thanh toán', updated_at = NOW() WHERE id = ?";
         } else {
             return false;
         }
+
+        $update = $this->conn->prepare($sql);
+        return $update->execute([$order_id]);
     }
 
+    // Tạo đơn hàng mới
     public function createOrder($user_id, $receiver_name, $receiver_phone, $receiver_email, $total_amount, $shipping_address = 'Chưa cung cấp')
     {
         $sql = "INSERT INTO orders (
@@ -101,7 +109,7 @@ class OrderModel
             ':order_code' => $order_code,
             ':user_id' => $user_id,
             ':status_id' => 1, // đang xử lý
-            ':payment_method_id' => 1, // COD mặc định
+            ':payment_method_id' => 1, // COD
             ':total_amount' => $total_amount,
             ':shipping_address' => $shipping_address,
             ':receiver_name' => $receiver_name,
@@ -114,6 +122,7 @@ class OrderModel
         return $this->conn->lastInsertId();
     }
 
+    // Thêm sản phẩm vào đơn hàng
     public function addOrderItem($order_id, $product_id, $quantity, $unit_price)
     {
         $sql = "INSERT INTO order_items (
@@ -132,18 +141,29 @@ class OrderModel
         ]);
     }
 
+    // Giảm số lượng tồn kho
     public function decreaseStockQuantity($product_id, $quantity)
     {
-        $sql = "UPDATE products SET stock_quantity = stock_quantity - :qty
+        $sql = "UPDATE products 
+                SET stock_quantity = stock_quantity - :qty 
                 WHERE id = :pid AND stock_quantity >= :qty";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([':qty' => $quantity, ':pid' => $product_id]);
     }
 
+    // Tăng lại số lượng tồn kho
     public function increaseStockQuantity($product_id, $quantity)
     {
         $sql = "UPDATE products SET stock_quantity = stock_quantity + :qty WHERE id = :pid";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([':qty' => $quantity, ':pid' => $product_id]);
+    }
+
+    // Cập nhật trạng thái đơn hàng (cho hủy)
+    public function updateOrderStatus($order_id, $new_status_id)
+    {
+        $sql = "UPDATE orders SET status_id = :status_id, updated_at = NOW() WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([':status_id' => $new_status_id, ':id' => $order_id]);
     }
 }

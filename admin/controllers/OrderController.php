@@ -95,8 +95,8 @@ class OrderController {
 
         $requiredStatuses = [
             "Chờ xác nhận",
-            "Xác nhận",
-            "Đang vận chuyển",
+            "Chờ lấy hàng",
+            "Đang giao hàng",
             "Đã giao hàng",
             "Hoàn thành",
              "Đã hủy"
@@ -124,8 +124,8 @@ class OrderController {
 
     private function canChangeStatus($currentStatusId, $newStatusId, $userRole, $statusNameToId) {
         $waitingId = $statusNameToId["Chờ xác nhận"];
-        $confirmedId = $statusNameToId["Xác nhận"];
-        $shippingId = $statusNameToId["Đang vận chuyển"];
+        $confirmedId = $statusNameToId["Chờ lấy hàng"];
+        $shippingId = $statusNameToId["Đang giao hàng"];
         $deliveredId = $statusNameToId["Đã giao hàng"];
         $completedId = $statusNameToId["Hoàn thành"];
         $cancelledId = $statusNameToId[ "Đã hủy"];
