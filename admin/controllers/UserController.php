@@ -24,19 +24,34 @@ class UserController {
 
     // Hiển thị form sửa user
     public function edit($id) {
+        // Chặn không cho sửa tài khoản chính
+        if ($id == 1) {
+            $_SESSION['error'] = 'Không thể chỉnh sửa tài khoản chính.';
+            header('Location: index.php?act=userIndex');
+            exit;
+        }
+
         $user = $this->userModel->get_detail($id);
         require_once './views/user/edit.php';
     }
 
     // Cập nhật chỉ role và status
     public function update($id) {
+        // Chặn cập nhật tài khoản chính
+        if ($id == 1) {
+            $_SESSION['error'] = 'Không thể cập nhật tài khoản chính.';
+            header('Location: index.php?act=userIndex');
+            exit;
+        }
+
         $data = [
-            'role' => $_POST['role'],
+            'role' => $_POST['role'] ?? 'client',
             'status' => isset($_POST['status']) ? (int)$_POST['status'] : 1,
         ];
 
         $this->userModel->update($id, $data);
 
+        $_SESSION['success'] = 'Cập nhật tài khoản thành công.';
         header('Location: index.php?act=userIndex');
         exit;
     }
