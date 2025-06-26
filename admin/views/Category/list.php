@@ -10,6 +10,23 @@
 <body class="">
     <div class="container">
         <h1>Danh sách danh mục</h1>
+        
+        <!-- Thông báo -->
+        <?php if (!empty($_SESSION['success'])): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= $_SESSION['success'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= $_SESSION['error'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
         <a href="index.php?act=category-add" class="btn btn-success mb-3">Thêm danh mục mới</a>
 
         <table class="table table-bordered table-striped bg-white">
