@@ -21,17 +21,17 @@ class ProductModel
     //     $stmt->execute();
     //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
     // }
-    public function get_list()
-    {
-        $sql = "SELECT p.*, c.name AS category_name 
-                FROM products p
-                JOIN categories c ON p.category_id = c.id
-                WHERE p.status = 1  AND c.is_active = 1 ";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    }
+   public function get_list()
+{
+    $sql = "SELECT p.*, c.name AS category_name 
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            WHERE p.status = 1 AND c.is_active = 1
+            ORDER BY p.created_at DESC";  // sắp xếp sản phẩm mới nhất lên đầu
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
     public function getById($id)
@@ -60,7 +60,7 @@ class ProductModel
             $params[] = $keyword . '%';
         }
 
-        $sql .= " ORDER BY p.name ASC LIMIT $limit OFFSET $offset";
+      $sql .= " ORDER BY p.created_at DESC LIMIT $limit OFFSET $offset";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute($params);
@@ -87,25 +87,31 @@ class ProductModel
     }
 
 
-    public function create($data)
-    {
-        $sql = "INSERT INTO products (category_id, name, description, image_url, price, discount_price, stock_quantity, status) 
-            VALUES (:category_id, :name, :description, :image_url, :price, :discount_price, :stock_quantity, :status)";
+   public function create($data)
+{
+    $sql = "INSERT INTO products (
+                category_id, name, description, image_url,
+                price, discount_price, stock_quantity, status, created_at
+            ) 
+            VALUES (
+                :category_id, :name, :description, :image_url,
+                :price, :discount_price, :stock_quantity, :status, NOW()
+            )";
 
-        $stmt = $this->conn->prepare($sql);
+    $stmt = $this->conn->prepare($sql);
 
+    return $stmt->execute([
+        ':category_id' => $data['category_id'],
+        ':name' => $data['name'],
+        ':description' => $data['description'],
+        ':image_url' => $data['image_url'] ?? null,
+        ':price' => $data['price'],
+        ':discount_price' => $data['discount_price'],
+        ':stock_quantity' => $data['stock_quantity'],
+        ':status' => $data['status']
+    ]);
+}
 
-        return $stmt->execute([
-            ':category_id' => $data['category_id'],
-            ':name' => $data['name'],
-            ':description' => $data['description'],
-            ':image_url' => $data['image_url'] ?? null,
-            ':price' => $data['price'],
-            ':discount_price' => $data['discount_price'],
-            ':stock_quantity' => $data['stock_quantity'],
-            ':status' => $data['status']
-        ]);
-    }
 
 
     public function update($id, $data)
