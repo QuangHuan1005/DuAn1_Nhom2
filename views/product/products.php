@@ -28,7 +28,6 @@ require './views/layouts/layout_top.php'; ?>
 		<div class="row small-gutters">
 
 			<?php foreach ($products as $product): ?>
-				<!-- <?Php print_r($product) ?> -->
 				<div class="col-6 col-md-4 col-xl-3">
 					<div class="grid_item">
 						<span class="ribbon off"> <?php

@@ -74,15 +74,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
                             <?php endif; ?>
                         </div>
 
-                        <!-- Giá khuyến mãi -->
-                        <div class="mb-3">
-                            <label for="discount_price" class="form-label">Giá khuyến mãi</label>
-                            <input type="number" step="0.01" name="discount_price" id="discount_price" class="form-control"
-                                   value="<?= htmlspecialchars($old['discount_price'] ?? '') ?>">
-                            <?php if (!empty($errors['discount_price'])): ?>
-                                <div class="text-danger"><?= $errors['discount_price'] ?></div>
-                            <?php endif; ?>
-                        </div>
+                        
 
                         <!-- Tồn kho -->
                         <div class="mb-3">

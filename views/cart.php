@@ -1,5 +1,4 @@
 <?php require_once './views/layouts/layout_top.php'; ?>
-
 <?php if (!empty($items)): ?>
 
   <main class="bg_gray">
