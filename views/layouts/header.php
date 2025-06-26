@@ -123,8 +123,11 @@ if (isset($_SESSION['user']['id'])) {
                   <?php else: ?>
                     <ul>
                       <li><a href="?act=profile"><i class="ti-user"></i>Tài khoản của tôi</a></li>
-                      <li><a href="admin"><i class="ti-user"></i>Tài khoản admin</a></li>
-                      <li><a href="track-order.html"><i class="ti-truck"></i>Đơn hàng</a></li>
+                      <?php
+                      if ($_SESSION['user']['role'] == 'admin'): ?>
+                        <li><a href="admin"><i class="ti-user"></i>Tài khoản admin</a></li>
+                      <?php endif ?>
+                      <li><a href="?act=my_orders"><i class="ti-truck"></i>Đơn hàng</a></li>
                       <li><a href="help.html"><i class="ti-help-alt"></i>Câu hỏi thường gặp</a></li>
                       <li><a href="?act=logout"><i class="ti-shift-left"></i>Đăng xuất</a></li>
                     </ul>

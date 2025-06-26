@@ -43,7 +43,7 @@
                     <div class="breadcrumbs">
                         <ul>
                             <li><a href="index.php">Trang chủ</a></li>
-                            <li><a href="#">Danh mục</a></li>
+                            <li><a href="#"><?= $product['category_name'] ?></a></li>
                             <li><?= $product['name'] ?></li>
                         </ul>
                     </div>
@@ -117,8 +117,9 @@
                                         </div>
                                     </form>
                                 </div>
-                            <?php endif; ?>
-                        </div>
+<?php endif; ?>
+                            </div>
+                        
                     </div>
                 <?php endif; ?>
             </div>
@@ -198,43 +199,60 @@
                     <h2>Sản phẩm liên quan</h2>
                     <span>Sản phẩm</span>
                 </div>
-
+                <?php print_r($relatedProducts)
+                    ?>
                 <div class="owl-carousel owl-theme products_carousel">
-                    <?php if (!empty($relatedProducts)): ?>
-                        <?php foreach ($relatedProducts as $item): ?>
-                            <div class="item">
-                                <div class="grid_item">
-                                    <?php if ($item['is_new']): ?><span class="ribbon new">New</span><?php endif; ?>
-                                    <figure>
-                                        <a href="index.php?act=product_detail&id=<?= $item['id'] ?>">
-                                            <img class="owl-lazy" src="<?= htmlspecialchars($item['image_url']) ?>"
-                                                alt="<?= htmlspecialchars($item['name']) ?>">
-                                        </a>
-                                    </figure>
-                                    <a href="index.php?act=product_detail&id=<?= $item['id'] ?>">
-                                        <h3><?= htmlspecialchars($item['name']) ?></h3>
+                    <?php foreach ($relatedProducts as $product): ?>
+                        <div class="item">
+                            <div class="grid_item">
+                                <!-- <span class="ribbon new">New</span> -->
+                                <figure>
+                                    <a href="?act=product-detail&id=<?= $product['id'] ?>">
+                                        <img class="owl-lazy" src="<?= $product['image_url'] ?>" data-src="" alt="">
                                     </a>
-                                    <div class="price_box">
-                                        <span class="new_price"><?= number_format($item['price'], 0, ',', '.') ?>₫</span>
-                                    </div>
+                                </figure>
+                                <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
+                                        class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
                                 </div>
+                                <a href="?act=product-detail&id=<?= $product['id'] ?>">
+                                    <h3><?= $product['name'] ?></h3>
+                                </a>
+                                <?php if ($product['category_active'] == 0 || $product['status'] == 0): ?>
+                                    <div class="price_box">
+                                        <span class="text-danger">Sản phẩm đã ngừng kinh doanh</span>
+                                    </div>
+                                    <!-- <button class="btn btn-secondary" disabled>Không thể mua</button> -->
+                                <?php else: ?>
+                                    <div class="price_box">
+                                        <?php if (!empty($product['discount_price']) && $product['discount_price'] < $product['price']): ?>
+                                            <span class="new_price"><?= number_format($product['discount_price']) ?>₫</span>
+                                            <span class="old_price"><del><?= number_format($product['price']) ?>₫</del></span>
+                                        <?php else: ?>
+                                            <span class="new_price"><?= number_format($product['price']) ?>₫</span>
+                                        <?php endif; ?>
+                                    </div>
+
+                                <?php endif; ?>
+                                <!-- <ul>
+                                    <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
+                                            title="Add to favorites"><i class="ti-heart"></i><span>Add to
+                                                favorites</span></a></li>
+                                    <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
+                                            title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
+                                                compare</span></a></li>
+                                    <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left"
+                                            title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a>
+                                    </li>
+                                </ul> -->
                             </div>
-                            <ul>
-                                <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" title="Yêu thích"><i
-                                            class="ti-heart"></i></a></li>
-                                <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" title="So sánh"><i
-                                            class="ti-control-shuffle"></i></a></li>
-                                <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" title="Thêm vào giỏ"><i
-                                            class="ti-shopping-cart"></i></a></li>
-                            </ul>
+                            <!-- /grid_item -->
                         </div>
-                    </div>
-                    <!-- /item -->
-                    <!-- Thêm các item khác nếu cần -->
-                <?php endforeach; ?>
-            <?php endif; ?>
+                        <!-- /item -->
+                    <?php endforeach ?>
+
+                </div>
+            </div>
         </div>
-    </div>
 </main>
 
 <?php require './views/layouts/layout_bottom.php'; ?>

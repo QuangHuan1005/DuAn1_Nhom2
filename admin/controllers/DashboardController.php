@@ -21,6 +21,19 @@ class DashboardController
     $pendingOrders = $this->orderModel->getPendingOrders();
     $topSelling = $this->productModel->getTopSellingProducts();
     $topStock = $this->productModel->getTopStockProducts();
+
+    // $chartData = $this->orderModel->getRevenueWeekdays($startDate, $endDate);
+
+    // $labels = [];
+    // $data = [];
+
+    // foreach ($chartData as $row) {
+    //   $date = date('d/m', strtotime($row['date']));
+    //   $weekday = date('l', strtotime($row['date'])); // Monday, Tuesday,...
+    //   $labels[] = $weekday . ' (' . $date . ')';
+    //   $data[] = $row['revenue'];
+    // }
+
     require_once __DIR__ . '/../views/dashboard.php';
   }
 }

@@ -91,5 +91,20 @@ class CategoryModel
         $stmt2->execute([':status' => $status, ':category_id' => $id]);
     }
 
+    //Kiểm tra xem có sản phẩm thuộc danh mục nằm trong giỏ hàng không
+    public function hasProductInCartByCategory($categoryId)
+{
+    $sql = "
+        SELECT 1 FROM cart_items ci 
+        JOIN products p ON ci.product_id = p.id 
+        WHERE p.category_id = ? 
+        LIMIT 1
+    ";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$categoryId]);
+    return $stmt->fetchColumn() !== false;
+}
+
+
 
 }

@@ -90,7 +90,7 @@ class ProductController
 
             // Validate image (nếu có)
             if (!empty($image['name']) && $image['error'] === 0) {
-                $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                $allowedTypes = ['image/jpeg', 'image/png', 'image/webp',"image/avif"];
                 if (!in_array($image['type'], $allowedTypes)) {
                     $errors['image'] = "Ảnh không đúng định dạng. Chỉ cho phép JPG, PNG, WEBP.";
                 }
@@ -112,7 +112,7 @@ class ProductController
                 'name' => $_POST['name'],
                 'description' => $_POST['description'],
                 'price' => $_POST['price'],
-                'discount_price' => $_POST['discount_price'],
+                'discount_price' => $_POST['discount_price'] ,
                 'stock_quantity' => $_POST['stock_quantity'],
                 'status' => $_POST['status'] ?? 1
             ];
@@ -272,5 +272,5 @@ class ProductController
 
         header("Location: index.php?act=product-list");
     }
-    
+
 }

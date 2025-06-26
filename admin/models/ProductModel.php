@@ -34,7 +34,6 @@ class ProductModel
 }
 
 
-
     public function getById($id)
     {
         $sql = "SELECT p.*, c.name AS category_name, c.is_active 
@@ -68,24 +67,24 @@ class ProductModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-  public function count_all_by_keyword($keyword = null)
-{
-    $sql = "SELECT COUNT(*) 
+    public function count_all_by_keyword($keyword = null)
+    {
+        $sql = "SELECT COUNT(*) 
             FROM products p
             JOIN categories c ON p.category_id = c.id
             WHERE c.is_active = 1";
 
-    $params = [];
+        $params = [];
 
-    if ($keyword) {
-        $sql .= " AND p.name LIKE ?";
-        $params[] = $keyword . '%';
+        if ($keyword) {
+            $sql .= " AND p.name LIKE ?";
+            $params[] = $keyword . '%';
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchColumn();
     }
-
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetchColumn();
-}
 
 
    public function create($data)
@@ -122,6 +121,7 @@ class ProductModel
                 name = :name,
                 description = :description,
                 price = :price,
+                discount_price = :discount_price,
                 stock_quantity = :stock_quantity,
                 status = :status,
                 image_url = :image_url,
@@ -133,6 +133,7 @@ class ProductModel
         $stmt->bindValue(':name', $data['name']);
         $stmt->bindValue(':description', $data['description']);
         $stmt->bindValue(':price', $data['price']);
+        $stmt->bindValue(':discount_price', $data['discount_price']);
         $stmt->bindValue(':stock_quantity', $data['stock_quantity']);
         $stmt->bindValue(':status', $data['status']);
         $stmt->bindValue(':image_url', $data['image_url']);
@@ -140,13 +141,13 @@ class ProductModel
 
         return $stmt->execute();
     }
-  
-   public function updateStatus($productId, $status)
-{
-    $sql = "UPDATE products SET status = ? WHERE id = ?";
-    $stmt = $this->conn->prepare($sql);
-    return $stmt->execute([$status, $productId]);
-}
+
+    public function updateStatus($productId, $status)
+    {
+        $sql = "UPDATE products SET status = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$status, $productId]);
+    }
 
 
     public function isProductInAnyCart($productId)
