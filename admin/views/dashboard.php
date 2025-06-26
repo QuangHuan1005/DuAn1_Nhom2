@@ -86,6 +86,13 @@ function formatCurrency($number)
                                     </div>
                                 </div>
 
+                                <div class="card mt-4">
+                                    <div class="card-header bg-danger text-white fw-bold">📈 Biểu đồ Doanh Thu Theo Ngày</div>
+                                    <div class="card-body">
+                                        <canvas id="revenueChart" height="100"></canvas>
+                                    </div>
+                                </div>
+
 
 
                                 <!-- Top 5 Sản Phẩm Bán Chạy -->
@@ -154,29 +161,35 @@ function formatCurrency($number)
                                     </div>
                                 </div>
 
-
                                 <!-- Top 5 khách hàng -->
-                                <div class="card mt-4">
-                                    <div class="card-header bg-primary text-white">🏆 Top 5 Khách Hàng Mua Nhiều Nhất</div>
+                                <div class="card mt-4 shadow">
+                                    <div class="card-header bg-primary text-white fw-bold">🏆 Top 5 Khách Hàng Mua Nhiều Nhất</div>
                                     <div class="card-body table-responsive">
-                                        <table class="table table-bordered text-center">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Khách hàng</th>
-                                                <th>Số đơn</th>
-                                                <th>Tổng tiền</th>
-                                            </tr>
-                                            <?php foreach ($topCustomers as $index => $customer): ?>
+                                        <table class="table table-hover table-bordered text-center align-middle">
+                                            <thead class="table-primary">
                                                 <tr>
-                                                    <td><?= $index + 1 ?></td>
-                                                    <td><?= htmlspecialchars($customer['fullname']) ?></td>
-                                                    <td><?= $customer['total_orders'] ?></td>
-                                                    <td><?= number_format($customer['total_spent']) ?> đ</td>
+                                                    <th>#</th>
+                                                    <th>Họ tên</th>
+                                                    <th>Email</th>
+                                                    <th>Số đơn hàng</th>
+                                                    <th>Tổng tiền</th>
                                                 </tr>
-                                            <?php endforeach; ?>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($topCustomers as $index => $customer): ?>
+                                                    <tr>
+                                                        <td><?= $index + 1 ?></td>
+                                                        <td><?= htmlspecialchars($customer['fullname']) ?></td>
+                                                        <td><?= htmlspecialchars($customer['email']) ?></td>
+                                                        <td><span class="badge bg-info"><?= $customer['total_orders'] ?></span></td>
+                                                        <td><strong><?= number_format($customer['total_spent']) ?> đ</strong></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
+
 
                                 <!-- Đơn hàng chờ xác nhận -->
                                 <div class="card mt-4">
@@ -263,6 +276,40 @@ function formatCurrency($number)
             <i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
         </div>
     </div>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <?= json_encode($labels) ?>,
+                datasets: [{
+                    label: 'Doanh thu (đ)',
+                    data: <?= json_encode($data) ?>,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString('vi-VN') + ' đ';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+
 
     <!-- JAVASCRIPT -->
     <?php
