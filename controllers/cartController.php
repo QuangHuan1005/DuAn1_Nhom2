@@ -1,14 +1,17 @@
 <?php
-class CartController {
+class CartController
+{
     private $cartModel;
     private $orderModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->cartModel = new CartModel();
         $this->orderModel = new OrderModel();
     }
 
-    public function index() {
+    public function index()
+    {
         if (!isset($_SESSION['user'])) {
             header("Location: ./?act=login");
             exit;
@@ -22,7 +25,8 @@ class CartController {
         include './views/cart.php';
     }
 
-    public function addToCart() {
+    public function addToCart()
+    {
         if (!isset($_SESSION['user'])) {
             header("Location: ./?act=login");
             exit;
@@ -31,7 +35,7 @@ class CartController {
         $user_id = $_SESSION['user']['id'];
         $product_id = $_POST['product_id'] ?? null;
         $quantity = (isset($_POST['quantity']) && is_numeric($_POST['quantity']) && $_POST['quantity'] > 0)
-            ? (int)$_POST['quantity'] : 1;
+            ? (int) $_POST['quantity'] : 1;
 
         if ($product_id) {
             require_once "models/ProductModel.php";
@@ -44,10 +48,10 @@ class CartController {
                 exit;
             }
 
-            $stock = (int)$product['stock_quantity'];
+            $stock = (int) $product['stock_quantity'];
             $cart_id = $this->cartModel->getCartIdByUserId($user_id);
             $existingItem = $this->cartModel->getCartItem($cart_id, $product_id);
-            $currentQty = $existingItem ? (int)$existingItem['quantity'] : 0;
+            $currentQty = $existingItem ? (int) $existingItem['quantity'] : 0;
             $newQty = $currentQty + $quantity;
 
             if ($newQty > $stock) {
@@ -70,7 +74,8 @@ class CartController {
         exit;
     }
 
-    public function updateCart() {
+    public function updateCart()
+    {
         if (!isset($_SESSION['user'])) {
             header("Location: ./?act=login");
             exit;
@@ -94,7 +99,8 @@ class CartController {
         exit;
     }
 
-    public function removeFromCart() {
+    public function removeFromCart()
+    {
         if (!isset($_SESSION['user'])) {
             header("Location: ./?act=login");
             exit;
@@ -113,7 +119,8 @@ class CartController {
         exit;
     }
 
-    public function clearCart() {
+    public function clearCart()
+    {
         if (!isset($_SESSION['user'])) {
             header("Location: ./?act=login");
             exit;
@@ -128,8 +135,10 @@ class CartController {
         exit;
     }
 
-    public function payment() {
-        if (session_status() == PHP_SESSION_NONE) session_start();
+    public function payment()
+    {
+        if (session_status() == PHP_SESSION_NONE)
+            session_start();
 
         if (!isset($_SESSION['user'])) {
             header("Location: ./?act=login");
@@ -189,12 +198,14 @@ class CartController {
         include './views/payment.php';
     }
 
-    private function updateCartTotal($user_id) {
+    private function updateCartTotal($user_id)
+    {
         $total = $this->cartModel->getTotalQuantity($user_id);
         $_SESSION['cart_total'] = $total;
     }
 
-    private function updateCartItemCount($user_id) {
+    private function updateCartItemCount($user_id)
+    {
         $count = $this->cartModel->getCartItemCount($user_id);
         $_SESSION['cart_item_count'] = $count;
     }

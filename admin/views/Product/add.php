@@ -69,9 +69,17 @@ $basePath = dirname(__DIR__, 2);
                         </div>
                         <div class="mb-3">
                             <label for="discount_price" class="form-label">Giá khuyến mãi</label>
-                            <input type="number" step="0.01" class="form-control" id="discount_price"
-                                name="discount_price" required>
+                            <input type="number" step="0.01"
+                                class="form-control <?= isset($errors['discount_price']) ? 'is-invalid' : '' ?>"
+                                id="discount_price" name="discount_price"
+                                value="<?= htmlspecialchars($_POST['discount_price'] ?? '') ?>">
+                            <?php if (isset($errors['discount_price'])): ?>
+                                <div class="invalid-feedback">
+                                    <?= $errors['discount_price'] ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
+
 
                         <div class="mb-3">
                             <label for="stock_quantity" class="form-label">Tồn kho</label>

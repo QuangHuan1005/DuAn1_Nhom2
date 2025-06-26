@@ -49,6 +49,13 @@ $basePath = dirname(__DIR__, 2);
                             <label class="form-label fw-bold">Giá:</label>
                             <p class="form-control-plaintext text-danger h5"><?= number_format($product['price'], 0, ',', '.') ?> đ</p>
                         </div>
+                        <div class="mb-4">
+                            <?php if ($product['discount_price'] > 0): ?>
+                            <label class="form-label fw-bold">Giá khuyến mãi:</label>
+                            <p class="form-control-plaintext text-danger h5"><?= number_format($product['price'], 0, ',', '.') ?> đ</p>
+                        <?php else: ?>
+                        <?php endif; ?>
+                        </div>
 
                         <div class="mb-4">
                             <label class="form-label fw-bold">Tồn kho:</label>

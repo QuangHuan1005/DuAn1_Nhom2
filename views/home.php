@@ -12,9 +12,9 @@ require './views/layouts/layout_top.php'; ?>
 								<div class="slide-text text-end white">
 									<h2 class="owl-slide-animated owl-slide-title"></h2>
 									<p class="owl-slide-animated owl-slide-subtitle">
-										
+
 									</p>
-									
+
 								</div>
 							</div>
 						</div>

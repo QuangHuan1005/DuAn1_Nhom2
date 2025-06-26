@@ -26,7 +26,7 @@ class ProductModel
         $sql = "SELECT p.*, c.name AS category_name 
                 FROM products p
                 JOIN categories c ON p.category_id = c.id
-                WHERE p.status = 1  AND c.is_active = 1";
+                WHERE p.status = 1  AND c.is_active = 1 ";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

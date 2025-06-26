@@ -53,6 +53,11 @@ $basePath = dirname(__DIR__, 2);
                             <input type="number" name="price" class="form-control" 
                                    value="<?= htmlspecialchars($product['price']) ?>" required>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Giá khuyến mãi:</label>
+                            <input type="number" name="discount_price" class="form-control" 
+                                   value="<?= htmlspecialchars($product['discount_price']) ?>" required>
+                        </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Số lượng:</label>

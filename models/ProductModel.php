@@ -8,7 +8,7 @@ class ProductModel
         $this->conn = connectDB();
     }
 
-    // 1. Lấy sản phẩm bán chạy, kèm trạng thái danh mục
+    // Lấy sản phẩm bán chạy, kèm trạng thái danh mục
     public function getBestseller()
     {
         $sql = "SELECT p.*, c.is_active AS category_active
@@ -21,7 +21,7 @@ class ProductModel
         return $data->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // 2. Sản phẩm nổi bật ngẫu nhiên
+    // Sản phẩm nổi bật ngẫu nhiên
     public function getFeatured()
     {
         $sql = "SELECT p.*, c.is_active AS category_active
@@ -33,8 +33,23 @@ class ProductModel
         $data->execute();
         return $data->fetchAll(PDO::FETCH_ASSOC);
     }
+    // sản phẩm liên quan
+    public function getRelatedProducts($product_id, $category_id)
+{
+    $sql = "SELECT p.*, c.is_active AS category_active
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            WHERE p.category_id = ? AND p.id != ? AND c.is_active = 1
+            ORDER BY RAND()
+            LIMIT 8";
+    
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$product_id, $category_id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
-    // 3. Lấy sản phẩm theo danh mục (vẫn cần trả về kể cả khi danh mục ẩn)
+
+    // Lấy sản phẩm theo danh mục (vẫn cần trả về kể cả khi danh mục ẩn)
     public function getByCategory($category_id)
     {
         $sql = "SELECT p.*, c.is_active AS category_active
@@ -46,7 +61,7 @@ class ProductModel
         return $data->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // 4. Tổng số lượng sản phẩm
+    // Tổng số lượng sản phẩm
     public function getAll()
     {
         $sql = "SELECT COUNT(*) FROM products";
@@ -54,7 +69,7 @@ class ProductModel
         return $data->fetchColumn();
     }
 
-    // 5. Phân trang sản phẩm
+    // Phân trang sản phẩm
     public function getProductsByPage($limit, $offset)
     {
         $sql = "SELECT p.*, c.is_active AS category_active
@@ -68,7 +83,7 @@ class ProductModel
         return $data->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // 6. Chi tiết sản phẩm
+    // Chi tiết sản phẩm
     public function getProductDetail($id)
     {
         $sql = "SELECT p.*, c.is_active AS category_active
@@ -80,7 +95,7 @@ class ProductModel
         return $data->fetch(PDO::FETCH_ASSOC);
     }
 
-    // 7. Tìm kiếm từ khóa (có kèm kiểm tra trạng thái danh mục)
+    // Tìm kiếm từ khóa (có kèm kiểm tra trạng thái danh mục)
     public function searchByKeyword($keyword)
     {
         $sql = "SELECT p.*, c.is_active AS category_active
@@ -94,7 +109,7 @@ class ProductModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // 8. Tìm kiếm sản phẩm (phiên bản khác có kiểm tra deleted_at)
+    // Tìm kiếm sản phẩm (phiên bản khác có kiểm tra deleted_at)
     public function searchProducts($keyword)
     {
         $sql = "SELECT p.*, c.is_active AS category_active
@@ -106,4 +121,5 @@ class ProductModel
         $stmt->execute(['keyword' => $keyword . '%']);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 }

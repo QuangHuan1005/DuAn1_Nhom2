@@ -53,11 +53,18 @@ class ProductController
                 'name' => $_POST['name'],
                 'description' => $_POST['description'],
                 'price' => $_POST['price'],
-                'discount_price' => $_POST['discount_price'],
+                'discount_price' => $_POST['discount_price'] ,
                 'stock_quantity' => $_POST['stock_quantity'],
                 'status' => $_POST['status'] ?? 1
             ];
+            if (!is_null($_POST['discount_price']) && $_POST['discount_price'] >= $_POST['price']) {
+                $errors['discount_price'] = 'Giá khuyến mãi phải nhỏ hơn giá gốc.';
+            }
 
+            // Nếu không có lỗi, thực hiện thêm hoặc cập nhật sản phẩm
+            if (empty($errors)) {
+                // Xử lý lưu sản phẩm vào CSDL ở đây
+            }
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                 $basePath = dirname(__DIR__, 2);
                 $uploadDir = $basePath . '/uploads/products/';
@@ -176,5 +183,5 @@ class ProductController
 
         header("Location: index.php?act=product-list");
     }
-    
+
 }
