@@ -8,7 +8,6 @@ class UserController {
         $this->userModel = new UserModel();
     }
 
-    // Danh sách user
     public function index() {
         $keyword = $_GET['keyword'] ?? '';
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -22,9 +21,7 @@ class UserController {
         require_once './views/user/index.php';
     }
 
-    // Hiển thị form sửa user
     public function edit($id) {
-        // Chặn không cho sửa tài khoản chính
         if ($id == 1) {
             $_SESSION['error'] = 'Không thể chỉnh sửa tài khoản chính.';
             header('Location: index.php?act=userIndex');
@@ -35,9 +32,7 @@ class UserController {
         require_once './views/user/edit.php';
     }
 
-    // Cập nhật chỉ role và status
     public function update($id) {
-        // Chặn cập nhật tài khoản chính
         if ($id == 1) {
             $_SESSION['error'] = 'Không thể cập nhật tài khoản chính.';
             header('Location: index.php?act=userIndex');
