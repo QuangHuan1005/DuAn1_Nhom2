@@ -41,7 +41,7 @@ match ($act) {
   'my_orders' => (new OrderController())->myOrders(),
   'order_detail' => (new OrderController())->orderDetail($_GET['id']),
 
-  'my_orders_complete' => (new OrderController())->completeOrder($_GET['id']),
+  'my_orders_complete' => (new OrderController())->completeOrder($_POST['order_id']),
   'login' => (new HomeController())->login(),
   'handle-login' => (new HomeController())->handleLogin(),
   'register' => (new HomeController())->register(),

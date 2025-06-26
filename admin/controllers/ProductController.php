@@ -13,7 +13,7 @@ class ProductController
         // $products = $this->productModel->get_list();
 
         $keyword = $_GET['keyword'] ?? null;
-        $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $limit = 5;
         $offset = ($page - 1) * $limit;
 
@@ -47,7 +47,66 @@ class ProductController
 
     public function addProduct()
     {
+        $errors = [];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $category_id = $_POST['category_id'];
+            $name = trim($_POST['name']);
+            $description = trim($_POST['description']);
+            $price = $_POST['price'];
+            $stock_quantity = $_POST['stock_quantity'];
+            $status = $_POST['status'] ?? 1;
+            $image = $_FILES['image'];
+
+            // Validate category
+            if (empty($category_id)) {
+                $errors['category_id'] = "Vui lòng chọn danh mục.";
+            }
+
+            // Validate name
+            if (empty($name)) {
+                $errors['name'] = "Tên sản phẩm không được để trống.";
+            }
+
+            // Validate description
+            if (empty($description)) {
+                $errors['description'] = "Mô tả sản phẩm không được để trống.";
+            }
+
+
+            // Validate price
+            if ($price === '') {
+                $errors['price'] = "Giá sản phẩm không được để trống.";
+            } elseif (!is_numeric($price) || $price <= 0) {
+                $errors['price'] = "Giá sản phẩm phải là số và lớn hơn 0.";
+            }
+
+            // Validate stock quantity
+            if ($stock_quantity === "") {
+                $errors['stock_quantity'] = "Tồn kho không được để trống";
+            } elseif (!is_numeric($stock_quantity) || $stock_quantity < 0) {
+                $errors['stock_quantity'] = "Tồn kho phải là số và không âm.";
+            }
+
+            // Validate image (nếu có)
+            if (!empty($image['name']) && $image['error'] === 0) {
+                $allowedTypes = ['image/jpeg', 'image/png', 'image/webp',"image/avif"];
+                if (!in_array($image['type'], $allowedTypes)) {
+                    $errors['image'] = "Ảnh không đúng định dạng. Chỉ cho phép JPG, PNG, WEBP.";
+                }
+            }
+
+
+            // Nếu có lỗi thì hiển thị
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                $_SESSION['old'] = $_POST;
+                $categories = $this->productModel->getAllCategories();
+                require_once 'views/Product/add.php';
+                return;
+            }
+
+
             $data = [
                 'category_id' => $_POST['category_id'],
                 'name' => $_POST['name'],
@@ -57,14 +116,7 @@ class ProductController
                 'stock_quantity' => $_POST['stock_quantity'],
                 'status' => $_POST['status'] ?? 1
             ];
-            if (!is_null($_POST['discount_price']) && $_POST['discount_price'] >= $_POST['price']) {
-                $errors['discount_price'] = 'Giá khuyến mãi phải nhỏ hơn giá gốc.';
-            }
 
-            // Nếu không có lỗi, thực hiện thêm hoặc cập nhật sản phẩm
-            if (empty($errors)) {
-                // Xử lý lưu sản phẩm vào CSDL ở đây
-            }
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                 $basePath = dirname(__DIR__, 2);
                 $uploadDir = $basePath . '/uploads/products/';
@@ -123,6 +175,23 @@ class ProductController
 
             $image_url = $product['image_url']; // giữ ảnh cũ nếu không thay
 
+            // Kiểm tra xem sản phẩm có nằm trong giỏ hàng nào không
+            if ($product['status'] == 1 && $this->productModel->isProductInAnyCart($id)) {
+                $_SESSION['error'] = "Không thể ẩn sản phẩm vì đang tồn tại trong giỏ hàng.";
+                header("Location: index.php?act=product-list");
+                return;
+            }
+
+            // Cập nhật status thành 0 (ẩn)
+            $newStatus = $product['status'] == 1 ? 0 : 1;
+
+            if ($this->productModel->updateStatus($id, $newStatus)) {
+                $_SESSION['success'] = $newStatus == 1 ? "Sản phẩm đã được hiển thị" : "Sản phẩm đã được ẩn";
+            } else {
+                $_SESSION['error'] = "Cập nhật trạng thái sản phẩm thất bại.";
+            }
+
+            // Xử lý ảnh nếu có ảnh mới
             if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === 0) {
                 $basePath = dirname(__DIR__, 2);
                 $uploadDir = $basePath . '/uploads/products/';
@@ -174,11 +243,31 @@ class ProductController
             return;
         }
 
-        $product = $this->productModel->getById($id);
+        $id = $_GET['id'];
 
-        if ($product) {
-            $newStatus = $product['status'] == 1 ? 0 : 1;
-            $this->productModel->updateStatus($id, $newStatus);
+        // Lấy thông tin sản phẩm hiện tại
+        $product = $this->productModel->getById($id);
+        if (!$product) {
+            $_SESSION['error'] = "Không tìm thấy sản phẩm.";
+            header("Location: index.php?act=product-list");
+            return;
+        }
+
+
+        // Kiểm tra xem sản phẩm có nằm trong giỏ hàng nào không
+        if ($product['status'] == 1 && $this->productModel->isProductInAnyCart($id)) {
+            $_SESSION['error'] = "Không thể ẩn sản phẩm vì đang tồn tại trong giỏ hàng.";
+            header("Location: index.php?act=product-list");
+            return;
+        }
+
+        // Cập nhật status thành 0 (ẩn)
+        $newStatus = $product['status'] == 1 ? 0 : 1;
+
+        if ($this->productModel->updateStatus($id, $newStatus)) {
+            $_SESSION['success'] = $newStatus == 1 ? "Sản phẩm đã được hiển thị" : "Sản phẩm đã được ẩn";
+        } else {
+            $_SESSION['error'] = "Cập nhật trạng thái sản phẩm thất bại.";
         }
 
         header("Location: index.php?act=product-list");

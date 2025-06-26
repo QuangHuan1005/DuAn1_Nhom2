@@ -27,7 +27,8 @@ class HomeController
 
     public function login()
     {
-        $error = null;
+        $error = $_SESSION['error'] ?? null;
+        unset($_SESSION['error']);
         include "views/login.php";
     }
 
@@ -42,26 +43,36 @@ class HomeController
         $error = null;
 
         $user = User::findByUsername($username);
-        if ($user && $passwordInput === $user['password']) {
-            $_SESSION['user'] = $user;
-            $_SESSION['user_role'] = $user['role'];
-            $cartModel = new CartModel();
-            $cart_id = $cartModel->getCartIdByUserId($user['id']);
-            if (!$cart_id) {
-                $cart_id = $cartModel->createCartForUser($user['id']);
-            }
-            $_SESSION['cart_id'] = $cart_id;
 
-            if ($user['role'] === 'admin') {
-                header('Location: index.php?act=adminDashboard');
-            } else {
-                header('Location: index.php?act=clientHome');
-            }
-            exit;
-        } else {
+
+        if (!$user || $passwordInput !== $user['password']) {
             $error = "Sai tên đăng nhập hoặc mật khẩu!";
             include "views/login.php";
+            return;
         }
+
+        if (isset($user['status']) && $user['status'] == 0) {
+            $_SESSION['error'] = "Tài khoản của bạn đã bị ngừng hoạt động.";
+            header("Location: index.php?act=login");
+            exit;
+        }
+
+        $_SESSION['user'] = $user;
+        $_SESSION['user_role'] = $user['role'];
+
+        $cartModel = new CartModel();
+        $cart_id = $cartModel->getCartIdByUserId($user['id']);
+        if (!$cart_id) {
+            $cart_id = $cartModel->createCartForUser($user['id']);
+        }
+        $_SESSION['cart_id'] = $cart_id;
+
+        if ($user['role'] === 'admin') {
+            header('Location: index.php?act=adminDashboard');
+        } else {
+            header('Location: index.php?act=clientHome');
+        }
+        exit;
     }
 
     public function register()
@@ -104,8 +115,7 @@ class HomeController
                 return;
             }
         }
-
-        $hashedPassword = $password;
+   $hashedPassword = $password; 
 
         $data = [
             'username' => $username,
@@ -141,10 +151,12 @@ class HomeController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
+
         unset($_SESSION['user']);
         unset($_SESSION['user_role']);
         unset($_SESSION['cart_id']);
         session_destroy();
+
         header("Location: index.php?act=login");
         exit;
     }

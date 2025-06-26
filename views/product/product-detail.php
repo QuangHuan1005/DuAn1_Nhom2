@@ -43,14 +43,14 @@
                     <div class="breadcrumbs">
                         <ul>
                             <li><a href="index.php">Trang chủ</a></li>
-                            <li><a href="#">Danh mục</a></li>
+                            <li><a href="#"><?= $product['category_name'] ?></a></li>
                             <li><?= $product['name'] ?></li>
                         </ul>
                     </div>
 
                     <div class="prod_info">
                         <h1><?= ($product['name']) ?></h1>
-                        <?php if ($product['category_active'] == 0 || $product['status'] == 0): ?>
+                       <?php if (($product['category_active'] ?? 1) == 0 || ($product['status'] ?? 1) == 0): ?>
                             <div class="row align-items-center">
                                 <div class="col-lg-6 col-md-6">
 
@@ -201,8 +201,6 @@
                 </div>
                 <?php print_r($relatedProducts)
                     ?>
-
-
                 <div class="owl-carousel owl-theme products_carousel">
                     <?php foreach ($relatedProducts as $product): ?>
                         <div class="item">

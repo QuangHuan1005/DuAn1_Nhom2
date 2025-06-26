@@ -86,7 +86,7 @@ class ProductModel
     // Chi tiết sản phẩm
     public function getProductDetail($id)
     {
-        $sql = "SELECT p.*, c.is_active AS category_active
+        $sql = "SELECT p.*, c.is_active AS category_active,c.name as category_name
                 FROM products p
                 JOIN categories c ON p.category_id = c.id
                 WHERE p.id = :id";

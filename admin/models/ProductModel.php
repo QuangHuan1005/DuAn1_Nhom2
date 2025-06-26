@@ -65,16 +65,15 @@ class ProductModel
         $stmt = $this->conn->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
     }
 
     public function count_all_by_keyword($keyword = null)
     {
         $sql = "SELECT COUNT(*) 
-                FROM products p
-                LEFT JOIN categories c ON p.category_id = c.id
-                WHERE c.is_active = 1";
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            WHERE c.is_active = 1";
+
         $params = [];
 
         if ($keyword) {
@@ -116,6 +115,7 @@ class ProductModel
                 name = :name,
                 description = :description,
                 price = :price,
+                discount_price = :discount_price,
                 stock_quantity = :stock_quantity,
                 status = :status,
                 image_url = :image_url,
@@ -127,6 +127,7 @@ class ProductModel
         $stmt->bindValue(':name', $data['name']);
         $stmt->bindValue(':description', $data['description']);
         $stmt->bindValue(':price', $data['price']);
+        $stmt->bindValue(':discount_price', $data['discount_price']);
         $stmt->bindValue(':stock_quantity', $data['stock_quantity']);
         $stmt->bindValue(':status', $data['status']);
         $stmt->bindValue(':image_url', $data['image_url']);
@@ -135,14 +136,23 @@ class ProductModel
         return $stmt->execute();
     }
 
-
-
-
-    public function updateStatus($id, $status)
+    public function updateStatus($productId, $status)
     {
-        $stmt = $this->conn->prepare("UPDATE products SET status = ? WHERE id = ?");
-        return $stmt->execute([$status, $id]);
+        $sql = "UPDATE products SET status = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$status, $productId]);
     }
+
+
+    public function isProductInAnyCart($productId)
+    {
+        $sql = "SELECT COUNT(*) FROM cart_items WHERE product_id = :product_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['product_id' => $productId]);
+        return $stmt->fetchColumn() > 0;
+
+    }
+
 
     public function getAllCategories()
     {

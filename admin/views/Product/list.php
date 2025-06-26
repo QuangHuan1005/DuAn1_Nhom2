@@ -64,7 +64,6 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                         <th class="text-center">Hình ảnh</th>
                         <th>Mô tả</th>
                         <th class="text-end">Giá</th>
-                        <th class="text-end">Giá khuyến mãi</th>
                         <th class="text-center">Tồn kho</th>
                         <th class="text-center">Trạng thái</th>
                         <th>Danh mục</th>
@@ -90,14 +89,6 @@ $keyword = $keyword ?? ($_GET['keyword'] ?? '');
                                 <td class="text-end">
                                     <?= number_format($product['price'], 0, ',', '.') ?> VND
                                 </td>
-                                <?php if ($product['discount_price'] > 0): ?>
-                                    <td class="text-end">
-                                        <?= number_format($product['discount_price'], 0, ',', '.') ?> VND
-                                    </td>
-                                <?php else: ?>
-                                    <td class="text-end text-muted">Không có</td>
-                                <?php endif; ?>
-
                                 <td class="text-center">
                                     <span class="badge <?= $product['stock_quantity'] > 0 ? 'bg-success' : 'bg-danger' ?>">
                                         <?= htmlspecialchars($product['stock_quantity']) ?>

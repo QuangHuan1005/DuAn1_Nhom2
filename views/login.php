@@ -10,6 +10,7 @@
                             <?php if (!empty($error)): ?>
                                 <p style="color: red; margin-bottom: 16px;"><?php echo htmlspecialchars($error); ?></p>
                             <?php endif; ?>
+                                       
                             <form action="index.php?act=handle-login" method="post">
 
                                 <div class="form-group">
