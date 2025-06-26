@@ -47,7 +47,7 @@ $basePath = dirname(__DIR__, 2);
 
                         <div class="mb-4">
                             <label class="form-label fw-bold">Giá:</label>
-                            <p class="form-control-plaintext text-danger h5"><?= number_format($product['discount_price'], 0, ',', '.') ?> đ</p>
+                            <p class="form-control-plaintext text-danger h5"><?= number_format($product['price'], 0, ',', '.') ?> đ</p>
                         </div>
 
                         <div class="mb-4">

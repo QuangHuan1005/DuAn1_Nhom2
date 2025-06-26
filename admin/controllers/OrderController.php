@@ -98,8 +98,8 @@ class OrderController {
             "Chờ lấy hàng",
             "Đang giao hàng",
             "Đã giao hàng",
-            "Hoàn thành",
-             "Đã hủy"
+            "Đã hủy",
+             "Hoàn thành"
         ];
 
         foreach ($requiredStatuses as $statusName) {
@@ -127,8 +127,8 @@ class OrderController {
         $confirmedId = $statusNameToId["Chờ lấy hàng"];
         $shippingId = $statusNameToId["Đang giao hàng"];
         $deliveredId = $statusNameToId["Đã giao hàng"];
-        $completedId = $statusNameToId["Hoàn thành"];
-        $cancelledId = $statusNameToId[ "Đã hủy"];
+        $completedId = $statusNameToId["Đã hủy"];
+        $cancelledId = $statusNameToId[ "Hoàn thành"];  
 
         if ($userRole === 'admin') {
             switch ($currentStatusId) {

@@ -14,7 +14,7 @@ class ProductController
     {
         $this->productModel = new ProductModel();
         $this->categoryModel = new CategoryModel();
-    }   
+    }
     public function store()
     {
         $limit = 8;
@@ -54,13 +54,20 @@ class ProductController
     public function detail($id)
     {
         $product = $this->productModel->getProductDetail($id);
+
         if ($product) {
+            // Lấy bình luận
             $commentModel = new CommentModel();
             $comments = $commentModel->getCmtsByProduct($id);
+
+            // Lấy sản phẩm liên quan
+            $relatedProducts = $this->productModel->getRelatedProducts($id, $product['category_id']);
 
             require './views/product/product-detail.php';
         } else {
             echo "Sản phẩm không tồn tại.";
         }
     }
+
+
 }
