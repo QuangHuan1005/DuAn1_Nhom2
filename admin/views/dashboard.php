@@ -86,12 +86,12 @@ function formatCurrency($number)
                                     </div>
                                 </div>
 
-                                <div class="card mt-4">
+                                <!-- <div class="card mt-4">
                                     <div class="card-header bg-danger text-white fw-bold">📈 Biểu đồ Doanh Thu Theo Ngày</div>
                                     <div class="card-body">
                                         <canvas id="revenueChart" height="100"></canvas>
                                     </div>
-                                </div>
+                                </div> -->
 
 
 
@@ -199,7 +199,7 @@ function formatCurrency($number)
                                             <tr>
                                                 <th>#</th>
                                                 <th>Mã đơn</th>
-                                                <th>Khách hàng</th>
+                                                <th>Tên khách hàng</th>
                                                 <th>Ngày tạo</th>
                                                 <th>Tổng tiền</th>
                                             </tr>
@@ -207,7 +207,7 @@ function formatCurrency($number)
                                                 <tr>
                                                     <td><?= $i + 1 ?></td>
                                                     <td><?= $order['order_code'] ?></td>
-                                                    <td><?= $order['user_id'] ?></td>
+                                                    <td><?= $order['fullname'] ?></td>
                                                     <td><?= date('d/m/Y', strtotime($order['created_at'])) ?></td>
                                                     <td><?= number_format($order['total_amount']) ?> đ</td>
                                                 </tr>
