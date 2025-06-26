@@ -180,7 +180,7 @@ class OrderModel {
 // Tổng doanh thu từ các đơn "Hoàn thành"
     public function getTotalRevenue($startDate = null, $endDate = null)
     {
-        $sql = "SELECT SUM(total_amount) as revenue FROM orders WHERE status_id = 4"; // Giả sử 4 = Hoàn thành
+        $sql = "SELECT SUM(total_amount) as revenue FROM orders WHERE status_id = 6";
 
         $params = [];
         if ($startDate && $endDate) {
@@ -202,10 +202,10 @@ class OrderModel {
     public function getTopCustomers($startDate = null, $endDate = null)
     {
         $sql = "
-            SELECT u.id, u.fullname, u.email, COUNT(o.id) as total_orders, SUM(o.total_amount) as total_spent
+            SELECT u.id,  u.email, u.fullname, COUNT(o.id) as total_orders, SUM(o.total_amount) as total_spent
             FROM users u
             JOIN orders o ON u.id = o.user_id
-            WHERE o.status_id = 4
+            WHERE o.status_id = 6
         ";
 
         $params = [];
@@ -234,7 +234,7 @@ class OrderModel {
             SELECT o.*, u.fullname 
             FROM orders o 
             JOIN users u ON o.user_id = u.id
-            WHERE o.status_id = 1  -- Giả sử 1 = Chờ xác nhận
+            WHERE o.status_id = 1
             ORDER BY o.created_at DESC
             LIMIT 10
         ";
@@ -243,5 +243,30 @@ class OrderModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+// public function getRevenueWeekdays($startDate, $endDate)
+// {
+//     $sql = "
+//         SELECT 
+//             DATE(o.created_at) as date,
+//             DAYOFWEEK(o.created_at) as weekday,
+//             SUM(oi.quantity * oi.unit_price) as revenue
+//         FROM orders o
+//         JOIN order_items oi ON o.id = oi.order_id
+//         WHERE o.status_id = 4
+//           AND o.created_at BETWEEN :start AND :end
+//           AND DAYOFWEEK(o.created_at) BETWEEN 2 AND 6  -- Thứ 2 đến Thứ 6 (2=Mon, 6=Fri)
+//         GROUP BY DATE(o.created_at)
+//         ORDER BY date ASC
+//     ";
+//     $stmt = $this->conn->prepare($sql);
+//     $stmt->execute([
+//         ':start' => $startDate . ' 00:00:00',
+//         ':end' => $endDate . ' 23:59:59'
+//     ]);
+//     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+// }
+
+
     
 }
