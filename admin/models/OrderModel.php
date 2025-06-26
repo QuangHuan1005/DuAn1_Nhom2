@@ -180,7 +180,7 @@ class OrderModel {
 // Tổng doanh thu từ các đơn "Hoàn thành"
     public function getTotalRevenue($startDate = null, $endDate = null)
     {
-        $sql = "SELECT SUM(total_amount) as revenue FROM orders WHERE status_id = 6";
+        $sql = "SELECT SUM(total_amount) as revenue FROM orders WHERE status_id = 6"; 
 
         $params = [];
         if ($startDate && $endDate) {

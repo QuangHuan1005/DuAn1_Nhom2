@@ -39,7 +39,8 @@
                     ?>
 
                     <?php foreach ($orders as $order): ?>
-                        <?php if (!is_array($order)) continue; ?>
+                        <?php if (!is_array($order))
+                            continue; ?>
                         <tr>
                             <td>
                                 <div class="thumb_product">
@@ -76,12 +77,14 @@
                                     <form action="index.php?act=my_orders_complete" method="POST"
                                         onsubmit="return confirm('Bạn chắc chắn muốn hủy đơn hàng?');" style="display:inline;">
                                         <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
-                                        <button type="submit" class="btn" style="background:none; border:none; padding:0;" title="Hủy đơn hàng">
+                                        <button type="submit" class="btn" style="background:none; border:none; padding:0;"
+                                            title="Hủy đơn hàng">
                                             <i class="ti-trash text-danger"></i>
                                         </button>
                                     </form>
                                 <?php else: ?>
-                                    <a href="#" onclick="alert('Đơn hàng đang được giao hoặc đã giao, không thể hủy.'); return false;"
+                                    <a href="#"
+                                        onclick="alert('Đơn hàng đang được giao hoặc đã giao, không thể hủy.'); return false;"
                                         title="Không thể hủy đơn hàng">
                                         <i class="ti-trash text-muted"></i>
                                     </a>
@@ -95,7 +98,8 @@
             <div class="pagination__wrapper">
                 <ul class="pagination">
                     <?php if ($page > 1): ?>
-                        <li><a href="index.php?act=my_orders&page=<?= $page - 1 ?>" class="prev" title="previous page">&#10094;</a></li>
+                        <li><a href="index.php?act=my_orders&page=<?= $page - 1 ?>" class="prev"
+                                title="previous page">&#10094;</a></li>
                     <?php endif; ?>
                     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                         <li>
@@ -105,7 +109,8 @@
                         </li>
                     <?php endfor; ?>
                     <?php if ($page < $totalPages): ?>
-                        <li><a href="index.php?act=my_orders&page=<?= $page + 1 ?>" class="next" title="next page">&#10095;</a></li>
+                        <li><a href="index.php?act=my_orders&page=<?= $page + 1 ?>" class="next" title="next page">&#10095;</a>
+                        </li>
                     <?php endif; ?>
                 </ul>
             </div>

@@ -18,7 +18,7 @@ if (isset($_SESSION['user']['id'])) {
       <div class="row small-gutters">
         <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
           <div id="logo">
-            <a href="index-2.html">
+            <a href="index.php">
               <img src="./assets/allaia/img/logo.svg" alt="" width="100" height="35">
             </a>
           </div>

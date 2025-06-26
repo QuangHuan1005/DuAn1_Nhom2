@@ -199,8 +199,8 @@
                     <h2>Sản phẩm liên quan</h2>
                     <span>Sản phẩm</span>
                 </div>
-                <?php print_r($relatedProducts)
-                    ?>
+                <!-- <?php print_r($relatedProducts)
+                    ?> -->
                 <div class="owl-carousel owl-theme products_carousel">
                     <?php foreach ($relatedProducts as $product): ?>
                         <div class="item">
@@ -208,7 +208,7 @@
                                 <!-- <span class="ribbon new">New</span> -->
                                 <figure>
                                     <a href="?act=product-detail&id=<?= $product['id'] ?>">
-                                        <img class="owl-lazy" src="<?= $product['image_url'] ?>" data-src="" alt="">
+                                        <img class="owl-lazy" src="<?= $product['image_url'] ?>" data-src="<?= $product['image_url'] ?>" alt="">
                                     </a>
                                 </figure>
                                 <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
